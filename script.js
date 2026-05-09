@@ -1,33 +1,24 @@
 const DOMESTIC_SERVERS = [
-    { name: 'China Telecom', url: 'https://doh.ctdns.cn/dns-query' },
-    { name: 'China Telecom 2', url: 'https://223.5.5.5/dns-query' },
-    { name: 'China Unicom', url: 'https://doh.cudns.cn/dns-query' },
-    { name: 'China Unicom 2', url: 'https://119.29.29.29/dns-query' },
-    { name: 'China Mobile', url: 'https://doh.cmccdns.cn/dns-query' },
-    { name: 'China Mobile 2', url: 'https://120.53.53.53/dns-query' },
-    { name: 'Alibaba DNS', url: 'https://doh.alidns.com/dns-query' },
-    { name: 'Alibaba Public', url: 'https://223.6.6.6/dns-query' },
-    { name: 'Tencent DNS', url: 'https://doh.pdns.com/dns-query' },
-    { name: 'Tencent Public', url: 'https://119.28.28.28/dns-query' },
-    { name: 'Baidu DNS', url: 'https://doh.baidu.com/dns-query' },
-    { name: 'Baidu Public', url: 'https://180.76.76.76/dns-query' },
-    { name: '360 DNS', url: 'https://doh.360.cn/dns-query' },
-    { name: '360 Secure', url: 'https://doh.360safe.com/dns-query' },
-    { name: 'DNSPod', url: 'https://doh.dnspod.cn/dns-query' },
-    { name: 'CNNIC DNS', url: 'https://doh.cnnic.cn/dns-query' },
-    { name: 'CNNIC Public', url: 'https://1.2.4.8/dns-query' },
-    { name: 'Sogou DNS', url: 'https://doh.sogou.com/dns-query' },
-    { name: 'DNS派', url: 'https://doh.dnspai.com/dns-query' },
-    { name: 'Netease DNS', url: 'https://doh.163dns.com/dns-query' },
+    { name: '阿里 DNS', url: 'https://dns.alidns.com/dns-query' },
+    { name: '阿里 DNS (IP)', url: 'https://223.5.5.5/dns-query' },
+    { name: '阿里 DNS (IP2)', url: 'https://223.6.6.6/dns-query' },
+    { name: '腾讯 DNSPod', url: 'https://doh.dnspod.cn/dns-query' },
+    { name: '360 安全 DNS', url: 'https://doh.360.cn/dns-query' },
+    { name: '360 安全 DNS (IP)', url: 'https://doh.360safe.com/dns-query' },
+    { name: '百度 DNS', url: 'https://doh.baidu.com/dns-query' },
+    { name: 'OneDNS', url: 'https://dns.yunsec.com/dns-query' },
+    { name: 'TWNIC Quad 101', url: 'https://dns.twnic.tw/dns-query' },
     { name: 'HiNet DNS', url: 'https://doh.hinet.net/dns-query' },
-    { name: 'SeedNet', url: 'https://doh.seed.net.tw/dns-query' }
+    { name: 'CNNIC DNS', url: 'https://doh.cnnic.cn/dns-query' },
+    { name: 'DNS派', url: 'https://doh.dnspai.com/dns-query' },
+    { name: 'Sogou DNS', url: 'https://doh.sogou.com/dns-query' }
 ];
 
 const FOREIGN_SERVERS = [
-    { name: 'AdGuard DNS', url: 'https://dns.adguard.com/dns-query' },
+    { name: 'AdGuard DNS', url: 'https://dns.adguard-dns.com/dns-query' },
     { name: 'AdGuard Family', url: 'https://family.adguard-dns.com/dns-query' },
-    { name: 'AdGuard Non-filtering', url: 'https://non-filtering.adguard-dns.com/dns-query' },
-    { name: 'Cloudflare 1.1.1.1', url: 'https://cloudflare-dns.com/dns-query' },
+    { name: 'AdGuard Non-filtering', url: 'https://unfiltered.adguard-dns.com/dns-query' },
+    { name: 'Cloudflare', url: 'https://cloudflare-dns.com/dns-query' },
     { name: 'Cloudflare Family', url: 'https://family.cloudflare-dns.com/dns-query' },
     { name: 'Cloudflare Security', url: 'https://security.cloudflare-dns.com/dns-query' },
     { name: 'Google Public DNS', url: 'https://dns.google/dns-query' },
@@ -37,26 +28,17 @@ const FOREIGN_SERVERS = [
     { name: 'OpenDNS Family', url: 'https://doh.familyshield.opendns.com/dns-query' },
     { name: 'CleanBrowsing Family', url: 'https://doh.cleanbrowsing.org/doh/family-filter/' },
     { name: 'CleanBrowsing Security', url: 'https://doh.cleanbrowsing.org/doh/security-filter/' },
-    { name: 'Control D', url: 'https://freedom.controld.com/dns-query' },
-    { name: 'NextDNS', url: 'https://dns.nextdns.io/6a39d1' },
+    { name: 'Control D', url: 'https://freedns.controld.com/p0' },
     { name: 'DNS.WATCH', url: 'https://doh.dns.watch/dns-query' },
     { name: 'Freenom World', url: 'https://doh.freenom.world/dns-query' },
     { name: 'Mullvad DNS', url: 'https://doh.mullvad.net/dns-query' },
     { name: 'ProtonDNS', url: 'https://dns.proton.ch/dns-query' },
-    { name: 'ProtonDNS Secure', url: 'https://secure.dns.proton.ch/dns-query' },
     { name: 'CIRA Canadian Shield', url: 'https://dns.cira.ca/dns-query' },
     { name: 'LibreDNS', url: 'https://doh.libredns.gr/dns-query' },
     { name: 'BlahDNS', url: 'https://doh.blahdns.com/dns-query' },
     { name: 'Yandex.DNS', url: 'https://dns.yandex.net/dns-query' },
-    { name: 'KDDI DNS', url: 'https://doh.auone-net.jp/dns-query' },
-    { name: 'NTT DNS', url: 'https://doh.nttpc.jp/dns-query' },
-    { name: 'Orange France', url: 'https://doh.orange.fr/dns-query' },
-    { name: 'Deutsche Telekom', url: 'https://doh.telekom-dns.de/dns-query' },
-    { name: 'Swisscom', url: 'https://doh.swisscom.ch/dns-query' },
-    { name: 'KPN Netherlands', url: 'https://doh.kpn.nl/dns-query' },
-    { name: 'BT UK', url: 'https://doh.bt.com/dns-query' },
-    { name: 'Telstra', url: 'https://doh.telstra.net/dns-query' },
-    { name: 'Singtel', url: 'https://doh.singtel.com/dns-query' }
+    { name: 'NextDNS', url: 'https://dns.nextdns.io/dns-query' },
+    { name: 'DeCloudUs DNS', url: 'https://dns.decloudus.com/dns-query' }
 ];
 
 const DOMESTIC_DEFAULT_DOMAIN = 'qq.com';
@@ -206,15 +188,19 @@ async function testServer(server, index) {
     const startTime = performance.now();
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), TIMEOUT);
+    const method = 'GET';
 
     try {
-        const response = await fetch(buildRequestURL(server.url, currentDomain, TEST_TYPE, 'GET'), {
-            method: 'GET',
+        const url = buildRequestURL(server.url, currentDomain, TEST_TYPE, method);
+        const options = {
+            method: method,
             headers: {
                 'Accept': 'application/dns-message'
             },
             signal: controller.signal
-        });
+        };
+
+        const response = await fetch(url, options);
 
         clearTimeout(timeoutId);
         const endTime = performance.now();
