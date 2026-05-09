@@ -3,11 +3,22 @@
 
 export async function handler(event, context) {
   try {
-    // Get the encoded URL from the path
-    const path = event.path.replace('/.netlify/functions/doh-proxy/', '');
+    // Get URL from query parameter
+    const { url } = event.queryStringParameters || {};
+    
+    if (!url) {
+      return {
+        statusCode: 400,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ error: 'Missing url parameter' })
+      };
+    }
     
     // Decode the URL
-    const targetUrl = decodeURIComponent(path);
+    const targetUrl = decodeURIComponent(url);
     
     // Validate URL
     if (!targetUrl.startsWith('https://')) {

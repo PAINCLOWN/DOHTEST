@@ -134,7 +134,7 @@ async function testServer(server, index) {
         const timestamp = Date.now();
         const originalUrl = `${server.url}?name=${currentDomain}&type=${TEST_TYPE}&t=${timestamp}`;
         
-        const fetchUrl = `/api/doh/${encodeURIComponent(originalUrl)}`;
+        const fetchUrl = `/api/doh?url=${encodeURIComponent(originalUrl)}`;
         
         const options = {
             method: 'GET',
