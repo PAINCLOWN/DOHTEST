@@ -94,8 +94,8 @@ const OTHER_SERVERS = [
 ];
 
 
-const DOMESTIC_DEFAULT_DOMAIN = 'qq.com';
-const FOREIGN_DEFAULT_DOMAIN = 'google.com';
+const DOMESTIC_DEFAULT_DOMAIN = 'example.com';
+const FOREIGN_DEFAULT_DOMAIN = 'example.com';
 
 const TEST_TYPE = 'A';
 const TIMEOUT = 10000;
@@ -647,6 +647,11 @@ function clearHistory() {
     history = [];
     localStorage.removeItem('doh-test-history');
     renderHistory();
+}
+
+function toggleCorsNotice() {
+    const notice = document.getElementById('cors-notice');
+    notice.classList.toggle('collapsed');
 }
 
 document.addEventListener('DOMContentLoaded', init);

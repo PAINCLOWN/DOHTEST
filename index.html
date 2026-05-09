@@ -59,13 +59,51 @@
                         <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
                         <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                     </svg>
-                    <input type="text" id="domain-input" class="domain-input" placeholder="输入测试域名..." value="qq.com">
+                    <input type="text" id="domain-input" class="domain-input" placeholder="输入测试域名..." value="example.com">
                     <button id="test-btn" class="btn btn-primary">
                         <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
                             <polygon points="5,3 19,12 5,21" fill="currentColor"/>
                         </svg>
                         <span>开始测试</span>
                     </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="cors-notice collapsed" id="cors-notice">
+            <div class="cors-header" onclick="toggleCorsNotice()">
+                <svg class="cors-icon" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                    <path d="M12 8v4m0 4h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <span>⚠️ 重要提示：安装 CORS Unblock 插件</span>
+                <svg class="cors-toggle" viewBox="0 0 24 24" fill="none">
+                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <div class="cors-content" id="cors-content">
+                <p>由于浏览器的同源策略限制，直接访问外部 DNS 服务器会被阻止。请安装 CORS Unblock 插件以正常使用测速功能。</p>
+                <div class="cors-steps">
+                    <div class="step">
+                        <span class="step-number">1</span>
+                        <span>在 Chrome/Edge 浏览器中安装 <a href="https://chrome.google.com/webstore/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino" target="_blank">CORS Unblock</a> 插件</span>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">2</span>
+                        <span>点击浏览器右上角的插件图标，打开配置面板</span>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">3</span>
+                        <span>勾选以下选项：<strong>Access-Control-Allow-Headers</strong>、<strong>Access-Control-Request-Headers</strong>、<strong>Overwrite 4xx status codes with 200</strong></span>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">4</span>
+                        <span>点击 <strong>Start</strong> 按钮启动插件</span>
+                    </div>
+                </div>
+                <div class="cors-image">
+                    <img src="cors.png" alt="CORS Unblock 配置示例">
+                    <p class="image-caption">CORS Unblock 插件配置界面</p>
                 </div>
             </div>
         </div>
