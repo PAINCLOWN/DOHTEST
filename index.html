@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DoH 查询测试工具</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>DNS-over-HTTPS 测试工具</h1>
+            <p class="subtitle">在线测试 DoH 服务器的可达率和延迟</p>
+        </header>
+
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab active" data-tab="domestic">
+                    <span class="tab-icon">🇨🇳</span>
+                    国内
+                </button>
+                <button class="tab" data-tab="foreign">
+                    <span class="tab-icon">🌍</span>
+                    国外
+                </button>
+            </div>
+
+            <div class="domain-input-wrapper">
+                <input 
+                    type="text" 
+                    id="custom-domain" 
+                    class="domain-input" 
+                    placeholder="输入要测试的域名..."
+                    pattern="^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$"
+                    title="请输入有效的域名格式，如 example.com"
+                >
+                <button id="use-custom-domain" class="btn btn-outline">
+                    使用自定义域名
+                </button>
+                <span class="domain-validation" id="domain-validation"></span>
+            </div>
+        </div>
+
+        <div class="active-domain">
+            <span class="label">当前测试域名:</span>
+            <span class="value" id="current-domain">qq.com</span>
+        </div>
+
+        <div class="controls">
+            <button id="start-test" class="btn btn-primary">
+                <span class="btn-icon">🔄</span>
+                开始测试
+            </button>
+            <button id="clear-results" class="btn btn-secondary">
+                <span class="btn-icon">🗑️</span>
+                清除结果
+            </button>
+            <div class="test-status" id="test-status">
+                <span class="status-dot"></span>
+                <span class="status-text">准备就绪</span>
+            </div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <span class="stat-value" id="total-count">0</span>
+                <span class="stat-label">总服务器</span>
+            </div>
+            <div class="stat-item success">
+                <span class="stat-value" id="success-count">0</span>
+                <span class="stat-label">成功</span>
+            </div>
+            <div class="stat-item error">
+                <span class="stat-value" id="error-count">0</span>
+                <span class="stat-label">失败</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value" id="avg-latency">0</span>
+                <span class="stat-label">平均延迟(ms)</span>
+            </div>
+        </div>
+
+        <div class="charts-section">
+            <div class="chart-card">
+                <h3>延迟分布</h3>
+                <div class="chart-container" id="latency-chart">
+                    <canvas id="latency-canvas"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <h3>成功率统计</h3>
+                <div class="chart-container" id="success-chart">
+                    <canvas id="success-canvas"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="server-grid" id="server-grid">
+            <!-- Server cards will be dynamically inserted here -->
+        </div>
+
+        <div class="history-section" id="history-section">
+            <div class="history-header">
+                <h3>测试历史记录</h3>
+                <button id="clear-history" class="btn btn-sm btn-secondary">
+                    清除历史
+                </button>
+            </div>
+            <div class="history-list" id="history-list">
+                <div class="empty-state">
+                    暂无测试记录，开始测试后会显示在这里
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>数据来源: <a href="https://adguard-dns.io/kb/zh-CN/general/dns-providers/" target="_blank">AdGuard DNS Providers</a></p>
+            <p>所有测试均在浏览器中完成，无需后端服务器</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
