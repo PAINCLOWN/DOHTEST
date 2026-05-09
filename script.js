@@ -132,7 +132,10 @@ async function testServer(server, index) {
 
     try {
         const timestamp = Date.now();
-        const url = `${server.url}?name=${currentDomain}&type=${TEST_TYPE}&t=${timestamp}`;
+        const originalUrl = `${server.url}?name=${currentDomain}&type=${TEST_TYPE}&t=${timestamp}`;
+        
+        const fetchUrl = `/api/doh/${encodeURIComponent(originalUrl)}`;
+        
         const options = {
             method: 'GET',
             headers: {
@@ -141,7 +144,7 @@ async function testServer(server, index) {
             signal: controller.signal
         };
 
-        const response = await fetch(url, options);
+        const response = await fetch(fetchUrl, options);
 
         clearTimeout(timeoutId);
         const endTime = performance.now();
