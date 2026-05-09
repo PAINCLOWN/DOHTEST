@@ -2,43 +2,45 @@ const DOMESTIC_SERVERS = [
     { name: '阿里 DNS', url: 'https://dns.alidns.com/dns-query' },
     { name: '阿里 DNS (IP)', url: 'https://223.5.5.5/dns-query' },
     { name: '阿里 DNS (IP2)', url: 'https://223.6.6.6/dns-query' },
-    { name: '腾讯 DNSPod', url: 'https://doh.dnspod.cn/dns-query' },
-    { name: '360 安全 DNS', url: 'https://doh.360.cn/dns-query' },
-    { name: '360 安全 DNS (IP)', url: 'https://doh.360safe.com/dns-query' },
-    { name: '百度 DNS', url: 'https://doh.baidu.com/dns-query' },
-    { name: 'OneDNS', url: 'https://dns.yunsec.com/dns-query' },
-    { name: 'TWNIC Quad 101', url: 'https://dns.twnic.tw/dns-query' },
-    { name: 'HiNet DNS', url: 'https://doh.hinet.net/dns-query' },
-    { name: 'CNNIC DNS', url: 'https://doh.cnnic.cn/dns-query' },
-    { name: 'DNS派', url: 'https://doh.dnspai.com/dns-query' },
-    { name: 'Sogou DNS', url: 'https://doh.sogou.com/dns-query' }
+    { name: '腾讯 DNS', url: 'https://dns.pub/dns-query' },
+    { name: '腾讯 DNS (国密)', url: 'https://sm2.doh.pub/dns-query' },
+    { name: '360 DNS', url: 'https://doh.360.cn/dns-query' },
+    { name: '18Bit DNS', url: 'https://doh.18bit.cn/dns-query' },
+    { name: '易安云 DNS', url: 'https://dns.yuguan.xyz/dns-query' },
+    { name: 'OneDNS', url: 'https://doh.onedns.net/dns-query' },
+    { name: 'OneDNS Pure', url: 'https://doh-pure.onedns.net/dns-query' }
 ];
 
 const FOREIGN_SERVERS = [
     { name: 'AdGuard DNS', url: 'https://dns.adguard-dns.com/dns-query' },
     { name: 'AdGuard Family', url: 'https://family.adguard-dns.com/dns-query' },
     { name: 'AdGuard Non-filtering', url: 'https://unfiltered.adguard-dns.com/dns-query' },
-    { name: 'Cloudflare', url: 'https://cloudflare-dns.com/dns-query' },
-    { name: 'Cloudflare Family', url: 'https://family.cloudflare-dns.com/dns-query' },
+    { name: 'Cloudflare', url: 'https://dns.cloudflare.com/dns-query' },
     { name: 'Cloudflare Security', url: 'https://security.cloudflare-dns.com/dns-query' },
-    { name: 'Google Public DNS', url: 'https://dns.google/dns-query' },
-    { name: 'Quad9', url: 'https://dns.quad9.net/dns-query' },
-    { name: 'Quad9 (filtered)', url: 'https://filtered.quad9.net/dns-query' },
+    { name: 'Cloudflare Family', url: 'https://family.cloudflare-dns.com/dns-query' },
     { name: 'OpenDNS', url: 'https://doh.opendns.com/dns-query' },
     { name: 'OpenDNS Family', url: 'https://doh.familyshield.opendns.com/dns-query' },
+    { name: 'OpenDNS Sandbox', url: 'https://doh.sandbox.opendns.com/dns-query' },
     { name: 'CleanBrowsing Family', url: 'https://doh.cleanbrowsing.org/doh/family-filter/' },
+    { name: 'CleanBrowsing Adult', url: 'https://doh.cleanbrowsing.org/doh/adult-filter/' },
     { name: 'CleanBrowsing Security', url: 'https://doh.cleanbrowsing.org/doh/security-filter/' },
-    { name: 'Control D', url: 'https://freedns.controld.com/p0' },
+    { name: 'ControlD p0', url: 'https://freedns.controld.com/p0' },
+    { name: 'ControlD p1', url: 'https://freedns.controld.com/p1' },
+    { name: 'ControlD p2', url: 'https://freedns.controld.com/p2' },
+    { name: 'ControlD p3', url: 'https://freedns.controld.com/p3' },
+    { name: 'DeCloudUs DNS', url: 'https://dns.decloudus.com/dns-query' },
+    { name: 'Quad9', url: 'https://dns.quad9.net/dns-query' },
+    { name: 'Google Public DNS', url: 'https://dns.google/dns-query' },
+    { name: 'Mullvad DNS', url: 'https://doh.mullvad.net/dns-query' },
     { name: 'DNS.WATCH', url: 'https://doh.dns.watch/dns-query' },
     { name: 'Freenom World', url: 'https://doh.freenom.world/dns-query' },
-    { name: 'Mullvad DNS', url: 'https://doh.mullvad.net/dns-query' },
-    { name: 'ProtonDNS', url: 'https://dns.proton.ch/dns-query' },
-    { name: 'CIRA Canadian Shield', url: 'https://dns.cira.ca/dns-query' },
     { name: 'LibreDNS', url: 'https://doh.libredns.gr/dns-query' },
     { name: 'BlahDNS', url: 'https://doh.blahdns.com/dns-query' },
     { name: 'Yandex.DNS', url: 'https://dns.yandex.net/dns-query' },
     { name: 'NextDNS', url: 'https://dns.nextdns.io/dns-query' },
-    { name: 'DeCloudUs DNS', url: 'https://dns.decloudus.com/dns-query' }
+    { name: 'Caliph DNS', url: 'https://dns.caliph.dev/dns-query' },
+    { name: 'DNSGuard', url: 'https://dnsguard.pub/dns-query' },
+    { name: 'Surfshark DNS', url: 'https://dns.surfsharkdns.com/dns-query' }
 ];
 
 const DOMESTIC_DEFAULT_DOMAIN = 'qq.com';
@@ -58,133 +60,72 @@ function init() {
     renderServerCards();
     updateStats();
     renderHistory();
-    
-    document.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', switchTab);
+
+    document.getElementById('domestic-tab').addEventListener('click', () => switchTab('domestic'));
+    document.getElementById('foreign-tab').addEventListener('click', () => switchTab('foreign'));
+    document.getElementById('test-btn').addEventListener('click', startTest);
+    document.getElementById('domain-input').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            updateDomain();
+            startTest();
+        }
     });
-    
-    document.getElementById('custom-domain').addEventListener('input', validateDomain);
-    document.getElementById('use-custom-domain').addEventListener('click', useCustomDomain);
-    document.getElementById('start-test').addEventListener('click', startTests);
-    document.getElementById('clear-results').addEventListener('click', clearResults);
     document.getElementById('clear-history').addEventListener('click', clearHistory);
 }
 
-function switchTab(e) {
-    const tab = e.currentTarget;
-    const tabId = tab.dataset.tab;
-    
-    if (tabId === currentTab) return;
-    
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    
-    currentTab = tabId;
-    
-    if (currentTab === 'domestic') {
-        currentDomain = DOMESTIC_DEFAULT_DOMAIN;
-    } else {
-        currentDomain = FOREIGN_DEFAULT_DOMAIN;
-    }
-    
-    document.getElementById('current-domain').textContent = currentDomain;
-    document.getElementById('custom-domain').value = '';
-    document.getElementById('domain-validation').textContent = '';
-    
+function switchTab(tab) {
+    currentTab = tab;
+    document.getElementById('domestic-tab').classList.toggle('active', tab === 'domestic');
+    document.getElementById('foreign-tab').classList.toggle('active', tab === 'foreign');
+    document.getElementById('domain-input').value = tab === 'domestic' ? DOMESTIC_DEFAULT_DOMAIN : FOREIGN_DEFAULT_DOMAIN;
+    currentDomain = document.getElementById('domain-input').value;
     results = {};
+    hideProgress();
     renderServerCards();
     updateStats();
-    clearCharts();
 }
 
-function validateDomain(e) {
-    const input = e.target;
-    const validation = document.getElementById('domain-validation');
-    const domain = input.value.trim();
-    
-    if (!domain) {
-        validation.textContent = '';
-        validation.className = 'domain-validation';
-        return;
+function updateDomain() {
+    currentDomain = document.getElementById('domain-input').value.trim();
+    if (!currentDomain) {
+        currentDomain = currentTab === 'domestic' ? DOMESTIC_DEFAULT_DOMAIN : FOREIGN_DEFAULT_DOMAIN;
+        document.getElementById('domain-input').value = currentDomain;
     }
-    
-    const regex = /^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/;
-    
-    if (regex.test(domain)) {
-        validation.textContent = '✓ 有效域名';
-        validation.className = 'domain-validation valid';
-    } else {
-        validation.textContent = '✗ 无效域名格式';
-        validation.className = 'domain-validation invalid';
-    }
-}
-
-function useCustomDomain() {
-    const input = document.getElementById('custom-domain');
-    const domain = input.value.trim();
-    
-    if (!domain) {
-        alert('请输入要测试的域名');
-        return;
-    }
-    
-    const regex = /^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/;
-    
-    if (!regex.test(domain)) {
-        alert('请输入有效的域名格式，如 example.com');
-        return;
-    }
-    
-    currentDomain = domain;
-    document.getElementById('current-domain').textContent = domain;
-    results = {};
-    renderServerCards();
-    updateStats();
-    clearCharts();
 }
 
 function getCurrentServers() {
     return currentTab === 'domestic' ? DOMESTIC_SERVERS : FOREIGN_SERVERS;
 }
 
-async function startTests() {
+async function startTest() {
     if (isTesting) return;
-    
+
+    updateDomain();
     isTesting = true;
     const servers = getCurrentServers();
     results = {};
-    
-    const startBtn = document.getElementById('start-test');
-    const status = document.getElementById('test-status');
-    const statusDot = status.querySelector('.status-dot');
-    const statusText = status.querySelector('.status-text');
-    
-    startBtn.disabled = true;
-    startBtn.innerHTML = '<span class="btn-icon">⏳</span> 测试中...';
-    statusDot.className = 'status-dot testing';
-    statusText.textContent = '测试进行中...';
-    
+
+    const btn = document.getElementById('test-btn');
+    btn.classList.add('testing');
+    btn.innerHTML = `
+        <div class="btn-icon" style="width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.8s linear infinite;"></div>
+        <span>测试中...</span>
+    `;
+
+    showProgress();
     renderServerCards();
-    
-    const promises = servers.map((server, index) => 
-        testServer(server, index)
-    );
-    
-    await Promise.all(promises);
-    
-    isTesting = false;
-    startBtn.disabled = false;
-    startBtn.innerHTML = '<span class="btn-icon">🔄</span> 开始测试';
-    statusDot.className = 'status-dot';
-    statusText.textContent = '测试完成';
-    
-    updateStats();
-    renderCharts();
-    saveToHistory();
-    renderHistory();
+
+    servers.forEach((server, index) => {
+        testServer(server, index);
+    });
 }
 
 async function testServer(server, index) {
+    const card = document.querySelector(`[data-index="${index}"]`);
+    if (card) {
+        card.classList.add('testing');
+    }
+
     const startTime = performance.now();
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), TIMEOUT);
@@ -237,6 +178,9 @@ async function testServer(server, index) {
     }
 
     renderServerCards();
+    updateProgress();
+    updateStats();
+    checkAllComplete();
 }
 
 function parseJSONResponse(json) {
@@ -252,293 +196,207 @@ function parseJSONResponse(json) {
     return json.Answer[0].data || null;
 }
 
-function renderServerCards() {
-    const grid = document.getElementById('server-grid');
+function showProgress() {
+    const progressSection = document.getElementById('progress-section');
+    progressSection.classList.add('visible');
+    updateProgress();
+}
+
+function hideProgress() {
+    const progressSection = document.getElementById('progress-section');
+    progressSection.classList.remove('visible');
+}
+
+function updateProgress() {
     const servers = getCurrentServers();
-    
-    grid.innerHTML = servers.map((server, index) => {
+    const completed = Object.keys(results).length;
+    const total = servers.length;
+    const percentage = total > 0 ? (completed / total) * 100 : 0;
+
+    document.getElementById('progress-count').textContent = `${completed} / ${total}`;
+    document.getElementById('progress-fill').style.width = `${percentage}%`;
+}
+
+function checkAllComplete() {
+    const servers = getCurrentServers();
+    const completed = Object.keys(results).length;
+    const total = servers.length;
+
+    if (completed === total) {
+        isTesting = false;
+        const btn = document.getElementById('test-btn');
+        btn.classList.remove('testing');
+        btn.innerHTML = `
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
+                <polygon points="5,3 19,12 5,21" fill="currentColor"/>
+            </svg>
+            <span>开始测试</span>
+        `;
+
+        setTimeout(() => {
+            hideProgress();
+        }, 1000);
+
+        saveToHistory();
+    }
+}
+
+function renderServerCards() {
+    const servers = getCurrentServers();
+    const container = document.getElementById('servers-container');
+    container.innerHTML = '';
+
+    servers.forEach((server, index) => {
         const result = results[index];
-        return `
-            <div class="server-card">
-                <div class="server-header">
-                    <span class="server-name">${server.name}</span>
-                    <span class="server-status ${result ? (result.success ? 'status-success' : 'status-error') : 'status-pending'}">
-                        ${result ? (result.success ? '✓ 成功' : '✗ 失败') : '<span class="loader"></span>'}
-                    </span>
+        const card = document.createElement('div');
+        card.className = `server-card ${result ? (result.success ? 'success' : 'error') : ''}`;
+        card.setAttribute('data-index', index);
+
+        let statusClass = 'pending';
+        let statusText = '等待测试';
+        let latencyText = '-';
+        let ipText = '-';
+        let latencyClass = '';
+
+        if (result) {
+            if (result.success) {
+                statusClass = 'success';
+                statusText = '成功';
+                latencyText = `${result.latency}ms`;
+                ipText = result.ip || '-';
+
+                if (result.latency < 100) latencyClass = 'fast';
+                else if (result.latency < 300) latencyClass = 'medium';
+                else latencyClass = 'slow';
+            } else {
+                statusClass = 'error';
+                statusText = '失败';
+                latencyText = '-';
+                ipText = result.error || '失败';
+            }
+        }
+
+        card.innerHTML = `
+            <div class="server-header">
+                <span class="server-name">${server.name}</span>
+                <div class="server-status ${statusClass}">
+                    <span class="server-loader"></span>
+                    <span>${statusText}</span>
                 </div>
-                <div class="server-url">${server.url}</div>
-                <div class="server-metrics">
-                    <div class="metric">
-                        <span class="metric-label">延迟</span>
-                        <span class="metric-value ${result ? getLatencyClass(result.latency) : ''}">
-                            ${result ? (result.success ? result.latency + 'ms' : '-') : '-'}
-                        </span>
-                    </div>
-                    <div class="metric">
-                        <span class="metric-label">IP</span>
-                        <span class="metric-value">
-                            ${result ? (result.success ? result.ip : '-') : '-'}
-                        </span>
-                    </div>
+            </div>
+            <div class="server-url">${server.url}</div>
+            <div class="server-metrics">
+                <div class="metric">
+                    <span class="metric-label">延迟</span>
+                    <span class="metric-value ${latencyClass}">${latencyText}</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">IP</span>
+                    <span class="metric-value">${ipText}</span>
                 </div>
             </div>
         `;
-    }).join('');
-}
 
-function getLatencyClass(latency) {
-    if (!latency) return '';
-    if (latency < 100) return 'fast';
-    if (latency < 300) return 'medium';
-    return 'slow';
+        container.appendChild(card);
+    });
 }
 
 function updateStats() {
     const servers = getCurrentServers();
-    const total = servers.length;
-    const success = Object.values(results).filter(r => r?.success).length;
-    const error = Object.values(results).filter(r => r && !r.success).length;
-    
-    const latencies = Object.values(results)
-        .filter(r => r?.success && r.latency !== null)
-        .map(r => r.latency);
-    const avgLatency = latencies.length > 0 
-        ? Math.round(latencies.reduce((a, b) => a + b, 0) / latencies.length)
+    const completed = Object.keys(results).length;
+    const successCount = Object.values(results).filter(r => r.success).length;
+    const errorCount = Object.values(results).filter(r => !r.success).length;
+    const avgLatency = successCount > 0
+        ? Math.round(Object.values(results).filter(r => r.success && r.latency).reduce((sum, r) => sum + r.latency, 0) / successCount)
         : 0;
-    
-    document.getElementById('total-count').textContent = total;
-    document.getElementById('success-count').textContent = success;
-    document.getElementById('error-count').textContent = error;
+
+    document.getElementById('total-count').textContent = servers.length;
+    document.getElementById('success-count').textContent = successCount;
+    document.getElementById('error-count').textContent = errorCount;
     document.getElementById('avg-latency').textContent = avgLatency;
-}
-
-function renderCharts() {
-    renderLatencyChart();
-    renderSuccessChart();
-}
-
-function renderLatencyChart() {
-    const canvas = document.getElementById('latency-canvas');
-    const ctx = canvas.getContext('2d');
-    const servers = getCurrentServers();
-    
-    const width = canvas.width = 300;
-    const height = canvas.height = 150;
-    
-    ctx.clearRect(0, 0, width, height);
-    
-    const successResults = Object.entries(results)
-        .filter(([, r]) => r?.success && r.latency !== null)
-        .map(([i, r]) => ({ index: parseInt(i), latency: r.latency }));
-    
-    if (successResults.length === 0) {
-        ctx.fillStyle = '#94a3b8';
-        ctx.font = '14px Inter';
-        ctx.textAlign = 'center';
-        ctx.fillText('暂无数据', width / 2, height / 2);
-        return;
-    }
-    
-    const maxLatency = Math.max(...successResults.map(r => r.latency), 100);
-    const padding = 20;
-    const chartWidth = width - padding * 2;
-    const chartHeight = height - padding * 2;
-    
-    ctx.strokeStyle = '#334155';
-    ctx.lineWidth = 1;
-    for (let i = 0; i <= 4; i++) {
-        const y = padding + (chartHeight / 4) * i;
-        ctx.beginPath();
-        ctx.moveTo(padding, y);
-        ctx.lineTo(width - padding, y);
-        ctx.stroke();
-        
-        const label = Math.round(maxLatency - (maxLatency / 4) * i);
-        ctx.fillStyle = '#94a3b8';
-        ctx.font = '10px Inter';
-        ctx.textAlign = 'right';
-        ctx.fillText(label + 'ms', padding - 5, y + 3);
-    }
-    
-    ctx.fillStyle = '#94a3b8';
-    ctx.font = '10px Inter';
-    ctx.textAlign = 'center';
-    ctx.fillText('延迟(ms)', width / 2, height - 5);
-    
-    const barWidth = Math.min(chartWidth / successResults.length, 15);
-    const gap = (chartWidth - barWidth * successResults.length) / (successResults.length + 1);
-    
-    successResults.forEach((result, i) => {
-        const x = padding + gap + i * (barWidth + gap);
-        const barHeight = (result.latency / maxLatency) * chartHeight;
-        const y = padding + chartHeight - barHeight;
-        
-        let color = '#22c55e';
-        if (result.latency >= 300) color = '#ef4444';
-        else if (result.latency >= 100) color = '#f59e0b';
-        
-        ctx.fillStyle = color;
-        ctx.beginPath();
-        ctx.roundRect(x, y, barWidth, barHeight, 4);
-        ctx.fill();
-        
-        ctx.fillStyle = '#f1f5f9';
-        ctx.font = '8px Inter';
-        ctx.textAlign = 'center';
-        ctx.fillText(result.latency + 'ms', x + barWidth / 2, y - 5);
-    });
-}
-
-function renderSuccessChart() {
-    const canvas = document.getElementById('success-canvas');
-    const ctx = canvas.getContext('2d');
-    
-    const width = canvas.width = 300;
-    const height = canvas.height = 150;
-    const centerX = width / 2;
-    const centerY = height / 2;
-    const radius = Math.min(width, height) / 2 - 20;
-    
-    ctx.clearRect(0, 0, width, height);
-    
-    const servers = getCurrentServers();
-    const total = servers.length;
-    const success = Object.values(results).filter(r => r?.success).length;
-    const error = total - success;
-    
-    if (total === 0) {
-        ctx.fillStyle = '#94a3b8';
-        ctx.font = '14px Inter';
-        ctx.textAlign = 'center';
-        ctx.fillText('暂无数据', centerX, centerY);
-        return;
-    }
-    
-    const successAngle = (success / total) * Math.PI * 2;
-    const errorAngle = (error / total) * Math.PI * 2;
-    
-    ctx.beginPath();
-    ctx.moveTo(centerX, centerY);
-    ctx.arc(centerX, centerY, radius, -Math.PI / 2, -Math.PI / 2 + successAngle);
-    ctx.closePath();
-    ctx.fillStyle = '#22c55e';
-    ctx.fill();
-    
-    ctx.beginPath();
-    ctx.moveTo(centerX, centerY);
-    ctx.arc(centerX, centerY, radius, -Math.PI / 2 + successAngle, -Math.PI / 2 + successAngle + errorAngle);
-    ctx.closePath();
-    ctx.fillStyle = '#ef4444';
-    ctx.fill();
-    
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, radius * 0.6, 0, Math.PI * 2);
-    ctx.fillStyle = '#1e293b';
-    ctx.fill();
-    
-    ctx.fillStyle = '#f1f5f9';
-    ctx.font = 'bold 24px Inter';
-    ctx.textAlign = 'center';
-    ctx.fillText(Math.round((success / total) * 100) + '%', centerX, centerY + 8);
-    
-    ctx.fillStyle = '#94a3b8';
-    ctx.font = '12px Inter';
-    ctx.fillText('成功率', centerX, centerY + 25);
-}
-
-function clearCharts() {
-    const latencyCanvas = document.getElementById('latency-canvas');
-    const successCanvas = document.getElementById('success-canvas');
-    
-    const latencyCtx = latencyCanvas.getContext('2d');
-    const successCtx = successCanvas.getContext('2d');
-    
-    latencyCtx.clearRect(0, 0, latencyCanvas.width, latencyCanvas.height);
-    successCtx.clearRect(0, 0, successCanvas.width, successCanvas.height);
 }
 
 function saveToHistory() {
     const servers = getCurrentServers();
-    const total = servers.length;
-    const success = Object.values(results).filter(r => r?.success).length;
-    const error = total - success;
-    
-    const latencies = Object.values(results)
-        .filter(r => r?.success && r.latency !== null)
-        .map(r => r.latency);
-    const avgLatency = latencies.length > 0 
-        ? Math.round(latencies.reduce((a, b) => a + b, 0) / latencies.length)
+    const successCount = Object.values(results).filter(r => r.success).length;
+    const avgLatency = successCount > 0
+        ? Math.round(Object.values(results).filter(r => r.success && r.latency).reduce((sum, r) => sum + r.latency, 0) / successCount)
         : 0;
-    
+
     const record = {
+        id: Date.now(),
         domain: currentDomain,
         tab: currentTab,
-        total,
-        success,
-        error,
-        avgLatency,
-        timestamp: Date.now()
+        timestamp: new Date().toLocaleString('zh-CN'),
+        successCount,
+        totalCount: servers.length,
+        avgLatency
     };
-    
+
     history.unshift(record);
-    if (history.length > 20) {
-        history = history.slice(0, 20);
+    if (history.length > 10) {
+        history.pop();
     }
-    
+
     localStorage.setItem('doh-test-history', JSON.stringify(history));
+    renderHistory();
 }
 
 function loadHistory() {
-    const stored = localStorage.getItem('doh-test-history');
-    if (stored) {
-        history = JSON.parse(stored);
+    const saved = localStorage.getItem('doh-test-history');
+    if (saved) {
+        history = JSON.parse(saved);
     }
 }
 
 function renderHistory() {
-    const list = document.getElementById('history-list');
-    
+    const container = document.getElementById('history-list');
+    container.innerHTML = '';
+
     if (history.length === 0) {
-        list.innerHTML = '<div class="empty-state">暂无测试记录，开始测试后会显示在这里</div>';
+        container.innerHTML = `
+            <div class="empty-state">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                <span>暂无测试记录</span>
+            </div>
+        `;
         return;
     }
-    
-    list.innerHTML = history.map(record => {
-        const date = new Date(record.timestamp);
-        const timeStr = date.toLocaleString('zh-CN', {
-            month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
-        
-        return `
-            <div class="history-item">
-                <div>
-                    <span class="history-domain">${record.domain}</span>
-                    <span class="history-time">${timeStr}</span>
-                </div>
+
+    history.forEach((record) => {
+        const item = document.createElement('div');
+        item.className = 'history-item';
+        item.innerHTML = `
+            <span class="history-domain">${record.domain}</span>
+            <div class="history-meta">
+                <span class="history-tab">${record.tab === 'domestic' ? '国内' : '国外'}</span>
+                <span class="history-time">${record.timestamp}</span>
                 <div class="history-stats">
-                    <span class="history-success">✓ ${record.success}</span>
-                    <span class="history-error">✗ ${record.error}</span>
-                    <span class="history-avg">${record.avgLatency}ms</span>
+                    <span class="history-success">${record.successCount}/${record.totalCount}</span>
+                    <span style="color: var(--text-muted)">|</span>
+                    <span style="color: var(--accent)">${record.avgLatency}ms</span>
                 </div>
             </div>
         `;
-    }).join('');
+        item.addEventListener('click', () => {
+            switchTab(record.tab);
+            document.getElementById('domain-input').value = record.domain;
+            currentDomain = record.domain;
+            loadHistoryResults(record);
+        });
+        container.appendChild(item);
+    });
 }
 
-function clearResults() {
-    results = {};
-    updateStats();
+function loadHistoryResults(record) {
+    results = { ...record.results };
     renderServerCards();
-    clearCharts();
-    
-    const status = document.getElementById('test-status');
-    const statusDot = status.querySelector('.status-dot');
-    const statusText = status.querySelector('.status-text');
-    statusDot.className = 'status-dot';
-    statusText.textContent = '准备就绪';
+    updateStats();
 }
 
 function clearHistory() {
