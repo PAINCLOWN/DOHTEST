@@ -99,6 +99,8 @@ const FOREIGN_DEFAULT_DOMAIN = 'example.com';
 
 const TEST_TYPE = 'A';
 const TIMEOUT = 10000;
+const MAX_CONCURRENT = 20;
+const BATCH_SIZE = 10;
 
 // Cache for detected formats { serverUrl: 'json' | 'wire' | null }
 const formatCache = {};
@@ -262,53 +264,113 @@ async function startTest() {
     showProgress();
     renderServerCards();
 
+    const batchResults = await testServersBatch(servers);
     servers.forEach((server, index) => {
-        testServer(server, index);
+        results[index] = batchResults[index];
     });
+
+    renderServerCards();
+    updateProgress();
+    updateStats();
+    checkAllComplete();
+}
+
+async function testServersBatch(servers) {
+    const batchResults = new Array(servers.length).fill(null);
+    const chunks = [];
+
+    for (let i = 0; i < servers.length; i += BATCH_SIZE) {
+        chunks.push(servers.slice(i, i + BATCH_SIZE).map((server, idx) => ({
+            server,
+            index: i + idx
+        })));
+    }
+
+    for (const chunk of chunks) {
+        const promises = chunk.map(({ server, index }) => {
+            const card = document.querySelector(`[data-index="${index}"]`);
+            if (card) card.classList.add('testing');
+
+            return testServer(server, index).then(result => {
+                batchResults[index] = result;
+                updateServerCard(index, server, result);
+                updateProgress();
+                updateStats();
+            });
+        });
+
+        await Promise.all(promises);
+    }
+
+    return batchResults;
+}
+
+function updateServerCard(index, server, result) {
+    const card = document.querySelector(`[data-index="${index}"]`);
+    if (!card || !result) return;
+
+    card.classList.remove('testing');
+    card.classList.add(result.success ? 'success' : 'error');
+
+    const statusClass = result.success ? 'success' : 'error';
+    const statusText = result.success ? '成功' : '失败';
+    const latencyText = result.success ? `${result.latency}ms` : '-';
+    const ipText = result.success ? (result.ip || '-') : (result.error || '失败');
+    const latencyClass = result.success ? (result.latency < 100 ? 'fast' : result.latency < 300 ? 'medium' : 'slow') : '';
+
+    card.innerHTML = `
+        <div class="server-header">
+            <span class="server-name">${server.name}</span>
+            <div class="server-status ${statusClass}">
+                <span class="server-loader"></span>
+                <span>${statusText}</span>
+            </div>
+        </div>
+        <div class="server-url">${server.url}</div>
+        <div class="server-metrics">
+            <div class="metric">
+                <span class="metric-label">延迟</span>
+                <span class="metric-value ${latencyClass}">${latencyText}</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">IP</span>
+                <span class="metric-value">${ipText}</span>
+            </div>
+        </div>
+    `;
 }
 
 async function testServer(server, index) {
-    const card = document.querySelector(`[data-index="${index}"]`);
-    if (card) {
-        card.classList.add('testing');
-    }
-
     const startTime = performance.now();
     let finalResult = null;
 
-    // Check cache first
     const cachedFormat = formatCache[server.url];
     if (cachedFormat) {
-        // Use cached format
         finalResult = await testWithFormat(server, cachedFormat);
     } else {
-        // Try JSON format first
-        const jsonResult = await testWithFormat(server, 'json');
+        const [jsonResult, wireResult] = await Promise.all([
+            testWithFormat(server, 'json'),
+            testWithFormat(server, 'wire').catch(() => ({ success: false }))
+        ]);
+
         if (jsonResult.success) {
             formatCache[server.url] = 'json';
             finalResult = jsonResult;
-        } else {
-            // Fallback to Wire format
-            const wireResult = await testWithFormat(server, 'wire');
-            if (wireResult.success) {
-                formatCache[server.url] = 'wire';
-            }
+        } else if (wireResult.success) {
+            formatCache[server.url] = 'wire';
             finalResult = wireResult;
+        } else {
+            finalResult = jsonResult;
         }
     }
 
     const endTime = performance.now();
     const latency = Math.round(endTime - startTime);
 
-    results[index] = {
+    return {
         ...finalResult,
         latency: finalResult.success ? latency : null
     };
-
-    renderServerCards();
-    updateProgress();
-    updateStats();
-    checkAllComplete();
 }
 
 // Test server with specific format
