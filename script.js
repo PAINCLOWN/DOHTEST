@@ -184,6 +184,7 @@ let currentDomain = DOMESTIC_DEFAULT_DOMAIN;
 let isTesting = false;
 let results = {};
 let history = [];
+let testCount = 3;
 
 function init() {
     loadHistory();
@@ -204,6 +205,14 @@ function init() {
         }
     });
     document.getElementById('clear-history').addEventListener('click', clearHistory);
+
+    document.querySelectorAll('.count-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            document.querySelectorAll('.count-btn').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            testCount = parseInt(e.target.dataset.count);
+        });
+    });
 }
 
 function switchTab(tab) {
@@ -291,7 +300,7 @@ async function testServersBatch(servers) {
             const card = document.querySelector(`[data-index="${index}"]`);
             if (card) card.classList.add('testing');
 
-            return testServer(server, index).then(result => {
+            return testServerMultiple(server, index).then(result => {
                 batchResults[index] = result;
                 updateServerCard(index, server, result);
                 updateProgress();
@@ -305,18 +314,109 @@ async function testServersBatch(servers) {
     return batchResults;
 }
 
-function updateServerCard(index, server, result) {
+async function testServerMultiple(server, index) {
+    const latencies = [];
+    let finalResult = null;
+    let ip = null;
+
+    for (let run = 0; run < testCount; run++) {
+        const startTime = performance.now();
+        let result = null;
+
+        const cachedFormat = formatCache[server.url];
+        if (cachedFormat) {
+            result = await testWithFormat(server, cachedFormat);
+        } else {
+            const [jsonResult, wireResult] = await Promise.all([
+                testWithFormat(server, 'json'),
+                testWithFormat(server, 'wire').catch(() => ({ success: false }))
+            ]);
+
+            if (jsonResult.success) {
+                formatCache[server.url] = 'json';
+                result = jsonResult;
+            } else if (wireResult.success) {
+                formatCache[server.url] = 'wire';
+                result = wireResult;
+            } else {
+                result = jsonResult;
+            }
+        }
+
+        const endTime = performance.now();
+        const latency = Math.round(endTime - startTime);
+
+        if (result.success) {
+            latencies.push(latency);
+            if (!ip) ip = result.ip;
+        }
+
+        updateServerCardProgress(index, server, {
+            latencies: [...latencies],
+            successCount: result.success ? run + 1 : run,
+            totalRuns: testCount,
+            ip
+        });
+    }
+
+    const successCount = latencies.length;
+    const avgLatency = successCount > 0
+        ? Math.round(latencies.reduce((a, b) => a + b, 0) / successCount)
+        : 0;
+
+    return {
+        success: successCount > 0,
+        latencies,
+        avgLatency,
+        ip,
+        successCount,
+        totalRuns: testCount
+    };
+}
+
+function updateServerCardProgress(index, server, data) {
     const card = document.querySelector(`[data-index="${index}"]`);
-    if (!card || !result) return;
+    if (!card) return;
 
-    card.classList.remove('testing');
-    card.classList.add(result.success ? 'success' : 'error');
+    let dotsHTML = '';
+    let valuesHTML = '';
+    let avgHTML = '';
 
-    const statusClass = result.success ? 'success' : 'error';
-    const statusText = result.success ? '成功' : '失败';
-    const latencyText = result.success ? `${result.latency}ms` : '-';
-    const ipText = result.success ? (result.ip || '-') : (result.error || '失败');
-    const latencyClass = result.success ? (result.latency < 100 ? 'fast' : result.latency < 300 ? 'medium' : 'slow') : '';
+    for (let i = 0; i < testCount; i++) {
+        if (i < data.latencies.length) {
+            const latency = data.latencies[i];
+            const latencyClass = latency < 100 ? 'fast' : latency < 300 ? 'medium' : 'slow';
+            dotsHTML += `<div class="latency-dot ${latencyClass}"></div>`;
+            valuesHTML += `<span class="latency-value ${latencyClass}">${latency}ms</span>`;
+        } else if (i < data.successCount) {
+            dotsHTML += `<div class="latency-dot pending"></div>`;
+        } else {
+            dotsHTML += `<div class="latency-dot pending"></div>`;
+        }
+    }
+
+    if (data.latencies.length > 0) {
+        const avg = Math.round(data.latencies.reduce((a, b) => a + b, 0) / data.latencies.length);
+        avgHTML = `<span class="avg-latency">平均 ${avg}ms</span>`;
+    }
+
+    const currentLatencies = data.latencies;
+    const successCount = data.successCount;
+    const totalRuns = data.totalRuns;
+    const ip = data.ip;
+
+    const avgLatency = currentLatencies.length > 0
+        ? Math.round(currentLatencies.reduce((a, b) => a + b, 0) / currentLatencies.length)
+        : 0;
+
+    card.classList.remove('testing', 'success', 'error');
+
+    if (currentLatencies.length > 0) {
+        card.classList.add('success');
+    }
+
+    const statusClass = currentLatencies.length > 0 ? 'success' : 'pending';
+    const statusText = currentLatencies.length > 0 ? `${successCount}/${totalRuns}` : '测试中...';
 
     card.innerHTML = `
         <div class="server-header">
@@ -330,12 +430,84 @@ function updateServerCard(index, server, result) {
         <div class="server-metrics">
             <div class="metric">
                 <span class="metric-label">延迟</span>
-                <span class="metric-value ${latencyClass}">${latencyText}</span>
+                <span class="metric-value ${avgLatency < 100 ? 'fast' : avgLatency < 300 ? 'medium' : 'slow'}">${avgLatency}ms</span>
             </div>
             <div class="metric">
                 <span class="metric-label">IP</span>
-                <span class="metric-value">${ipText}</span>
+                <span class="metric-value">${ip || '-'}</span>
             </div>
+        </div>
+        <div class="latency-timeline">
+            <span style="font-size: 0.75rem; color: var(--text-muted);">延迟:</span>
+            ${dotsHTML}
+            <div class="latency-values">
+                ${valuesHTML}
+            </div>
+            ${avgHTML}
+        </div>
+    `;
+}
+
+function updateServerCard(index, server, result) {
+    const card = document.querySelector(`[data-index="${index}"]`);
+    if (!card) return;
+
+    card.classList.remove('testing', 'success', 'error');
+
+    if (!result || !result.latencies) {
+        return;
+    }
+
+    card.classList.add(result.success ? 'success' : 'error');
+
+    let dotsHTML = '';
+    let valuesHTML = '';
+    let avgHTML = '';
+
+    for (let i = 0; i < result.totalRuns; i++) {
+        if (i < result.latencies.length) {
+            const latency = result.latencies[i];
+            const latencyClass = latency < 100 ? 'fast' : latency < 300 ? 'medium' : 'slow';
+            dotsHTML += `<div class="latency-dot ${latencyClass}"></div>`;
+            valuesHTML += `<span class="latency-value ${latencyClass}">${latency}ms</span>`;
+        } else {
+            dotsHTML += `<div class="latency-dot pending"></div>`;
+        }
+    }
+
+    if (result.latencies.length > 0) {
+        avgHTML = `<span class="avg-latency">平均 ${result.avgLatency}ms</span>`;
+    }
+
+    const statusClass = result.success ? 'success' : 'error';
+    const statusText = result.success ? `${result.successCount}/${result.totalRuns}` : '失败';
+
+    card.innerHTML = `
+        <div class="server-header">
+            <span class="server-name">${server.name}</span>
+            <div class="server-status ${statusClass}">
+                <span class="server-loader"></span>
+                <span>${statusText}</span>
+            </div>
+        </div>
+        <div class="server-url">${server.url}</div>
+        <div class="server-metrics">
+            <div class="metric">
+                <span class="metric-label">延迟</span>
+                <span class="metric-value ${result.avgLatency < 100 ? 'fast' : result.avgLatency < 300 ? 'medium' : 'slow'}">${result.avgLatency}ms</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">IP</span>
+                <span class="metric-value">${result.ip || '-'}</span>
+            </div>
+        </div>
+        <div class="latency-timeline">
+            <span style="font-size: 0.75rem; color: var(--text-muted);">延迟:</span>
+            ${dotsHTML}
+            <div class="latency-values">
+                ${valuesHTML}
+            </div>
+            ${avgHTML}
         </div>
     `;
 }
@@ -560,25 +732,46 @@ function renderServerCards() {
 
         let statusClass = 'pending';
         let statusText = '等待测试';
-        let latencyText = '-';
+        let avgLatencyText = '-';
         let ipText = '-';
         let latencyClass = '';
+        let dotsHTML = '';
+        let valuesHTML = '';
+        let avgHTML = '';
 
-        if (result) {
+        if (result && result.latencies) {
             if (result.success) {
                 statusClass = 'success';
-                statusText = '成功';
-                latencyText = `${result.latency}ms`;
+                statusText = `${result.successCount}/${result.totalRuns}`;
+                avgLatencyText = `${result.avgLatency}ms`;
                 ipText = result.ip || '-';
 
-                if (result.latency < 100) latencyClass = 'fast';
-                else if (result.latency < 300) latencyClass = 'medium';
+                if (result.avgLatency < 100) latencyClass = 'fast';
+                else if (result.avgLatency < 300) latencyClass = 'medium';
                 else latencyClass = 'slow';
+
+                for (let i = 0; i < result.totalRuns; i++) {
+                    if (i < result.latencies.length) {
+                        const latency = result.latencies[i];
+                        const dotClass = latency < 100 ? 'fast' : latency < 300 ? 'medium' : 'slow';
+                        dotsHTML += `<div class="latency-dot ${dotClass}"></div>`;
+                        valuesHTML += `<span class="latency-value ${dotClass}">${latency}ms</span>`;
+                    } else {
+                        dotsHTML += `<div class="latency-dot pending"></div>`;
+                    }
+                }
+
+                if (result.latencies.length > 0) {
+                    avgHTML = `<span class="avg-latency">平均 ${result.avgLatency}ms</span>`;
+                }
             } else {
                 statusClass = 'error';
                 statusText = '失败';
-                latencyText = '-';
                 ipText = result.error || '失败';
+            }
+        } else {
+            for (let i = 0; i < testCount; i++) {
+                dotsHTML += `<div class="latency-dot pending"></div>`;
             }
         }
 
@@ -594,12 +787,20 @@ function renderServerCards() {
             <div class="server-metrics">
                 <div class="metric">
                     <span class="metric-label">延迟</span>
-                    <span class="metric-value ${latencyClass}">${latencyText}</span>
+                    <span class="metric-value ${latencyClass}">${avgLatencyText}</span>
                 </div>
                 <div class="metric">
                     <span class="metric-label">IP</span>
                     <span class="metric-value">${ipText}</span>
                 </div>
+            </div>
+            <div class="latency-timeline">
+                <span style="font-size: 0.75rem; color: var(--text-muted);">延迟:</span>
+                ${dotsHTML}
+                <div class="latency-values">
+                    ${valuesHTML}
+                </div>
+                ${avgHTML}
             </div>
         `;
 
@@ -609,15 +810,30 @@ function renderServerCards() {
 
 function updateStats() {
     const servers = getCurrentServers();
-    const completed = Object.keys(results).length;
-    const successCount = Object.values(results).filter(r => r.success).length;
-    const errorCount = Object.values(results).filter(r => !r.success).length;
-    const avgLatency = successCount > 0
-        ? Math.round(Object.values(results).filter(r => r.success && r.latency).reduce((sum, r) => sum + r.latency, 0) / successCount)
-        : 0;
+    const completed = Object.keys(results).filter(key => {
+        const result = results[key];
+        return result && result.latencies && result.latencies.length > 0;
+    }).length;
+
+    let totalLatencies = 0;
+    let successCount = 0;
+
+    Object.values(results).forEach(result => {
+        if (result && result.success && result.latencies) {
+            totalLatencies += result.avgLatency;
+            successCount++;
+        }
+    });
+
+    const avgLatency = successCount > 0 ? Math.round(totalLatencies / successCount) : 0;
+
+    const errorCount = Object.keys(results).filter(key => {
+        const result = results[key];
+        return result && (!result.latencies || result.latencies.length === 0);
+    }).length;
 
     document.getElementById('total-count').textContent = servers.length;
-    document.getElementById('success-count').textContent = successCount;
+    document.getElementById('success-count').textContent = completed;
     document.getElementById('error-count').textContent = errorCount;
     document.getElementById('avg-latency').textContent = avgLatency;
 }
