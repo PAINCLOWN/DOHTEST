@@ -1,12 +1,7 @@
 const DOMESTIC_SERVERS = [
-    { name: '阿里 DNS', url: 'https://dns.alidns.com/dns-query' },
-    { name: '阿里 DNS (IP)', url: 'https://223.5.5.5/resolve' },
-    { name: '阿里 DNS (IP2)', url: 'https://223.6.6.6/resolve' },
-    { name: '腾讯 DNS', url: 'https://dns.pub/dns-query' },
     { name: '腾讯 DNS (国密)', url: 'https://sm2.doh.pub/dns-query' },
-    { name: '360 DNS', url: 'https://doh.360.cn/dns-query' },
-    { name: 'OneDNS', url: 'https://doh.onedns.net/dns-query' },
-    { name: 'OneDNS Pure', url: 'https://doh-pure.onedns.net/dns-query' }
+    { name: 'AliDNS (IPv6)', url: 'https://dns.alidns.com/dns-query' },
+    { name: 'DNSPod', url: 'https://doh.dnspod.cn/dns-query' }
 ];
 
 const FOREIGN_SERVERS = [
@@ -250,7 +245,7 @@ async function testWithFormat(server, format) {
         if (format === 'wire') {
             // Wire format: POST with binary DNS query
             const dnsQuery = buildDNSQuery(currentDomain, TEST_TYPE);
-            fetchUrl = `/api/doh?url=${encodeURIComponent(server.url)}`;
+            fetchUrl = server.url;
             options = {
                 method: 'POST',
                 headers: {
@@ -263,8 +258,7 @@ async function testWithFormat(server, format) {
         } else {
             // JSON format: GET with name and type parameters
             const timestamp = Date.now();
-            const originalUrl = `${server.url}?name=${currentDomain}&type=${TEST_TYPE}&t=${timestamp}`;
-            fetchUrl = `/api/doh?url=${encodeURIComponent(originalUrl)}`;
+            fetchUrl = `${server.url}?name=${currentDomain}&type=${TEST_TYPE}&t=${timestamp}`;
             options = {
                 method: 'GET',
                 headers: {
