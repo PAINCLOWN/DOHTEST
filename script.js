@@ -188,14 +188,14 @@ async function testServer(server, index) {
     const startTime = performance.now();
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), TIMEOUT);
-    const method = 'GET';
 
     try {
-        const url = buildRequestURL(server.url, currentDomain, TEST_TYPE, method);
+        const timestamp = Date.now();
+        const url = `${server.url}?name=${currentDomain}&type=${TEST_TYPE}&t=${timestamp}`;
         const options = {
-            method: method,
+            method: 'GET',
             headers: {
-                'Accept': 'application/dns-message'
+                'Accept': 'application/dns-json'
             },
             signal: controller.signal
         };
@@ -207,8 +207,8 @@ async function testServer(server, index) {
         const latency = Math.round(endTime - startTime);
 
         if (response.ok) {
-            const data = await response.arrayBuffer();
-            const ip = parseDNSResponse(data);
+            const json = await response.json();
+            const ip = parseJSONResponse(json);
             results[index] = {
                 success: true,
                 latency,
@@ -239,106 +239,17 @@ async function testServer(server, index) {
     renderServerCards();
 }
 
-function buildRequestURL(baseURL, domain, type, method) {
-    const url = new URL(baseURL);
-    if (method === 'GET') {
-        const dnsQuery = buildDNSQuery(domain, type);
-        const encoded = rfc8484Base64Encode(dnsQuery);
-        url.searchParams.set('dns', encoded);
-    }
-    return url.toString();
-}
-
-function rfc8484Base64Encode(buffer) {
-    const bytes = new Uint8Array(buffer);
-    let binary = '';
-    for (let i = 0; i < bytes.length; i++) {
-        binary += String.fromCharCode(bytes[i]);
-    }
-    return btoa(binary)
-        .replace(/\+/g, '-')
-        .replace(/\//g, '_')
-        .replace(/=/g, '');
-}
-
-function buildDNSQuery(domain, type) {
-    const typeMap = { 'A': 1, 'AAAA': 28, 'CNAME': 5, 'MX': 15 };
-    const typeCode = typeMap[type] || 1;
-    
-    const buffer = new ArrayBuffer(512);
-    const view = new DataView(buffer);
-    
-    view.setUint16(0, 0x1234);
-    view.setUint16(2, 0x0100);
-    view.setUint16(4, 1);
-    view.setUint16(6, 0);
-    view.setUint16(8, 0);
-    view.setUint16(10, 0);
-    
-    let offset = 12;
-    const labels = domain.split('.');
-    
-    labels.forEach(label => {
-        view.setUint8(offset++, label.length);
-        for (let i = 0; i < label.length; i++) {
-            view.setUint8(offset++, label.charCodeAt(i));
-        }
-    });
-    
-    view.setUint8(offset++, 0);
-    view.setUint16(offset, typeCode);
-    offset += 2;
-    view.setUint16(offset, 1);
-    
-    return buffer.slice(0, offset + 2);
-}
-
-function parseDNSResponse(data) {
-    try {
-        const view = new DataView(data);
-        const questions = view.getUint16(4);
-        const answers = view.getUint16(6);
-        
-        if (answers === 0) return null;
-        
-        let offset = 12;
-        
-        for (let i = 0; i < questions; i++) {
-            while (view.getUint8(offset) !== 0) {
-                const len = view.getUint8(offset);
-                offset += len + 1;
-            }
-            offset += 5;
-        }
-        
-        for (let i = 0; i < answers; i++) {
-            while (view.getUint8(offset) !== 0) {
-                const len = view.getUint8(offset);
-                if (len >= 0xC0) {
-                    offset += 2;
-                    break;
-                }
-                offset += len + 1;
-            }
-            offset++;
-            
-            const type = view.getUint16(offset);
-            offset += 4;
-            const dataLen = view.getUint16(offset);
-            offset += 2;
-            
-            if (type === 1) {
-                const ip = `${view.getUint8(offset)}.${view.getUint8(offset + 1)}.${view.getUint8(offset + 2)}.${view.getUint8(offset + 3)}`;
-                return ip;
-            }
-            
-            offset += dataLen;
-        }
-    } catch (e) {
+function parseJSONResponse(json) {
+    if (!json.Answer || json.Answer.length === 0) {
         return null;
     }
-    
-    return null;
+
+    for (const answer of json.Answer) {
+        if (answer.type === 1) {
+            return answer.data;
+        }
+    }
+    return json.Answer[0].data || null;
 }
 
 function renderServerCards() {
