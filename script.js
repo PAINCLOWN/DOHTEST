@@ -204,21 +204,22 @@ async function startTests() {
 
 async function testServer(server, index) {
     const startTime = performance.now();
-    
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), TIMEOUT);
+
     try {
-        const response = await fetch(server.url, {
-            method: 'POST',
+        const response = await fetch(buildRequestURL(server.url, currentDomain, TEST_TYPE, 'GET'), {
+            method: 'GET',
             headers: {
-                'Content-Type': 'application/dns-message',
                 'Accept': 'application/dns-message'
             },
-            body: buildDNSQuery(currentDomain, TEST_TYPE),
-            timeout: TIMEOUT
+            signal: controller.signal
         });
-        
+
+        clearTimeout(timeoutId);
         const endTime = performance.now();
         const latency = Math.round(endTime - startTime);
-        
+
         if (response.ok) {
             const data = await response.arrayBuffer();
             const ip = parseDNSResponse(data);
@@ -236,15 +237,42 @@ async function testServer(server, index) {
             };
         }
     } catch (error) {
+        clearTimeout(timeoutId);
+        let errorMessage = error.message;
+        if (error.name === 'AbortError') {
+            errorMessage = '请求超时';
+        }
         results[index] = {
             success: false,
             latency: null,
             ip: null,
-            error: error.message
+            error: errorMessage
         };
     }
-    
+
     renderServerCards();
+}
+
+function buildRequestURL(baseURL, domain, type, method) {
+    const url = new URL(baseURL);
+    if (method === 'GET') {
+        const dnsQuery = buildDNSQuery(domain, type);
+        const encoded = rfc8484Base64Encode(dnsQuery);
+        url.searchParams.set('dns', encoded);
+    }
+    return url.toString();
+}
+
+function rfc8484Base64Encode(buffer) {
+    const bytes = new Uint8Array(buffer);
+    let binary = '';
+    for (let i = 0; i < bytes.length; i++) {
+        binary += String.fromCharCode(bytes[i]);
+    }
+    return btoa(binary)
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=/g, '');
 }
 
 function buildDNSQuery(domain, type) {
