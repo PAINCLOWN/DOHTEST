@@ -1,44 +1,44 @@
 const DOMESTIC_SERVERS = [
-    { name: '阿里 DNS', url: 'https://dns.alidns.com/dns-query', format: 'wire' },
-    { name: '阿里 DNS (IP)', url: 'https://223.5.5.5/resolve', format: 'json' },
-    { name: '阿里 DNS (IP2)', url: 'https://223.6.6.6/resolve', format: 'json' },
-    { name: '腾讯 DNS', url: 'https://dns.pub/dns-query', format: 'wire' },
-    { name: '腾讯 DNS (国密)', url: 'https://sm2.doh.pub/dns-query', format: 'json' },
-    { name: '360 DNS', url: 'https://doh.360.cn/dns-query', format: 'wire' },
-    { name: 'OneDNS', url: 'https://doh.onedns.net/dns-query', format: 'wire' },
-    { name: 'OneDNS Pure', url: 'https://doh-pure.onedns.net/dns-query', format: 'wire' }
+    { name: '阿里 DNS', url: 'https://dns.alidns.com/dns-query' },
+    { name: '阿里 DNS (IP)', url: 'https://223.5.5.5/resolve' },
+    { name: '阿里 DNS (IP2)', url: 'https://223.6.6.6/resolve' },
+    { name: '腾讯 DNS', url: 'https://dns.pub/dns-query' },
+    { name: '腾讯 DNS (国密)', url: 'https://sm2.doh.pub/dns-query' },
+    { name: '360 DNS', url: 'https://doh.360.cn/dns-query' },
+    { name: 'OneDNS', url: 'https://doh.onedns.net/dns-query' },
+    { name: 'OneDNS Pure', url: 'https://doh-pure.onedns.net/dns-query' }
 ];
 
 const FOREIGN_SERVERS = [
-    { name: 'AdGuard DNS', url: 'https://dns.adguard-dns.com/dns-query', format: 'json' },
-    { name: 'AdGuard Family', url: 'https://family.adguard-dns.com/dns-query', format: 'json' },
-    { name: 'AdGuard Non-filtering', url: 'https://unfiltered.adguard-dns.com/dns-query', format: 'json' },
-    { name: 'Cloudflare', url: 'https://dns.cloudflare.com/dns-query', format: 'json' },
-    { name: 'Cloudflare Security', url: 'https://security.cloudflare-dns.com/dns-query', format: 'json' },
-    { name: 'Cloudflare Family', url: 'https://family.cloudflare-dns.com/dns-query', format: 'json' },
-    { name: 'OpenDNS', url: 'https://doh.opendns.com/dns-query', format: 'json' },
-    { name: 'OpenDNS Family', url: 'https://doh.familyshield.opendns.com/dns-query', format: 'json' },
-    { name: 'OpenDNS Sandbox', url: 'https://doh.sandbox.opendns.com/dns-query', format: 'json' },
-    { name: 'CleanBrowsing Family', url: 'https://doh.cleanbrowsing.org/doh/family-filter/', format: 'json' },
-    { name: 'CleanBrowsing Adult', url: 'https://doh.cleanbrowsing.org/doh/adult-filter/', format: 'json' },
-    { name: 'CleanBrowsing Security', url: 'https://doh.cleanbrowsing.org/doh/security-filter/', format: 'json' },
-    { name: 'ControlD p0', url: 'https://freedns.controld.com/p0', format: 'json' },
-    { name: 'ControlD p1', url: 'https://freedns.controld.com/p1', format: 'json' },
-    { name: 'ControlD p2', url: 'https://freedns.controld.com/p2', format: 'json' },
-    { name: 'ControlD p3', url: 'https://freedns.controld.com/p3', format: 'json' },
-    { name: 'DeCloudUs DNS', url: 'https://dns.decloudus.com/dns-query', format: 'json' },
-    { name: 'Quad9', url: 'https://dns.quad9.net/dns-query', format: 'json' },
-    { name: 'Google Public DNS', url: 'https://dns.google/dns-query', format: 'json' },
-    { name: 'Mullvad DNS', url: 'https://doh.mullvad.net/dns-query', format: 'json' },
-    { name: 'DNS.WATCH', url: 'https://doh.dns.watch/dns-query', format: 'json' },
-    { name: 'Freenom World', url: 'https://doh.freenom.world/dns-query', format: 'json' },
-    { name: 'LibreDNS', url: 'https://doh.libredns.gr/dns-query', format: 'json' },
-    { name: 'BlahDNS', url: 'https://doh.blahdns.com/dns-query', format: 'json' },
-    { name: 'Yandex.DNS', url: 'https://dns.yandex.net/dns-query', format: 'json' },
-    { name: 'NextDNS', url: 'https://dns.nextdns.io/dns-query', format: 'json' },
-    { name: 'Caliph DNS', url: 'https://dns.caliph.dev/dns-query', format: 'json' },
-    { name: 'DNSGuard', url: 'https://dnsguard.pub/dns-query', format: 'json' },
-    { name: 'Surfshark DNS', url: 'https://dns.surfsharkdns.com/dns-query', format: 'json' }
+    { name: 'AdGuard DNS', url: 'https://dns.adguard-dns.com/dns-query' },
+    { name: 'AdGuard Family', url: 'https://family.adguard-dns.com/dns-query' },
+    { name: 'AdGuard Non-filtering', url: 'https://unfiltered.adguard-dns.com/dns-query' },
+    { name: 'Cloudflare', url: 'https://dns.cloudflare.com/dns-query' },
+    { name: 'Cloudflare Security', url: 'https://security.cloudflare-dns.com/dns-query' },
+    { name: 'Cloudflare Family', url: 'https://family.cloudflare-dns.com/dns-query' },
+    { name: 'OpenDNS', url: 'https://doh.opendns.com/dns-query' },
+    { name: 'OpenDNS Family', url: 'https://doh.familyshield.opendns.com/dns-query' },
+    { name: 'OpenDNS Sandbox', url: 'https://doh.sandbox.opendns.com/dns-query' },
+    { name: 'CleanBrowsing Family', url: 'https://doh.cleanbrowsing.org/doh/family-filter/' },
+    { name: 'CleanBrowsing Adult', url: 'https://doh.cleanbrowsing.org/doh/adult-filter/' },
+    { name: 'CleanBrowsing Security', url: 'https://doh.cleanbrowsing.org/doh/security-filter/' },
+    { name: 'ControlD p0', url: 'https://freedns.controld.com/p0' },
+    { name: 'ControlD p1', url: 'https://freedns.controld.com/p1' },
+    { name: 'ControlD p2', url: 'https://freedns.controld.com/p2' },
+    { name: 'ControlD p3', url: 'https://freedns.controld.com/p3' },
+    { name: 'DeCloudUs DNS', url: 'https://dns.decloudus.com/dns-query' },
+    { name: 'Quad9', url: 'https://dns.quad9.net/dns-query' },
+    { name: 'Google Public DNS', url: 'https://dns.google/dns-query' },
+    { name: 'Mullvad DNS', url: 'https://doh.mullvad.net/dns-query' },
+    { name: 'DNS.WATCH', url: 'https://doh.dns.watch/dns-query' },
+    { name: 'Freenom World', url: 'https://doh.freenom.world/dns-query' },
+    { name: 'LibreDNS', url: 'https://doh.libredns.gr/dns-query' },
+    { name: 'BlahDNS', url: 'https://doh.blahdns.com/dns-query' },
+    { name: 'Yandex.DNS', url: 'https://dns.yandex.net/dns-query' },
+    { name: 'NextDNS', url: 'https://dns.nextdns.io/dns-query' },
+    { name: 'Caliph DNS', url: 'https://dns.caliph.dev/dns-query' },
+    { name: 'DNSGuard', url: 'https://dnsguard.pub/dns-query' },
+    { name: 'Surfshark DNS', url: 'https://dns.surfsharkdns.com/dns-query' }
 ];
 
 const DOMESTIC_DEFAULT_DOMAIN = 'qq.com';
@@ -46,6 +46,9 @@ const FOREIGN_DEFAULT_DOMAIN = 'google.com';
 
 const TEST_TYPE = 'A';
 const TIMEOUT = 10000;
+
+// Cache for detected formats { serverUrl: 'json' | 'wire' | null }
+const formatCache = {};
 
 // DNS type mapping
 const TYPE_MAP = {
@@ -199,17 +202,54 @@ async function testServer(server, index) {
     }
 
     const startTime = performance.now();
+    let finalResult = null;
+
+    // Check cache first
+    const cachedFormat = formatCache[server.url];
+    if (cachedFormat) {
+        // Use cached format
+        finalResult = await testWithFormat(server, cachedFormat);
+    } else {
+        // Try JSON format first
+        const jsonResult = await testWithFormat(server, 'json');
+        if (jsonResult.success) {
+            formatCache[server.url] = 'json';
+            finalResult = jsonResult;
+        } else {
+            // Fallback to Wire format
+            const wireResult = await testWithFormat(server, 'wire');
+            if (wireResult.success) {
+                formatCache[server.url] = 'wire';
+            }
+            finalResult = wireResult;
+        }
+    }
+
+    const endTime = performance.now();
+    const latency = Math.round(endTime - startTime);
+
+    results[index] = {
+        ...finalResult,
+        latency: finalResult.success ? latency : null
+    };
+
+    renderServerCards();
+    updateProgress();
+    updateStats();
+    checkAllComplete();
+}
+
+// Test server with specific format
+async function testWithFormat(server, format) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), TIMEOUT);
 
     try {
-        const format = server.format || 'json';
         let fetchUrl, options;
 
         if (format === 'wire') {
-            // Wire format: POST with base64url encoded DNS query
+            // Wire format: POST with binary DNS query
             const dnsQuery = buildDNSQuery(currentDomain, TEST_TYPE);
-            const dnsBase64 = base64urlEncode(dnsQuery);
             fetchUrl = `/api/doh?url=${encodeURIComponent(server.url)}`;
             options = {
                 method: 'POST',
@@ -235,32 +275,24 @@ async function testServer(server, index) {
         }
 
         const response = await fetch(fetchUrl, options);
-
         clearTimeout(timeoutId);
-        const endTime = performance.now();
-        const latency = Math.round(endTime - startTime);
 
         if (response.ok) {
             let ip = null;
             if (format === 'wire') {
-                // Parse wire format response
                 const arrayBuffer = await response.arrayBuffer();
                 ip = parseWireResponse(new Uint8Array(arrayBuffer));
             } else {
-                // Parse JSON response
                 const json = await response.json();
                 ip = parseJSONResponse(json);
             }
-            results[index] = {
+            return {
                 success: true,
-                latency,
                 ip
             };
         } else {
-            results[index] = {
+            return {
                 success: false,
-                latency: null,
-                ip: null,
                 error: `HTTP ${response.status}`
             };
         }
@@ -270,18 +302,11 @@ async function testServer(server, index) {
         if (error.name === 'AbortError') {
             errorMessage = '请求超时';
         }
-        results[index] = {
+        return {
             success: false,
-            latency: null,
-            ip: null,
             error: errorMessage
         };
     }
-
-    renderServerCards();
-    updateProgress();
-    updateStats();
-    checkAllComplete();
 }
 
 // Parse DNS wire format response
