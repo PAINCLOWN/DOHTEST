@@ -1,7 +1,7 @@
 const DOMESTIC_SERVERS = [
     { name: '阿里 DNS', url: 'https://dns.alidns.com/dns-query' },
-    { name: '阿里 DNS (IP)', url: 'https://223.5.5.5/dns-query' },
-    { name: '阿里 DNS (IP2)', url: 'https://223.6.6.6/dns-query' },
+    { name: '阿里 DNS (IP)', url: 'https://223.5.5.5/resolve' },
+    { name: '阿里 DNS (IP2)', url: 'https://223.6.6.6/resolve' },
     { name: '腾讯 DNS', url: 'https://dns.pub/dns-query' },
     { name: '腾讯 DNS (国密)', url: 'https://sm2.doh.pub/dns-query' },
     { name: '360 DNS', url: 'https://doh.360.cn/dns-query' },
