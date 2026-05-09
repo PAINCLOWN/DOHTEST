@@ -1,7 +1,12 @@
 const DOMESTIC_SERVERS = [
+    { name: '阿里 DNS', url: 'https://dns.alidns.com/dns-query' },
+    { name: '阿里 DNS (IP)', url: 'https://223.5.5.5/resolve' },
+    { name: '阿里 DNS (IP2)', url: 'https://223.6.6.6/resolve' },
+    { name: '腾讯 DNS', url: 'https://dns.pub/dns-query' },
     { name: '腾讯 DNS (国密)', url: 'https://sm2.doh.pub/dns-query' },
-    { name: 'AliDNS (IPv6)', url: 'https://dns.alidns.com/dns-query' },
-    { name: 'DNSPod', url: 'https://doh.dnspod.cn/dns-query' }
+    { name: '360 DNS', url: 'https://doh.360.cn/dns-query' },
+    { name: 'OneDNS', url: 'https://doh.onedns.net/dns-query' },
+    { name: 'OneDNS Pure', url: 'https://doh-pure.onedns.net/dns-query' }
 ];
 
 const FOREIGN_SERVERS = [
@@ -35,6 +40,7 @@ const FOREIGN_SERVERS = [
     { name: 'DNSGuard', url: 'https://dnsguard.pub/dns-query' },
     { name: 'Surfshark DNS', url: 'https://dns.surfsharkdns.com/dns-query' }
 ];
+
 
 const DOMESTIC_DEFAULT_DOMAIN = 'qq.com';
 const FOREIGN_DEFAULT_DOMAIN = 'google.com';
