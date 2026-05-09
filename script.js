@@ -388,28 +388,6 @@ function updateServerCardProgress(index, server, data) {
     const card = document.querySelector(`[data-index="${index}"]`);
     if (!card) return;
 
-    let dotsHTML = '';
-    let valuesHTML = '';
-    let avgHTML = '';
-
-    for (let i = 0; i < testCount; i++) {
-        if (i < data.latencies.length) {
-            const latency = data.latencies[i];
-            const latencyClass = latency < 100 ? 'fast' : latency < 300 ? 'medium' : 'slow';
-            dotsHTML += `<div class="latency-dot ${latencyClass}"></div>`;
-            valuesHTML += `<span class="latency-value ${latencyClass}">${latency}ms</span>`;
-        } else if (i < data.successCount) {
-            dotsHTML += `<div class="latency-dot pending"></div>`;
-        } else {
-            dotsHTML += `<div class="latency-dot pending"></div>`;
-        }
-    }
-
-    if (data.latencies.length > 0) {
-        const avg = Math.round(data.latencies.reduce((a, b) => a + b, 0) / data.latencies.length);
-        avgHTML = `<span class="avg-latency">平均 ${avg}ms</span>`;
-    }
-
     const currentLatencies = data.latencies;
     const successCount = data.successCount;
     const totalRuns = data.totalRuns;
@@ -434,6 +412,8 @@ function updateServerCardProgress(index, server, data) {
         recordsHTML = renderRecordsDisplay(records);
     }
 
+    const latencyColorClass = avgLatency < 100 ? 'fast' : avgLatency < 300 ? 'medium' : 'slow';
+
     card.innerHTML = `
         <div class="server-header">
             <span class="server-name">${server.name}</span>
@@ -446,7 +426,7 @@ function updateServerCardProgress(index, server, data) {
         <div class="server-metrics">
             <div class="metric">
                 <span class="metric-label">延迟</span>
-                <span class="metric-value ${avgLatency < 100 ? 'fast' : avgLatency < 300 ? 'medium' : 'slow'}">${avgLatency}ms</span>
+                <span class="metric-value ${latencyColorClass}">${avgLatency}ms</span>
             </div>
             <div class="metric">
                 <span class="metric-label">IP</span>
@@ -454,14 +434,6 @@ function updateServerCardProgress(index, server, data) {
             </div>
         </div>
         ${recordsHTML}
-        <div class="latency-timeline">
-            <span style="font-size: 0.75rem; color: var(--text-muted);">延迟:</span>
-            ${dotsHTML}
-            <div class="latency-values">
-                ${valuesHTML}
-            </div>
-            ${avgHTML}
-        </div>
     `;
 }
 
@@ -477,25 +449,6 @@ function updateServerCard(index, server, result) {
 
     card.classList.add(result.success ? 'success' : 'error');
 
-    let dotsHTML = '';
-    let valuesHTML = '';
-    let avgHTML = '';
-
-    for (let i = 0; i < result.totalRuns; i++) {
-        if (i < result.latencies.length) {
-            const latency = result.latencies[i];
-            const latencyClass = latency < 100 ? 'fast' : latency < 300 ? 'medium' : 'slow';
-            dotsHTML += `<div class="latency-dot ${latencyClass}"></div>`;
-            valuesHTML += `<span class="latency-value ${latencyClass}">${latency}ms</span>`;
-        } else {
-            dotsHTML += `<div class="latency-dot pending"></div>`;
-        }
-    }
-
-    if (result.latencies.length > 0) {
-        avgHTML = `<span class="avg-latency">平均 ${result.avgLatency}ms</span>`;
-    }
-
     const statusClass = result.success ? 'success' : 'error';
     const statusText = result.success ? `${result.successCount}/${result.totalRuns}` : '失败';
     
@@ -503,6 +456,8 @@ function updateServerCard(index, server, result) {
     if (result.records && result.records.length > 0) {
         recordsHTML = renderRecordsDisplay(result.records);
     }
+
+    const latencyColorClass = result.avgLatency < 100 ? 'fast' : result.avgLatency < 300 ? 'medium' : 'slow';
 
     card.innerHTML = `
         <div class="server-header">
@@ -516,7 +471,7 @@ function updateServerCard(index, server, result) {
         <div class="server-metrics">
             <div class="metric">
                 <span class="metric-label">延迟</span>
-                <span class="metric-value ${result.avgLatency < 100 ? 'fast' : result.avgLatency < 300 ? 'medium' : 'slow'}">${result.avgLatency}ms</span>
+                <span class="metric-value ${latencyColorClass}">${result.avgLatency}ms</span>
             </div>
             <div class="metric">
                 <span class="metric-label">IP</span>
@@ -524,14 +479,6 @@ function updateServerCard(index, server, result) {
             </div>
         </div>
         ${recordsHTML}
-        <div class="latency-timeline">
-            <span style="font-size: 0.75rem; color: var(--text-muted);">延迟:</span>
-            ${dotsHTML}
-            <div class="latency-values">
-                ${valuesHTML}
-            </div>
-            ${avgHTML}
-        </div>
     `;
 }
 
@@ -910,9 +857,6 @@ function renderServerCards() {
         let avgLatencyText = '-';
         let ipText = '-';
         let latencyClass = '';
-        let dotsHTML = '';
-        let valuesHTML = '';
-        let avgHTML = '';
 
         if (result && result.latencies) {
             if (result.success) {
@@ -924,29 +868,10 @@ function renderServerCards() {
                 if (result.avgLatency < 100) latencyClass = 'fast';
                 else if (result.avgLatency < 300) latencyClass = 'medium';
                 else latencyClass = 'slow';
-
-                for (let i = 0; i < result.totalRuns; i++) {
-                    if (i < result.latencies.length) {
-                        const latency = result.latencies[i];
-                        const dotClass = latency < 100 ? 'fast' : latency < 300 ? 'medium' : 'slow';
-                        dotsHTML += `<div class="latency-dot ${dotClass}"></div>`;
-                        valuesHTML += `<span class="latency-value ${dotClass}">${latency}ms</span>`;
-                    } else {
-                        dotsHTML += `<div class="latency-dot pending"></div>`;
-                    }
-                }
-
-                if (result.latencies.length > 0) {
-                    avgHTML = `<span class="avg-latency">平均 ${result.avgLatency}ms</span>`;
-                }
             } else {
                 statusClass = 'error';
                 statusText = '失败';
                 ipText = result.error || '失败';
-            }
-        } else {
-            for (let i = 0; i < testCount; i++) {
-                dotsHTML += `<div class="latency-dot pending"></div>`;
             }
         }
         
@@ -975,14 +900,6 @@ function renderServerCards() {
                 </div>
             </div>
             ${recordsHTML}
-            <div class="latency-timeline">
-                <span style="font-size: 0.75rem; color: var(--text-muted);">延迟:</span>
-                ${dotsHTML}
-                <div class="latency-values">
-                    ${valuesHTML}
-                </div>
-                ${avgHTML}
-            </div>
         `;
 
         container.appendChild(card);
