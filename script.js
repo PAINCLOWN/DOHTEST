@@ -97,7 +97,7 @@ const OTHER_SERVERS = [
 const DOMESTIC_DEFAULT_DOMAIN = 'example.com';
 const FOREIGN_DEFAULT_DOMAIN = 'example.com';
 
-const TEST_TYPE = 'A';
+let TEST_TYPE = 'A';
 const TIMEOUT = 10000;
 const MAX_CONCURRENT = 20;
 const BATCH_SIZE = 10;
@@ -211,6 +211,14 @@ function init() {
             document.querySelectorAll('.count-btn').forEach(b => b.classList.remove('active'));
             e.target.classList.add('active');
             testCount = parseInt(e.target.dataset.count);
+        });
+    });
+
+    document.querySelectorAll('.type-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            TEST_TYPE = e.target.dataset.type;
         });
     });
 }
@@ -349,13 +357,15 @@ async function testServerMultiple(server, index) {
         if (result.success) {
             latencies.push(latency);
             if (!ip) ip = result.ip;
+            if (!records) records = result.records;
         }
 
         updateServerCardProgress(index, server, {
             latencies: [...latencies],
             successCount: result.success ? run + 1 : run,
             totalRuns: testCount,
-            ip
+            ip,
+            records
         });
     }
 
@@ -404,6 +414,7 @@ function updateServerCardProgress(index, server, data) {
     const successCount = data.successCount;
     const totalRuns = data.totalRuns;
     const ip = data.ip;
+    const records = data.records;
 
     const avgLatency = currentLatencies.length > 0
         ? Math.round(currentLatencies.reduce((a, b) => a + b, 0) / currentLatencies.length)
@@ -417,6 +428,11 @@ function updateServerCardProgress(index, server, data) {
 
     const statusClass = currentLatencies.length > 0 ? 'success' : 'pending';
     const statusText = currentLatencies.length > 0 ? `${successCount}/${totalRuns}` : '测试中...';
+    
+    let recordsHTML = '';
+    if (records && records.length > 0) {
+        recordsHTML = renderRecordsDisplay(records);
+    }
 
     card.innerHTML = `
         <div class="server-header">
@@ -437,6 +453,7 @@ function updateServerCardProgress(index, server, data) {
                 <span class="metric-value">${ip || '-'}</span>
             </div>
         </div>
+        ${recordsHTML}
         <div class="latency-timeline">
             <span style="font-size: 0.75rem; color: var(--text-muted);">延迟:</span>
             ${dotsHTML}
@@ -481,6 +498,11 @@ function updateServerCard(index, server, result) {
 
     const statusClass = result.success ? 'success' : 'error';
     const statusText = result.success ? `${result.successCount}/${result.totalRuns}` : '失败';
+    
+    let recordsHTML = '';
+    if (result.records && result.records.length > 0) {
+        recordsHTML = renderRecordsDisplay(result.records);
+    }
 
     card.innerHTML = `
         <div class="server-header">
@@ -501,6 +523,7 @@ function updateServerCard(index, server, result) {
                 <span class="metric-value">${result.ip || '-'}</span>
             </div>
         </div>
+        ${recordsHTML}
         <div class="latency-timeline">
             <span style="font-size: 0.75rem; color: var(--text-muted);">延迟:</span>
             ${dotsHTML}
@@ -510,6 +533,54 @@ function updateServerCard(index, server, result) {
             ${avgHTML}
         </div>
     `;
+}
+
+function renderRecordsDisplay(records) {
+    const typeLabels = {
+        1: 'A',
+        28: 'AAAA',
+        5: 'CNAME',
+        15: 'MX',
+        16: 'TXT',
+        2: 'NS',
+        6: 'SOA',
+        12: 'PTR',
+        33: 'SRV',
+        257: 'CAA'
+    };
+    
+    const grouped = {};
+    records.forEach(record => {
+        const typeName = typeLabels[record.type] || record.type.toString();
+        if (!grouped[typeName]) {
+            grouped[typeName] = [];
+        }
+        grouped[typeName].push(record.data);
+    });
+    
+    let html = '<div class="dns-records-display">';
+    
+    Object.keys(grouped).forEach(typeName => {
+        const values = grouped[typeName];
+        html += `<div class="record-type-row">
+            <span class="record-type-badge">${typeName}</span>
+            <div class="record-values">`;
+        
+        values.forEach(value => {
+            html += `<span class="record-value">${escapeHtml(value)}</span>`;
+        });
+        
+        html += `</div></div>`;
+    });
+    
+    html += '</div>';
+    return html;
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
 }
 
 async function testServer(server, index) {
@@ -583,16 +654,34 @@ async function testWithFormat(server, format) {
         clearTimeout(timeoutId);
 
         if (response.ok) {
-            let ip = null;
+            let records = null;
             if (format === 'wire') {
                 const arrayBuffer = await response.arrayBuffer();
-                ip = parseWireResponse(new Uint8Array(arrayBuffer));
+                records = parseWireResponse(new Uint8Array(arrayBuffer));
             } else {
                 const json = await response.json();
-                ip = parseJSONResponse(json);
+                records = parseJSONResponse(json);
             }
+            
+            let primaryResult = null;
+            let ip = null;
+            
+            if (records) {
+                if (Array.isArray(records)) {
+                    if (records.length > 0) {
+                        primaryResult = records[0].data;
+                        ip = records.find(r => r.type === 1)?.data || null;
+                    }
+                } else {
+                    primaryResult = records;
+                    ip = records;
+                }
+            }
+            
             return {
-                success: true,
+                success: records !== null,
+                records: records,
+                primaryResult,
                 ip
             };
         } else {
@@ -616,49 +705,106 @@ async function testWithFormat(server, format) {
 
 // Parse DNS wire format response
 function parseWireResponse(buffer) {
-    // Skip header (12 bytes) and question section
     let offset = 12;
     
-    // Parse QNAME (variable length)
     while (buffer[offset] !== 0) {
         const labelLen = buffer[offset];
         offset += labelLen + 1;
     }
-    offset += 1; // Skip null terminator
+    offset += 1;
     
-    // Skip QTYPE (2) and QCLASS (2)
     offset += 4;
     
-    // Check if we have answers
     const answers = (buffer[6] << 8) | buffer[7];
     if (answers === 0) {
         return null;
     }
     
-    // Parse first answer
-    // Skip NAME (compressed pointer)
-    offset += 2;
+    const records = [];
     
-    // TYPE
-    const type = (buffer[offset] << 8) | buffer[offset + 1];
-    offset += 2;
-    
-    // CLASS
-    offset += 2;
-    
-    // TTL
-    offset += 4;
-    
-    // RDLENGTH
-    const rdLength = (buffer[offset] << 8) | buffer[offset + 1];
-    offset += 2;
-    
-    // RDATA - for A record, it's 4 bytes (IPv4)
-    if (type === 1 && rdLength === 4) {
-        return `${buffer[offset]}.${buffer[offset + 1]}.${buffer[offset + 2]}.${buffer[offset + 3]}`;
+    for (let i = 0; i < Math.min(answers, 10); i++) {
+        offset += 2;
+        
+        const type = (buffer[offset] << 8) | buffer[offset + 1];
+        offset += 2;
+        
+        offset += 2;
+        offset += 4;
+        
+        const rdLength = (buffer[offset] << 8) | buffer[offset + 1];
+        offset += 2;
+        
+        let data = null;
+        
+        if (type === 1 && rdLength === 4) {
+            data = `${buffer[offset]}.${buffer[offset + 1]}.${buffer[offset + 2]}.${buffer[offset + 3]}`;
+        } else if (type === 28 && rdLength === 16) {
+            const parts = [];
+            for (let j = 0; j < 16; j += 2) {
+                const hex = ((buffer[offset + j] << 8) | buffer[offset + j + 1]).toString(16);
+                parts.push(hex.padStart(4, '0'));
+            }
+            data = parts.map(p => p.substring(0, 2) + ':' + p.substring(2)).join(':');
+        } else if (type === 5) {
+            data = parseDomainName(buffer, offset, rdLength);
+        } else if (type === 15 && rdLength >= 10) {
+            const priority = (buffer[offset] << 8) | buffer[offset + 1];
+            data = parseDomainName(buffer, offset + 2, rdLength - 2);
+            data = `${priority} ${data}`;
+        } else if (type === 16) {
+            const txtData = [];
+            let txtOffset = 0;
+            while (txtOffset < rdLength && txtOffset < 255) {
+                const txtLen = buffer[offset + txtOffset];
+                txtOffset++;
+                if (txtOffset + txtLen > rdLength) break;
+                const txt = String.fromCharCode(...buffer.slice(offset + txtOffset, offset + txtOffset + txtLen));
+                txtData.push(txt);
+                txtOffset += txtLen;
+            }
+            data = txtData.join(' ');
+        }
+        
+        if (data) {
+            records.push({ type, data });
+        }
+        
+        offset += rdLength;
     }
     
-    return null;
+    if (records.length === 0) {
+        return null;
+    }
+    
+    return records;
+}
+
+function parseDomainName(buffer, offset, maxLength) {
+    const labels = [];
+    let pos = offset;
+    const end = offset + maxLength;
+    
+    while (pos < end && pos < buffer.length) {
+        const len = buffer[pos];
+        
+        if ((len & 0xC0) === 0xC0) {
+            const newOffset = ((len & 0x3F) << 8) | buffer[pos + 1];
+            const result = parseDomainName(buffer, newOffset, 255);
+            if (result) labels.push(result);
+            return labels.join('.');
+        }
+        
+        if (len === 0) break;
+        
+        pos++;
+        if (pos + len > end || pos + len > buffer.length) break;
+        
+        const label = String.fromCharCode(...buffer.slice(pos, pos + len));
+        labels.push(label);
+        pos += len;
+    }
+    
+    return labels.join('.');
 }
 
 function parseJSONResponse(json) {
@@ -666,12 +812,41 @@ function parseJSONResponse(json) {
         return null;
     }
 
-    for (const answer of json.Answer) {
-        if (answer.type === 1) {
-            return answer.data;
+    const records = json.Answer.map(answer => {
+        let data = answer.data;
+        
+        if (answer.type === 28) {
+            const parts = [];
+            const ipv6Parts = data.split(':');
+            let emptyIndex = -1;
+            for (let i = 0; i < ipv6Parts.length; i++) {
+                if (ipv6Parts[i] === '') {
+                    if (emptyIndex === -1) {
+                        emptyIndex = i;
+                    }
+                }
+            }
+            
+            if (emptyIndex !== -1) {
+                const before = ipv6Parts.slice(0, emptyIndex);
+                const after = ipv6Parts.slice(emptyIndex + 1);
+                const missing = 9 - before.length - after.length;
+                const zeros = new Array(missing + 1).join(':0').replace(/^:/, '');
+                data = [...before, zeros, ...after].join(':').replace(/::+/, '::');
+            }
         }
+        
+        return {
+            type: answer.type,
+            data: data
+        };
+    });
+
+    if (records.length === 0) {
+        return null;
     }
-    return json.Answer[0].data || null;
+
+    return records;
 }
 
 function showProgress() {
@@ -774,6 +949,11 @@ function renderServerCards() {
                 dotsHTML += `<div class="latency-dot pending"></div>`;
             }
         }
+        
+        let recordsHTML = '';
+        if (result && result.records && result.records.length > 0) {
+            recordsHTML = renderRecordsDisplay(result.records);
+        }
 
         card.innerHTML = `
             <div class="server-header">
@@ -794,6 +974,7 @@ function renderServerCards() {
                     <span class="metric-value">${ipText}</span>
                 </div>
             </div>
+            ${recordsHTML}
             <div class="latency-timeline">
                 <span style="font-size: 0.75rem; color: var(--text-muted);">延迟:</span>
                 ${dotsHTML}
