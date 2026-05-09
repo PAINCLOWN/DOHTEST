@@ -1,44 +1,96 @@
 const DOMESTIC_SERVERS = [
+    { name: '360 Secure DNS', url: 'https://doh.360.cn/dns-query' },
     { name: '阿里 DNS', url: 'https://dns.alidns.com/dns-query' },
-    { name: '阿里 DNS (IP)', url: 'https://223.5.5.5/resolve' },
-    { name: '阿里 DNS (IP2)', url: 'https://223.6.6.6/resolve' },
     { name: '腾讯 DNS', url: 'https://dns.pub/dns-query' },
-    { name: '腾讯 DNS (国密)', url: 'https://sm2.doh.pub/dns-query' },
-    { name: '360 DNS', url: 'https://doh.360.cn/dns-query' },
-    { name: 'OneDNS', url: 'https://doh.onedns.net/dns-query' },
-    { name: 'OneDNS Pure', url: 'https://doh-pure.onedns.net/dns-query' }
+    { name: '腾讯 DNS (国密版)', url: 'https://sm2.doh.pub/dns-query' },
+    { name: '18Bit DNS', url: 'https://doh.18bit.cn/dns-query' },
+    { name: 'OneDNS 纯净版', url: 'https://doh-pure.onedns.net/dns-query' },
+    { name: 'OneDNS 拦截版', url: 'https://doh.onedns.net/dns-query' },
+    { name: '易安云 DNS', url: 'https://dns.yuguan.xyz/dns-query' }
 ];
 
-const FOREIGN_SERVERS = [
-    { name: 'AdGuard DNS', url: 'https://dns.adguard-dns.com/dns-query' },
-    { name: 'AdGuard Family', url: 'https://family.adguard-dns.com/dns-query' },
-    { name: 'AdGuard Non-filtering', url: 'https://unfiltered.adguard-dns.com/dns-query' },
-    { name: 'Cloudflare', url: 'https://dns.cloudflare.com/dns-query' },
+const INTERNATIONAL_SERVERS = [
+    { name: 'AdGuard DNS 默认', url: 'https://dns.adguard-dns.com/dns-query' },
+    { name: 'AdGuard DNS 家庭保护', url: 'https://family.adguard-dns.com/dns-query' },
+    { name: 'AdGuard DNS 无过滤', url: 'https://unfiltered.adguard-dns.com/dns-query' },
+    { name: 'Cloudflare DNS', url: 'https://dns.cloudflare.com/dns-query' },
     { name: 'Cloudflare Security', url: 'https://security.cloudflare-dns.com/dns-query' },
     { name: 'Cloudflare Family', url: 'https://family.cloudflare-dns.com/dns-query' },
-    { name: 'OpenDNS', url: 'https://doh.opendns.com/dns-query' },
-    { name: 'OpenDNS Family', url: 'https://doh.familyshield.opendns.com/dns-query' },
-    { name: 'OpenDNS Sandbox', url: 'https://doh.sandbox.opendns.com/dns-query' },
-    { name: 'CleanBrowsing Family', url: 'https://doh.cleanbrowsing.org/doh/family-filter/' },
-    { name: 'CleanBrowsing Adult', url: 'https://doh.cleanbrowsing.org/doh/adult-filter/' },
-    { name: 'CleanBrowsing Security', url: 'https://doh.cleanbrowsing.org/doh/security-filter/' },
+    { name: 'Cloudflare Chrome', url: 'https://chrome.cloudflare-dns.com/dns-query' },
+    { name: 'Cloudflare Firefox', url: 'https://mozilla.cloudflare-dns.com/dns-query' },
+    { name: 'Cloudflare Brave', url: 'https://brave.cloudflare-dns.com/dns-query' },
+    { name: 'Cloudflare Tor', url: 'https://tor.cloudflare-dns.com/dns-query' },
+    { name: 'Google DNS', url: 'https://dns.google/dns-query' },
+    { name: 'Quad9 DNS', url: 'https://dns.quad9.net/dns-query' },
+    { name: 'Quad9 DNS 无过滤', url: 'https://dns10.quad9.net/dns-query' },
+    { name: 'Quad9 DNS ECS', url: 'https://dns11.quad9.net/dns-query' },
+    { name: 'Cisco OpenDNS', url: 'https://doh.opendns.com/dns-query' },
+    { name: 'OpenDNS FamilyShield', url: 'https://doh.familyshield.opendns.com/dns-query' },
+    { name: 'OpenDNS Sandbox', url: 'https://doh.sandbox.opendns.com/dns-query' }
+];
+
+const EUROPE_SERVERS = [
+    { name: 'CleanBrowsing 家庭版', url: 'https://doh.cleanbrowsing.org/doh/family-filter/' },
+    { name: 'CleanBrowsing 成人版', url: 'https://doh.cleanbrowsing.org/doh/adult-filter/' },
+    { name: 'CleanBrowsing 安全版', url: 'https://doh.cleanbrowsing.org/doh/security-filter/' },
+    { name: 'DNS4EU 防护版', url: 'https://protective.joindns4.eu/dns-query' },
+    { name: 'DNS4EU 儿童保护版', url: 'https://child.joindns4.eu/dns-query' },
+    { name: 'DNS4EU 无广告版', url: 'https://noads.joindns4.eu/dns-query' },
+    { name: 'DNS4EU 儿童无广告版', url: 'https://child-noads.joindns4.eu/dns-query' },
+    { name: 'DNS4EU 无过滤版', url: 'https://unfiltered.joindns4.eu/dns-query' },
+    { name: 'HaGeZi 法尔肯施泰因', url: 'https://root.hagezi.org/dns-query' },
+    { name: 'HaGeZi 纽伦堡', url: 'https://wurzn.hagezi.org/dns-query' },
+    { name: 'HaGeZi 赫尔辛基', url: 'https://juuri.hagezi.org/dns-query' },
+    { name: 'Mullvad DNS 无过滤', url: 'https://dns.mullvad.net/dns-query' },
+    { name: 'Mullvad DNS 广告拦截', url: 'https://adblock.dns.mullvad.net/dns-query' },
+    { name: 'Mullvad DNS 基础版', url: 'https://base.dns.mullvad.net/dns-query' },
+    { name: 'Mullvad DNS 扩展版', url: 'https://extended.dns.mullvad.net/dns-query' },
+    { name: 'Mullvad DNS 家庭版', url: 'https://family.dns.mullvad.net/dns-query' },
+    { name: 'Mullvad DNS 全拦截', url: 'https://all.dns.mullvad.net/dns-query' },
+    { name: 'CZ.NIC ODVR', url: 'https://odvr.nic.cz/doh' },
+    { name: 'Digitale Gesellschaft', url: 'https://dns.digitale-gesellschaft.ch/dns-query' },
+    { name: 'SWITCH DNS', url: 'https://dns.switch.ch/dns-query' },
+    { name: 'CERT-EE', url: 'https://dns.cert.ee/dns-query' },
+    { name: 'CIRA 加拿大盾私人', url: 'https://private.canadianshield.cira.ca/dns-query' },
+    { name: 'CIRA 加拿大盾保护', url: 'https://protected.canadianshield.cira.ca/dns-query' },
+    { name: 'CIRA 加拿大盾家庭', url: 'https://family.canadianshield.cira.ca/dns-query' }
+];
+
+const ASIA_SERVERS = [
+    { name: 'Caliph DNS', url: 'https://dns.caliph.dev/dns-query' },
+    { name: 'BebasDNS 默认', url: 'https://dns.bebasid.com/dns-query' },
+    { name: 'BebasDNS 无过滤', url: 'https://dns.bebasid.com/unfiltered' },
+    { name: 'BebasDNS 安全版', url: 'https://antivirus.bebasid.com/dns-query' },
+    { name: 'BebasDNS 家庭版', url: 'https://internetsehat.bebasid.com/dns-query' },
+    { name: 'BebasDNS 家庭广告拦截', url: 'https://internetsehat.bebasid.com/adblock' },
+    { name: 'DNS.SB', url: 'https://doh.dns.sb/dns-query' },
+    { name: 'IIJ.JP DNS', url: 'https://public.dns.iij.jp/dns-query' },
+    { name: 'Yandex DNS 基础版', url: 'https://common.dot.dns.yandex.net/dns-query' },
+    { name: 'Yandex DNS 安全版', url: 'https://safe.dot.dns.yandex.net/dns-query' },
+    { name: 'Yandex DNS 家庭版', url: 'https://family.dot.dns.yandex.net/dns-query' }
+];
+
+const OTHER_SERVERS = [
+    { name: 'NextDNS', url: 'https://dns.nextdns.io' },
+    { name: 'NextDNS Anycast', url: 'https://anycast.dns.nextdns.io' },
+    { name: 'OpenBLD ADA', url: 'https://ada.openbld.net/dns-query' },
+    { name: 'OpenBLD RIC', url: 'https://ric.openbld.net/dns-query' },
     { name: 'ControlD p0', url: 'https://freedns.controld.com/p0' },
     { name: 'ControlD p1', url: 'https://freedns.controld.com/p1' },
     { name: 'ControlD p2', url: 'https://freedns.controld.com/p2' },
     { name: 'ControlD p3', url: 'https://freedns.controld.com/p3' },
-    { name: 'DeCloudUs DNS', url: 'https://dns.decloudus.com/dns-query' },
-    { name: 'Quad9', url: 'https://dns.quad9.net/dns-query' },
-    { name: 'Google Public DNS', url: 'https://dns.google/dns-query' },
-    { name: 'Mullvad DNS', url: 'https://doh.mullvad.net/dns-query' },
-    { name: 'DNS.WATCH', url: 'https://doh.dns.watch/dns-query' },
-    { name: 'Freenom World', url: 'https://doh.freenom.world/dns-query' },
+    { name: 'RethinkDNS', url: 'https://basic.rethinkdns.com/' },
+    { name: 'Wikimedia DNS', url: 'https://wikimedia-dns.org/dns-query' },
+    { name: 'v.recipes DNS', url: 'https://v.recipes/dns-query' },
+    { name: 'Rabbit DNS 无过滤', url: 'https://dns.rabbitdns.org/dns-query' },
+    { name: 'Rabbit DNS 安全', url: 'https://security.rabbitdns.org/dns-query' },
+    { name: 'Rabbit DNS 家庭', url: 'https://family.rabbitdns.org/dns-query' },
     { name: 'LibreDNS', url: 'https://doh.libredns.gr/dns-query' },
-    { name: 'BlahDNS', url: 'https://doh.blahdns.com/dns-query' },
-    { name: 'Yandex.DNS', url: 'https://dns.yandex.net/dns-query' },
-    { name: 'NextDNS', url: 'https://dns.nextdns.io/dns-query' },
-    { name: 'Caliph DNS', url: 'https://dns.caliph.dev/dns-query' },
-    { name: 'DNSGuard', url: 'https://dnsguard.pub/dns-query' },
-    { name: 'Surfshark DNS', url: 'https://dns.surfsharkdns.com/dns-query' }
+    { name: 'LibreDNS 广告拦截', url: 'https://doh.libredns.gr/ads' },
+    { name: 'JupitrDNS', url: 'https://dns.jupitrdns.com/dns-query' },
+    { name: 'Surfshark DNS', url: 'https://dns.surfsharkdns.com/dns-query' },
+    { name: 'DeCloudUs DNS', url: 'https://dns.decloudus.com/dns-query' },
+    { name: 'Hurricane Electric', url: 'https://ordns.he.net/dns-query' }
 ];
 
 
@@ -138,7 +190,10 @@ function init() {
     renderHistory();
 
     document.getElementById('domestic-tab').addEventListener('click', () => switchTab('domestic'));
-    document.getElementById('foreign-tab').addEventListener('click', () => switchTab('foreign'));
+    document.getElementById('international-tab').addEventListener('click', () => switchTab('international'));
+    document.getElementById('europe-tab').addEventListener('click', () => switchTab('europe'));
+    document.getElementById('asia-tab').addEventListener('click', () => switchTab('asia'));
+    document.getElementById('other-tab').addEventListener('click', () => switchTab('other'));
     document.getElementById('test-btn').addEventListener('click', startTest);
     document.getElementById('domain-input').addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
@@ -152,7 +207,10 @@ function init() {
 function switchTab(tab) {
     currentTab = tab;
     document.getElementById('domestic-tab').classList.toggle('active', tab === 'domestic');
-    document.getElementById('foreign-tab').classList.toggle('active', tab === 'foreign');
+    document.getElementById('international-tab').classList.toggle('active', tab === 'international');
+    document.getElementById('europe-tab').classList.toggle('active', tab === 'europe');
+    document.getElementById('asia-tab').classList.toggle('active', tab === 'asia');
+    document.getElementById('other-tab').classList.toggle('active', tab === 'other');
     document.getElementById('domain-input').value = tab === 'domestic' ? DOMESTIC_DEFAULT_DOMAIN : FOREIGN_DEFAULT_DOMAIN;
     currentDomain = document.getElementById('domain-input').value;
     results = {};
@@ -170,7 +228,20 @@ function updateDomain() {
 }
 
 function getCurrentServers() {
-    return currentTab === 'domestic' ? DOMESTIC_SERVERS : FOREIGN_SERVERS;
+    switch (currentTab) {
+        case 'domestic':
+            return DOMESTIC_SERVERS;
+        case 'international':
+            return INTERNATIONAL_SERVERS;
+        case 'europe':
+            return EUROPE_SERVERS;
+        case 'asia':
+            return ASIA_SERVERS;
+        case 'other':
+            return OTHER_SERVERS;
+        default:
+            return DOMESTIC_SERVERS;
+    }
 }
 
 async function startTest() {
