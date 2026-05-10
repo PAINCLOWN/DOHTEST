@@ -19,6 +19,11 @@
     --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
     --radius: 16px;
     --radius-sm: 8px;
+    --spacing-xs: 8px;
+    --spacing-sm: 12px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
 }
 
 * {
@@ -1091,58 +1096,364 @@ body {
     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-}
 
-@media (max-width: 640px) {
-    .container {
-        padding: 24px 16px;
+    .servers-container {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     }
 
-    .logo h1 {
-        font-size: 1.75rem;
+    .input-group {
+        gap: var(--spacing-md);
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: var(--spacing-lg) var(--spacing-md);
+    }
+
+    .header {
+        margin-bottom: var(--spacing-xl);
+    }
+
+    .logo {
+        gap: var(--spacing-sm);
     }
 
     .logo-icon {
-        width: 36px;
-        height: 36px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .logo h1 {
+        font-size: 1.875rem;
+    }
+
+    .subtitle {
+        font-size: 0.95rem;
+    }
+
+    .control-panel {
+        padding: var(--spacing-lg);
     }
 
     .tabs {
-        flex-direction: column;
+        display: flex;
+        gap: var(--spacing-xs);
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        padding-bottom: var(--spacing-xs);
+    }
+
+    .tabs::-webkit-scrollbar {
+        display: none;
     }
 
     .tab {
-        width: 100%;
-        justify-content: center;
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: 0.875rem;
+        white-space: nowrap;
+        flex-shrink: 0;
     }
 
     .input-group {
         flex-direction: column;
+        gap: var(--spacing-md);
+    }
+
+    .input-wrapper {
+        width: 100%;
     }
 
     .btn-primary {
         width: 100%;
+        padding: var(--spacing-md);
+    }
+
+    .test-count-selector,
+    .record-type-selector {
+        width: 100%;
+        padding: var(--spacing-sm);
+        justify-content: space-between;
+    }
+
+    .count-buttons,
+    .type-buttons {
+        flex: 1;
+        justify-content: flex-end;
     }
 
     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
+        gap: var(--spacing-sm);
     }
 
     .stat-card {
-        padding: 16px;
+        padding: var(--spacing-md);
+        flex-direction: column;
+        text-align: center;
+        gap: var(--spacing-sm);
+    }
+
+    .stat-icon {
+        width: 44px;
+        height: 44px;
     }
 
     .stat-value {
         font-size: 1.5rem;
     }
 
+    .stat-label {
+        font-size: 0.75rem;
+    }
+
+    .server-card {
+        padding: var(--spacing-md);
+    }
+
+    .server-header {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+
+    .server-name {
+        font-size: 0.95rem;
+    }
+
+    .server-url {
+        font-size: 0.75rem;
+        padding: var(--spacing-sm);
+    }
+
+    .latency-display {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+
+    .latency-average {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .latency-values {
+        flex-wrap: wrap;
+    }
+
+    .history-section {
+        padding: var(--spacing-lg);
+    }
+
+    .history-header {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        align-items: flex-start;
+    }
+
+    .history-item {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        align-items: flex-start;
+    }
+
+    .history-meta {
+        flex-wrap: wrap;
+        gap: var(--spacing-sm);
+    }
+
+    .footer {
+        padding: var(--spacing-xl) var(--spacing-md);
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: var(--spacing-md) var(--spacing-sm);
+    }
+
+    .logo h1 {
+        font-size: 1.5rem;
+    }
+
+    .logo-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+    .subtitle {
+        font-size: 0.875rem;
+    }
+
+    .control-panel {
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .tab {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        font-size: 0.8rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-xs);
+    }
+
+    .stat-card {
+        padding: var(--spacing-sm);
+    }
+
     .stat-icon {
-        width: 40px;
-        height: 40px;
+        width: 36px;
+        height: 36px;
+    }
+
+    .stat-icon svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .stat-value {
+        font-size: 1.25rem;
+    }
+
+    .stat-label {
+        font-size: 0.7rem;
     }
 
     .servers-container {
         grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+    }
+
+    .server-card {
+        padding: var(--spacing-sm);
+    }
+
+    .server-name {
+        font-size: 0.875rem;
+    }
+
+    .server-url {
+        font-size: 0.7rem;
+        padding: var(--spacing-xs);
+    }
+
+    .latency-item {
+        padding: 2px 6px;
+        font-size: 0.7rem;
+    }
+
+    .latency-average-value {
+        font-size: 0.875rem;
+    }
+
+    .record-type-badge {
+        font-size: 0.7rem;
+        padding: 2px 6px;
+        min-width: 40px;
+    }
+
+    .record-value {
+        font-size: 0.7rem;
+        padding: 2px 6px;
+    }
+
+    .cors-notice {
+        margin-bottom: var(--spacing-md);
+    }
+
+    .cors-header {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: 0.85rem;
+    }
+
+    .cors-content {
+        padding: 0 var(--spacing-md) var(--spacing-md);
+    }
+
+    .step {
+        padding: var(--spacing-sm);
+        font-size: 0.8rem;
+    }
+
+    .step-number {
+        width: 20px;
+        height: 20px;
+        font-size: 0.7rem;
+    }
+
+    .progress-section {
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .progress-label {
+        font-size: 0.8rem;
+    }
+
+    .progress-count {
+        font-size: 0.8rem;
+    }
+
+    .history-section {
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .history-header h3 {
+        font-size: 0.9rem;
+    }
+
+    .history-item {
+        padding: var(--spacing-sm);
+    }
+
+    .history-domain {
+        font-size: 0.85rem;
+    }
+
+    .history-meta {
+        font-size: 0.75rem;
+    }
+
+    .footer {
+        padding: var(--spacing-lg) var(--spacing-sm);
+        font-size: 0.75rem;
+    }
+
+    .footer p {
+        margin-bottom: var(--spacing-xs);
+    }
+}
+
+@media (max-width: 360px) {
+    .logo h1 {
+        font-size: 1.25rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-card {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .tab {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+    }
+
+    .domain-input {
+        font-size: 0.9rem;
+        padding: 12px 12px 12px 40px;
+    }
+
+    .btn-primary {
+        padding: 12px;
+        font-size: 0.875rem;
     }
 }

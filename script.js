@@ -1,3 +1,59 @@
+const VERSION = {
+    current: '1.0.3',
+    lastUpdated: '2026-05-10',
+    history: [
+        {
+            version: '1.0.3',
+            date: '2026-05-10',
+            changes: [
+                '全面优化响应式设计',
+                '支持平板设备（768px-900px）',
+                '优化手机端布局（360px-480px）',
+                '改进导航栏横向滚动',
+                '优化统计卡片和服务器卡片布局',
+                '调整字体大小和间距',
+                '优化延迟显示和历史记录布局'
+            ]
+        },
+        {
+            version: '1.0.2',
+            date: '2026-05-10',
+            changes: [
+                '移除 Google Fonts 依赖',
+                '使用系统字体替代，提升加载速度',
+                '优化国内用户访问体验'
+            ]
+        },
+        {
+            version: '1.0.1',
+            date: '2026-05-10',
+            changes: [
+                '性能优化：并发请求控制',
+                '性能优化：DOM 更新节流',
+                '性能优化：预缓存格式探测',
+                '性能优化：DOM 渲染优化',
+                '性能优化：字符串拼接优化'
+            ]
+        },
+        {
+            version: '1.0.0',
+            date: '2026-05-10',
+            changes: [
+                '初始版本发布',
+                '实现 DoH 测速功能',
+                '支持 JSON 和 Wire 两种 DNS 请求格式',
+                '添加国内/国际/欧洲/亚洲 DNS 服务器列表',
+                '实现延迟排序和颜色编码显示',
+                '青柠绿主题配色'
+            ]
+        }
+    ],
+    getFullInfo() {
+        const latest = this.history[0];
+        return `当前版本: ${latest.version} (${latest.date})\n\n更新内容:\n${latest.changes.map(c => '• ' + c).join('\n')}`;
+    }
+};
+
 const DOMESTIC_SERVERS = [
     { name: '360 Secure DNS', url: 'https://doh.360.cn/dns-query' },
     { name: '阿里 DNS', url: 'https://dns.alidns.com/dns-query' },
