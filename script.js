@@ -36,28 +36,28 @@ const VERSION = {
 
 const DNS_SERVERS = {
     'domestic': [
-        { name: 'AliDNS 阿里 (域名)', baseUrl: 'https://dns.alidns.com', jsonPath: '/resolve', wirePath: '/dns-query', note: '中国优化' },
-        { name: 'AliDNS 阿里 (223.5.5.5)', baseUrl: 'https://223.5.5.5', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4' },
-        { name: 'AliDNS 阿里 (223.6.6.6)', baseUrl: 'https://223.6.6.6', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4备用' },
-        { name: 'AliDNS 阿里 (IPv6 1)', baseUrl: 'https://2400:3200::1', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv6' },
-        { name: 'AliDNS 阿里 (IPv6 2)', baseUrl: 'https://2400:3200:baba::1', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv6备用' },
-        { name: 'DNSPod 腾讯 (域名)', baseUrl: 'https://doh.pub', jsonPath: '/resolve', wirePath: '/dns-query', note: '中国优化' },
-        { name: 'DNSPod 腾讯 (1.12.12.12)', baseUrl: 'https://1.12.12.12', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4' },
-        { name: 'DNSPod 腾讯 (120.53.53.53)', baseUrl: 'https://120.53.53.53', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4备用' },
-        { name: 'DNSPod 腾讯 (IPv6)', baseUrl: 'https://2402:4e00::', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv6' },
+        { name: 'AliDNS (域名)', baseUrl: 'https://dns.alidns.com', jsonPath: '/resolve', wirePath: '/dns-query', note: '中国优化' },
+        { name: 'AliDNS (223.5.5.5)', baseUrl: 'https://223.5.5.5', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4' },
+        { name: 'AliDNS (223.6.6.6)', baseUrl: 'https://223.6.6.6', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4备用' },
+        { name: 'AliDNS (IPv6 2400:3200::1)', baseUrl: 'https://2400:3200::1', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv6' },
+        { name: 'AliDNS (IPv6 2400:3200:baba::1)', baseUrl: 'https://2400:3200:baba::1', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv6备用' },
+        { name: 'DNSPod (域名)', baseUrl: 'https://doh.pub', jsonPath: '/resolve', wirePath: '/dns-query', note: '中国优化' },
+        { name: 'DNSPod (1.12.12.12)', baseUrl: 'https://1.12.12.12', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4' },
+        { name: 'DNSPod (120.53.53.53)', baseUrl: 'https://120.53.53.53', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4备用' },
+        { name: 'DNSPod (IPv6)', baseUrl: 'https://2402:4e00::', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv6' },
         { name: '360 DNS (域名)', baseUrl: 'https://doh.360.cn', jsonPath: '/resolve', wirePath: '/dns-query', note: '中国' }
     ],
     'international': [
         { name: 'Google DNS (域名)', baseUrl: 'https://dns.google', jsonPath: '/resolve', wirePath: '/dns-query', note: 'JSON API' },
         { name: 'Google DNS (8.8.8.8)', baseUrl: 'https://8.8.8.8', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4' },
         { name: 'Google DNS (8.8.4.4)', baseUrl: 'https://8.8.4.4', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4备用' },
-        { name: 'Google DNS (IPv6 1)', baseUrl: 'https://2001:4860:4860::8888', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv6' },
-        { name: 'Google DNS (IPv6 2)', baseUrl: 'https://2001:4860:4860::8844', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv6备用' },
+        { name: 'Google DNS (IPv6 2001:4860:4860::8888)', baseUrl: 'https://2001:4860:4860::8888', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv6' },
+        { name: 'Google DNS (IPv6 2001:4860:4860::8844)', baseUrl: 'https://2001:4860:4860::8844', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv6备用' },
         { name: 'Cloudflare DNS (域名)', baseUrl: 'https://cloudflare-dns.com', jsonPath: '/resolve', wirePath: '/dns-query', note: '兼容Google JSON' },
         { name: 'Cloudflare DNS (1.1.1.1)', baseUrl: 'https://1.1.1.1', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4' },
         { name: 'Cloudflare DNS (1.0.0.1)', baseUrl: 'https://1.0.0.1', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4备用' },
-        { name: 'Cloudflare DNS (IPv6 1)', baseUrl: 'https://2606:4700:4700::1111', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv6' },
-        { name: 'Cloudflare DNS (IPv6 2)', baseUrl: 'https://2606:4700:4700::1001', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv6备用' },
+        { name: 'Cloudflare DNS (IPv6 2606:4700:4700::1111)', baseUrl: 'https://2606:4700:4700::1111', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv6' },
+        { name: 'Cloudflare DNS (IPv6 2606:4700:4700::1001)', baseUrl: 'https://2606:4700:4700::1001', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv6备用' },
         { name: 'Cloudflare Security (域名)', baseUrl: 'https://security.cloudflare-dns.com', jsonPath: '/resolve', wirePath: '/dns-query', note: '恶意软件拦截' },
         { name: 'Cloudflare Security (1.1.1.2)', baseUrl: 'https://1.1.1.2', jsonPath: '/resolve', wirePath: '/dns-query', note: '恶意软件拦截' },
         { name: 'Cloudflare Security (1.0.0.2)', baseUrl: 'https://1.0.0.2', jsonPath: '/resolve', wirePath: '/dns-query', note: '恶意软件拦截备用' },
@@ -66,68 +66,68 @@ const DNS_SERVERS = {
         { name: 'Cloudflare Family (1.0.0.3)', baseUrl: 'https://1.0.0.3', jsonPath: '/resolve', wirePath: '/dns-query', note: '家庭保护备用' },
         { name: 'Cloudflare Mozilla (域名)', baseUrl: 'https://mozilla.cloudflare-dns.com', jsonPath: '/resolve', wirePath: '/dns-query', note: 'Mozilla合作' },
         { name: 'Cloudflare DNS64 (域名)', baseUrl: 'https://dns64.cloudflare-dns.com', jsonPath: '/resolve', wirePath: '/dns-query', note: 'DNS64' },
-        { name: 'Quad9 DNS (安全域名)', baseUrl: 'https://dns.quad9.net', jsonPath: '/resolve', wirePath: '/dns-query', note: '威胁阻断' },
-        { name: 'Quad9 DNS (安全域名Alt)', baseUrl: 'https://dns9.quad9.net', jsonPath: '/resolve', wirePath: '/dns-query', note: '威胁阻断备用' },
+        { name: 'Quad9 DNS (dns.quad9.net)', baseUrl: 'https://dns.quad9.net', jsonPath: '/resolve', wirePath: '/dns-query', note: '威胁阻断' },
+        { name: 'Quad9 DNS (dns9.quad9.net)', baseUrl: 'https://dns9.quad9.net', jsonPath: '/resolve', wirePath: '/dns-query', note: '威胁阻断备用' },
         { name: 'Quad9 DNS (9.9.9.9)', baseUrl: 'https://9.9.9.9', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4' },
         { name: 'Quad9 DNS (149.112.112.112)', baseUrl: 'https://149.112.112.112', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4备用' },
-        { name: 'Quad9 DNS (IPv6)', baseUrl: 'https://2620:fe::fe', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv6' },
-        { name: 'Quad9 DNS (无过滤域名)', baseUrl: 'https://dns10.quad9.net', jsonPath: '/resolve', wirePath: '/dns-query', note: '无阻断' },
+        { name: 'Quad9 DNS (IPv6 2620:fe::fe)', baseUrl: 'https://2620:fe::fe', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv6' },
+        { name: 'Quad9 DNS (dns10.quad9.net)', baseUrl: 'https://dns10.quad9.net', jsonPath: '/resolve', wirePath: '/dns-query', note: '无阻断' },
         { name: 'Quad9 DNS (9.9.9.10)', baseUrl: 'https://9.9.9.10', jsonPath: '/resolve', wirePath: '/dns-query', note: '无阻断IPv4' },
         { name: 'Quad9 DNS (149.112.112.10)', baseUrl: 'https://149.112.112.10', jsonPath: '/resolve', wirePath: '/dns-query', note: '无阻断IPv4备用' },
-        { name: 'Quad9 DNS (安全+ECS域名)', baseUrl: 'https://dns11.quad9.net', jsonPath: '/resolve', wirePath: '/dns-query', note: '安全+ECS' },
+        { name: 'Quad9 DNS (dns11.quad9.net)', baseUrl: 'https://dns11.quad9.net', jsonPath: '/resolve', wirePath: '/dns-query', note: '安全+ECS' },
         { name: 'Quad9 DNS (9.9.9.11)', baseUrl: 'https://9.9.9.11', jsonPath: '/resolve', wirePath: '/dns-query', note: '安全+ECS IPv4' },
         { name: 'Quad9 DNS (149.112.112.11)', baseUrl: 'https://149.112.112.11', jsonPath: '/resolve', wirePath: '/dns-query', note: '安全+ECS IPv4备用' },
-        { name: 'Quad9 DNS (无阻断+ECS域名)', baseUrl: 'https://dns12.quad9.net', jsonPath: '/resolve', wirePath: '/dns-query', note: '无阻断+ECS' },
+        { name: 'Quad9 DNS (dns12.quad9.net)', baseUrl: 'https://dns12.quad9.net', jsonPath: '/resolve', wirePath: '/dns-query', note: '无阻断+ECS' },
         { name: 'Quad9 DNS (9.9.9.12)', baseUrl: 'https://9.9.9.12', jsonPath: '/resolve', wirePath: '/dns-query', note: '无阻断+ECS IPv4' },
         { name: 'Quad9 DNS (149.112.112.12)', baseUrl: 'https://149.112.112.12', jsonPath: '/resolve', wirePath: '/dns-query', note: '无阻断+ECS IPv4备用' },
-        { name: 'AdGuard DNS (默认)', baseUrl: 'https://dns.adguard-dns.com', jsonPath: '/resolve', wirePath: '/dns-query', note: '广告拦截' },
-        { name: 'AdGuard DNS (旧域名)', baseUrl: 'https://dns.adguard.com', jsonPath: '/resolve', wirePath: '/dns-query', note: '旧域名' },
-        { name: 'AdGuard DNS (家庭)', baseUrl: 'https://family.adguard-dns.com', jsonPath: '/resolve', wirePath: '/dns-query', note: '家庭保护' },
-        { name: 'AdGuard DNS (家庭旧)', baseUrl: 'https://dns-family.adguard.com', jsonPath: '/resolve', wirePath: '/dns-query', note: '家庭保护旧域名' },
-        { name: 'AdGuard DNS (无过滤)', baseUrl: 'https://unfiltered.adguard-dns.com', jsonPath: '/resolve', wirePath: '/dns-query', note: '无过滤' },
-        { name: 'Mullvad DNS (广告拦截)', baseUrl: 'https://adblock.doh.mullvad.net', jsonPath: '/resolve', wirePath: '/dns-query', note: '广告拦截' },
-        { name: 'Mullvad DNS (无过滤)', baseUrl: 'https://base.doh.mullvad.net', jsonPath: '/resolve', wirePath: '/dns-query', note: '无过滤' },
-        { name: 'Mullvad DNS (全功能)', baseUrl: 'https://all.doh.mullvad.net', jsonPath: '/resolve', wirePath: '/dns-query', note: '全功能' },
-        { name: 'NextDNS (域名)', baseUrl: 'https://dns.nextdns.io', jsonPath: '/resolve', wirePath: '/dns-query', note: 'NextDNS' },
-        { name: 'ControlD p0 (无过滤)', baseUrl: 'https://freedns.controld.com', jsonPath: '/p0', wirePath: null, note: '无过滤' },
-        { name: 'ControlD p1 (恶意软件)', baseUrl: 'https://freedns.controld.com', jsonPath: '/p1', wirePath: null, note: '恶意软件拦截' },
-        { name: 'ControlD p2 (广告追踪)', baseUrl: 'https://freedns.controld.com', jsonPath: '/p2', wirePath: null, note: '广告+追踪拦截' },
-        { name: 'ControlD p3 (社交网络)', baseUrl: 'https://freedns.controld.com', jsonPath: '/p3', wirePath: null, note: '社交网络拦截' },
-        { name: 'ControlD (家庭版)', baseUrl: 'https://freedns.controld.com', jsonPath: '/family', wirePath: null, note: '家庭版' },
-        { name: 'ControlD (无审查)', baseUrl: 'https://freedns.controld.com', jsonPath: '/uncensored', wirePath: null, note: '无审查' },
+        { name: 'AdGuard DNS (dns.adguard-dns.com)', baseUrl: 'https://dns.adguard-dns.com', jsonPath: '/resolve', wirePath: '/dns-query', note: '广告拦截' },
+        { name: 'AdGuard DNS (dns.adguard.com)', baseUrl: 'https://dns.adguard.com', jsonPath: '/resolve', wirePath: '/dns-query', note: '旧域名' },
+        { name: 'AdGuard DNS (family.adguard-dns.com)', baseUrl: 'https://family.adguard-dns.com', jsonPath: '/resolve', wirePath: '/dns-query', note: '家庭保护' },
+        { name: 'AdGuard DNS (dns-family.adguard.com)', baseUrl: 'https://dns-family.adguard.com', jsonPath: '/resolve', wirePath: '/dns-query', note: '家庭保护旧域名' },
+        { name: 'AdGuard DNS (unfiltered.adguard-dns.com)', baseUrl: 'https://unfiltered.adguard-dns.com', jsonPath: '/resolve', wirePath: '/dns-query', note: '无过滤' },
+        { name: 'Mullvad DNS (adblock.doh.mullvad.net)', baseUrl: 'https://adblock.doh.mullvad.net', jsonPath: '/resolve', wirePath: '/dns-query', note: '广告拦截' },
+        { name: 'Mullvad DNS (base.doh.mullvad.net)', baseUrl: 'https://base.doh.mullvad.net', jsonPath: '/resolve', wirePath: '/dns-query', note: '无过滤' },
+        { name: 'Mullvad DNS (all.doh.mullvad.net)', baseUrl: 'https://all.doh.mullvad.net', jsonPath: '/resolve', wirePath: '/dns-query', note: '全功能' },
+        { name: 'NextDNS (dns.nextdns.io)', baseUrl: 'https://dns.nextdns.io', jsonPath: '/resolve', wirePath: '/dns-query', note: 'NextDNS' },
+        { name: 'ControlD p0 (freedns.controld.com)', baseUrl: 'https://freedns.controld.com', jsonPath: '/p0', wirePath: null, note: '无过滤' },
+        { name: 'ControlD p1 (freedns.controld.com)', baseUrl: 'https://freedns.controld.com', jsonPath: '/p1', wirePath: null, note: '恶意软件拦截' },
+        { name: 'ControlD p2 (freedns.controld.com)', baseUrl: 'https://freedns.controld.com', jsonPath: '/p2', wirePath: null, note: '广告+追踪拦截' },
+        { name: 'ControlD p3 (freedns.controld.com)', baseUrl: 'https://freedns.controld.com', jsonPath: '/p3', wirePath: null, note: '社交网络拦截' },
+        { name: 'ControlD family (freedns.controld.com)', baseUrl: 'https://freedns.controld.com', jsonPath: '/family', wirePath: null, note: '家庭版' },
+        { name: 'ControlD uncensored (freedns.controld.com)', baseUrl: 'https://freedns.controld.com', jsonPath: '/uncensored', wirePath: null, note: '无审查' },
         { name: 'Cisco OpenDNS (域名)', baseUrl: 'https://doh.opendns.com', jsonPath: '/resolve', wirePath: '/dns-query', note: 'OpenDNS' },
         { name: 'Cisco OpenDNS (208.67.222.222)', baseUrl: 'https://208.67.222.222', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4' },
         { name: 'Cisco OpenDNS (208.67.220.220)', baseUrl: 'https://208.67.220.220', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4备用' },
         { name: 'Cisco OpenDNS FamilyShield (域名)', baseUrl: 'https://doh.familyshield.opendns.com', jsonPath: '/resolve', wirePath: '/dns-query', note: '家庭保护' },
-        { name: 'Cisco OpenDNS FamilyShield (222.123)', baseUrl: 'https://208.67.222.123', jsonPath: '/resolve', wirePath: '/dns-query', note: '家庭保护' },
-        { name: 'Cisco OpenDNS FamilyShield (220.123)', baseUrl: 'https://208.67.220.123', jsonPath: '/resolve', wirePath: '/dns-query', note: '家庭保护备用' },
+        { name: 'Cisco OpenDNS FamilyShield (208.67.222.123)', baseUrl: 'https://208.67.222.123', jsonPath: '/resolve', wirePath: '/dns-query', note: '家庭保护' },
+        { name: 'Cisco OpenDNS FamilyShield (208.67.220.123)', baseUrl: 'https://208.67.220.123', jsonPath: '/resolve', wirePath: '/dns-query', note: '家庭保护备用' },
         { name: 'Cisco OpenDNS Sandbox (域名)', baseUrl: 'https://sandbox.opendns.com', jsonPath: '/resolve', wirePath: '/dns-query', note: '无过滤' },
         { name: 'Cisco OpenDNS Sandbox (208.67.222.2)', baseUrl: 'https://208.67.222.2', jsonPath: '/resolve', wirePath: '/dns-query', note: '无过滤' },
         { name: 'Cisco OpenDNS Sandbox (208.67.220.2)', baseUrl: 'https://208.67.220.2', jsonPath: '/resolve', wirePath: '/dns-query', note: '无过滤备用' },
         { name: 'Cisco Umbrella (域名)', baseUrl: 'https://doh.umbrella.com', jsonPath: '/resolve', wirePath: '/dns-query', note: '企业版' },
         { name: 'Wikimedia DNS (域名)', baseUrl: 'https://wikimedia-dns.org', jsonPath: '/resolve', wirePath: '/dns-query', note: '维基基金会' },
         { name: 'Wikimedia DNS (185.71.138.138)', baseUrl: 'https://185.71.138.138', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4' },
-        { name: 'Wikimedia DNS (IPv6)', baseUrl: 'https://2001:67c:930::1', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv6' }
+        { name: 'Wikimedia DNS (IPv6 2001:67c:930::1)', baseUrl: 'https://2001:67c:930::1', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv6' }
     ],
     'europe': [
-        { name: 'CleanBrowsing (家庭过滤)', baseUrl: 'https://doh.cleanbrowsing.org', jsonPath: null, wirePath: '/doh/family-filter/', note: '家庭过滤' },
-        { name: 'CleanBrowsing (成人过滤)', baseUrl: 'https://doh.cleanbrowsing.org', jsonPath: null, wirePath: '/doh/adult-filter/', note: '成人内容过滤' },
-        { name: 'CleanBrowsing (安全过滤)', baseUrl: 'https://doh.cleanbrowsing.org', jsonPath: null, wirePath: '/doh/security-filter/', note: '安全过滤' },
+        { name: 'CleanBrowsing Family (doh.cleanbrowsing.org)', baseUrl: 'https://doh.cleanbrowsing.org', jsonPath: null, wirePath: '/doh/family-filter/', note: '家庭过滤' },
+        { name: 'CleanBrowsing Adult (doh.cleanbrowsing.org)', baseUrl: 'https://doh.cleanbrowsing.org', jsonPath: null, wirePath: '/doh/adult-filter/', note: '成人内容过滤' },
+        { name: 'CleanBrowsing Security (doh.cleanbrowsing.org)', baseUrl: 'https://doh.cleanbrowsing.org', jsonPath: null, wirePath: '/doh/security-filter/', note: '安全过滤' },
         { name: 'DNS.SB (域名)', baseUrl: 'https://doh.dns.sb', jsonPath: '/resolve', wirePath: '/dns-query', note: '欧洲' },
-        { name: 'CIRA 加拿大盾 (隐私)', baseUrl: 'https://private.canadianshield.cira.ca', jsonPath: '/resolve', wirePath: '/dns-query', note: '加拿大' },
-        { name: 'CIRA 加拿大盾 (保护)', baseUrl: 'https://protected.canadianshield.cira.ca', jsonPath: '/resolve', wirePath: '/dns-query', note: '威胁保护' },
-        { name: 'CIRA 加拿大盾 (家庭)', baseUrl: 'https://family.canadianshield.cira.ca', jsonPath: '/resolve', wirePath: '/dns-query', note: '家庭保护' },
-        { name: 'DNS4EU (保护)', baseUrl: 'https://protective.joindns4.eu', jsonPath: '/resolve', wirePath: '/dns-query', note: '欧盟' },
-        { name: 'DNS4EU (无过滤)', baseUrl: 'https://unfiltered.joindns4.eu', jsonPath: '/resolve', wirePath: '/dns-query', note: '无过滤' },
-        { name: 'DNS4EU (广告拦截)', baseUrl: 'https://noads.joindns4.eu', jsonPath: '/resolve', wirePath: '/dns-query', note: '广告拦截' },
-        { name: 'DNS4EU (儿童安全)', baseUrl: 'https://child-noads.joindns4.eu', jsonPath: '/resolve', wirePath: '/dns-query', note: '儿童安全' },
+        { name: 'CIRA Private (域名)', baseUrl: 'https://private.canadianshield.cira.ca', jsonPath: '/resolve', wirePath: '/dns-query', note: '加拿大隐私' },
+        { name: 'CIRA Protected (域名)', baseUrl: 'https://protected.canadianshield.cira.ca', jsonPath: '/resolve', wirePath: '/dns-query', note: '加拿大保护' },
+        { name: 'CIRA Family (域名)', baseUrl: 'https://family.canadianshield.cira.ca', jsonPath: '/resolve', wirePath: '/dns-query', note: '加拿大家庭' },
+        { name: 'DNS4EU Protective (域名)', baseUrl: 'https://protective.joindns4.eu', jsonPath: '/resolve', wirePath: '/dns-query', note: '欧盟保护' },
+        { name: 'DNS4EU Unfiltered (域名)', baseUrl: 'https://unfiltered.joindns4.eu', jsonPath: '/resolve', wirePath: '/dns-query', note: '欧盟无过滤' },
+        { name: 'DNS4EU NoAds (域名)', baseUrl: 'https://noads.joindns4.eu', jsonPath: '/resolve', wirePath: '/dns-query', note: '欧盟广告拦截' },
+        { name: 'DNS4EU Child (域名)', baseUrl: 'https://child-noads.joindns4.eu', jsonPath: '/resolve', wirePath: '/dns-query', note: '欧盟儿童安全' },
         { name: 'PowerDNS (域名)', baseUrl: 'https://doh.powerdns.org', jsonPath: '/resolve', wirePath: '/dns-query', note: '欧洲' }
     ],
     'asia': [
         { name: 'Yandex DNS (dns.yandex.com)', baseUrl: 'https://dns.yandex.com', jsonPath: '/resolve', wirePath: '/dns-query', note: '俄罗斯' },
-        { name: 'Yandex DNS (common.dns.yandex.net)', baseUrl: 'https://common.dns.yandex.net', jsonPath: '/resolve', wirePath: '/dns-query', note: '基础版' },
-        { name: 'IIJ DNS (日本)', baseUrl: 'https://public.dns.iij.jp', jsonPath: '/resolve', wirePath: '/dns-query', note: '日本' },
-        { name: 'JPNE DNS (日本)', baseUrl: 'https://doh.jpne.jp', jsonPath: '/resolve', wirePath: '/dns-query', note: '日本' }
+        { name: 'Yandex DNS (common.dns.yandex.net)', baseUrl: 'https://common.dns.yandex.net', jsonPath: '/resolve', wirePath: '/dns-query', note: '俄罗斯基础版' },
+        { name: 'IIJ DNS (public.dns.iij.jp)', baseUrl: 'https://public.dns.iij.jp', jsonPath: '/resolve', wirePath: '/dns-query', note: '日本' },
+        { name: 'JPNE DNS (doh.jpne.jp)', baseUrl: 'https://doh.jpne.jp', jsonPath: '/resolve', wirePath: '/dns-query', note: '日本' }
     ]
 };
 
@@ -368,7 +368,7 @@ async function detectPreferredFormat() {
     let jsonSuccess = 0;
     let wireSuccess = 0;
 
-    for (const server of servers.slice(0, 3)) { // Test first 3 servers
+    for (const server of servers.slice(0, 3)) {
         if (server.jsonPath) {
             try {
                 const result = await testWithFormat(server, 'json');
@@ -385,7 +385,6 @@ async function detectPreferredFormat() {
 
     if (jsonSuccess > wireSuccess) return 'json';
     if (wireSuccess > jsonSuccess) return 'wire';
-    // If tie, prefer JSON for broader compatibility
     return 'json';
 }
 
@@ -432,7 +431,7 @@ async function startTest() {
 function sortResults() {
     const servers = getCurrentServers();
     const resultArray = [];
-    
+
     for (let i = 0; i < servers.length; i++) {
         resultArray.push({
             index: i,
@@ -444,7 +443,17 @@ function sortResults() {
     resultArray.sort((a, b) => {
         if (!a.result || !a.result.success) return 1;
         if (!b.result || !b.result.success) return -1;
-        return a.result.avgLatency - b.result.avgLatency;
+
+        const aMinLatency = Math.min(
+            a.result.jsonAvg || Infinity,
+            a.result.wireAvg || Infinity
+        );
+        const bMinLatency = Math.min(
+            b.result.jsonAvg || Infinity,
+            b.result.wireAvg || Infinity
+        );
+
+        return aMinLatency - bMinLatency;
     });
 
     const newResults = {};
@@ -489,53 +498,60 @@ async function testServersBatch(servers) {
 }
 
 async function testServerMultiple(server, index) {
-    const latencies = [];
+    const jsonLatencies = [];
+    const wireLatencies = [];
     let records = null;
 
     for (let run = 0; run < testCount; run++) {
-        const startTime = performance.now();
-        let result = null;
+        if (server.jsonPath) {
+            const startTime = performance.now();
+            const jsonResult = await testWithFormat(server, 'json');
+            const endTime = performance.now();
+            const latency = Math.round(endTime - startTime);
 
-        // Try preferred format first, fallback to other if available
-        if (preferredFormat === 'json' && server.jsonPath) {
-            result = await testWithFormat(server, 'json');
-        } else if (preferredFormat === 'wire' && server.wirePath) {
-            result = await testWithFormat(server, 'wire');
-        } else {
-            if (server.jsonPath) {
-                result = await testWithFormat(server, 'json');
-            } else if (server.wirePath) {
-                result = await testWithFormat(server, 'wire');
+            if (jsonResult && jsonResult.success) {
+                jsonLatencies.push(latency);
+                if (!records) records = jsonResult.records;
             }
         }
 
-        const endTime = performance.now();
-        const latency = Math.round(endTime - startTime);
+        if (server.wirePath) {
+            const startTime = performance.now();
+            const wireResult = await testWithFormat(server, 'wire');
+            const endTime = performance.now();
+            const latency = Math.round(endTime - startTime);
 
-        if (result && result.success) {
-            latencies.push(latency);
-            if (!records) records = result.records;
+            if (wireResult && wireResult.success) {
+                wireLatencies.push(latency);
+                if (!records) records = wireResult.records;
+            }
         }
 
         updateServerCardProgress(index, server, {
-            latencies: [...latencies],
-            successCount: result && result.success ? run + 1 : run,
-            totalRuns: testCount,
+            jsonLatencies: [...jsonLatencies],
+            wireLatencies: [...wireLatencies],
+            successCount: (jsonLatencies.length > 0 ? 1 : 0) + (wireLatencies.length > 0 ? 1 : 0),
+            totalFormats: (server.jsonPath ? 1 : 0) + (server.wirePath ? 1 : 0),
             records
         });
     }
 
-    const successCount = latencies.length;
-    const avgLatency = successCount > 0
-        ? Math.round(latencies.reduce((a, b) => a + b, 0) / successCount)
+    const jsonAvg = jsonLatencies.length > 0
+        ? Math.round(jsonLatencies.reduce((a, b) => a + b, 0) / jsonLatencies.length)
+        : 0;
+    const wireAvg = wireLatencies.length > 0
+        ? Math.round(wireLatencies.reduce((a, b) => a + b, 0) / wireLatencies.length)
         : 0;
 
     return {
-        success: successCount > 0,
-        latencies,
-        avgLatency,
+        success: jsonLatencies.length > 0 || wireLatencies.length > 0,
+        jsonLatencies,
+        wireLatencies,
+        jsonAvg,
+        wireAvg,
         records,
-        successCount,
+        jsonSuccessCount: jsonLatencies.length,
+        wireSuccessCount: wireLatencies.length,
         totalRuns: testCount
     };
 }
@@ -550,47 +566,69 @@ function updateServerCardProgress(index, server, data) {
     const card = document.querySelector(`[data-index="${index}"]`);
     if (!card) return;
 
-    const currentLatencies = data.latencies;
-    const successCount = data.successCount;
-    const totalRuns = data.totalRuns;
-    const records = data.records;
-
-    const avgLatency = currentLatencies.length > 0
-        ? Math.round(currentLatencies.reduce((a, b) => a + b, 0) / currentLatencies.length)
-        : 0;
+    const { jsonLatencies, wireLatencies, records } = data;
+    const hasJson = server.jsonPath !== null && server.jsonPath !== undefined;
+    const hasWire = server.wirePath !== null && server.wirePath !== undefined;
 
     card.classList.remove('testing', 'success', 'error');
 
-    if (currentLatencies.length > 0) {
+    if (jsonLatencies.length > 0 || wireLatencies.length > 0) {
         card.classList.add('success');
     }
 
-    const statusClass = currentLatencies.length > 0 ? 'success' : 'pending';
-    const statusText = currentLatencies.length > 0 ? `${successCount}/${totalRuns}` : '测试中...';
-    
+    const statusClass = jsonLatencies.length > 0 || wireLatencies.length > 0 ? 'success' : 'pending';
+    const statusText = `${jsonLatencies.length > 0 ? 'JSON ✓' : 'JSON ✗'} | ${wireLatencies.length > 0 ? 'Wire ✓' : 'Wire ✗'}`;
+
     let recordsHTML = '';
     if (records && records.length > 0) {
         recordsHTML = renderRecordsDisplay(records);
     }
 
-    const latencyColorClass = getLatencyColor(avgLatency);
+    const jsonAvg = jsonLatencies.length > 0
+        ? Math.round(jsonLatencies.reduce((a, b) => a + b, 0) / jsonLatencies.length)
+        : null;
+    const wireAvg = wireLatencies.length > 0
+        ? Math.round(wireLatencies.reduce((a, b) => a + b, 0) / wireLatencies.length)
+        : null;
 
-    // Render each latency point with values
     let latenciesHTML = '';
-    if (currentLatencies.length > 0) {
+    if (jsonLatencies.length > 0 || wireLatencies.length > 0) {
         latenciesHTML = '<div class="latency-display">';
-        latenciesHTML += '<div class="latency-points">';
-        currentLatencies.forEach((lat, i) => {
-            const color = getLatencyColor(lat);
-            latenciesHTML += `<span class="latency-point ${color}">${lat}</span>`;
-        });
-        latenciesHTML += '</div>';
-        latenciesHTML += '<div class="latency-average">';
-        latenciesHTML += `<span class="latency-avg-label">平均:</span>`;
-        latenciesHTML += `<span class="latency-avg-value ${latencyColorClass}">${avgLatency}ms</span>`;
-        latenciesHTML += '</div>';
+
+        if (hasJson) {
+            latenciesHTML += '<div class="format-row">';
+            latenciesHTML += '<span class="format-label">JSON:</span>';
+            latenciesHTML += '<div class="format-points">';
+            jsonLatencies.forEach((lat) => {
+                const color = getLatencyColor(lat);
+                latenciesHTML += `<span class="latency-point ${color}">${lat}</span>`;
+            });
+            latenciesHTML += '</div>';
+            if (jsonAvg) {
+                latenciesHTML += `<span class="format-avg ${getLatencyColor(jsonAvg)}">${jsonAvg}ms</span>`;
+            }
+            latenciesHTML += '</div>';
+        }
+
+        if (hasWire) {
+            latenciesHTML += '<div class="format-row">';
+            latenciesHTML += '<span class="format-label">Wire:</span>';
+            latenciesHTML += '<div class="format-points">';
+            wireLatencies.forEach((lat) => {
+                const color = getLatencyColor(lat);
+                latenciesHTML += `<span class="latency-point ${color}">${lat}</span>`;
+            });
+            latenciesHTML += '</div>';
+            if (wireAvg) {
+                latenciesHTML += `<span class="format-avg ${getLatencyColor(wireAvg)}">${wireAvg}ms</span>`;
+            }
+            latenciesHTML += '</div>';
+        }
+
         latenciesHTML += '</div>';
     }
+
+    const fullUrl = server.baseUrl + (server.jsonPath || server.wirePath || '');
 
     card.innerHTML = `
         <div class="server-header">
@@ -600,7 +638,7 @@ function updateServerCardProgress(index, server, data) {
                 <span>${statusText}</span>
             </div>
         </div>
-        <div class="server-url">${server.baseUrl}${server.jsonPath || server.wirePath || ''}</div>
+        <div class="server-url">${fullUrl}</div>
         ${latenciesHTML}
         ${recordsHTML}
     `;
@@ -612,38 +650,62 @@ function updateServerCard(index, server, result) {
 
     card.classList.remove('testing', 'success', 'error');
 
-    if (!result || !result.latencies) {
+    if (!result) {
         return;
     }
 
     card.classList.add(result.success ? 'success' : 'error');
 
     const statusClass = result.success ? 'success' : 'error';
-    const statusText = result.success ? `${result.successCount}/${result.totalRuns}` : '失败';
-    
+    const statusText = `${result.jsonLatencies.length > 0 ? 'JSON ✓' : 'JSON ✗'} | ${result.wireLatencies.length > 0 ? 'Wire ✓' : 'Wire ✗'}`;
+
     let recordsHTML = '';
     if (result.records && result.records.length > 0) {
         recordsHTML = renderRecordsDisplay(result.records);
     }
 
-    const latencyColorClass = getLatencyColor(result.avgLatency);
+    const { jsonLatencies, wireLatencies, jsonAvg, wireAvg } = result;
+    const hasJson = server.jsonPath !== null && server.jsonPath !== undefined;
+    const hasWire = server.wirePath !== null && server.wirePath !== undefined;
 
-    // Render each latency point with values
     let latenciesHTML = '';
-    if (result.success && result.latencies.length > 0) {
+    if (result.success && (jsonLatencies.length > 0 || wireLatencies.length > 0)) {
         latenciesHTML = '<div class="latency-display">';
-        latenciesHTML += '<div class="latency-points">';
-        result.latencies.forEach((lat, i) => {
-            const color = getLatencyColor(lat);
-            latenciesHTML += `<span class="latency-point ${color}">${lat}</span>`;
-        });
-        latenciesHTML += '</div>';
-        latenciesHTML += '<div class="latency-average">';
-        latenciesHTML += `<span class="latency-avg-label">平均:</span>`;
-        latenciesHTML += `<span class="latency-avg-value ${latencyColorClass}">${result.avgLatency}ms</span>`;
-        latenciesHTML += '</div>';
+
+        if (hasJson) {
+            latenciesHTML += '<div class="format-row">';
+            latenciesHTML += '<span class="format-label">JSON:</span>';
+            latenciesHTML += '<div class="format-points">';
+            jsonLatencies.forEach((lat) => {
+                const color = getLatencyColor(lat);
+                latenciesHTML += `<span class="latency-point ${color}">${lat}</span>`;
+            });
+            latenciesHTML += '</div>';
+            if (jsonAvg) {
+                latenciesHTML += `<span class="format-avg ${getLatencyColor(jsonAvg)}">${jsonAvg}ms</span>`;
+            }
+            latenciesHTML += '</div>';
+        }
+
+        if (hasWire) {
+            latenciesHTML += '<div class="format-row">';
+            latenciesHTML += '<span class="format-label">Wire:</span>';
+            latenciesHTML += '<div class="format-points">';
+            wireLatencies.forEach((lat) => {
+                const color = getLatencyColor(lat);
+                latenciesHTML += `<span class="latency-point ${color}">${lat}</span>`;
+            });
+            latenciesHTML += '</div>';
+            if (wireAvg) {
+                latenciesHTML += `<span class="format-avg ${getLatencyColor(wireAvg)}">${wireAvg}ms</span>`;
+            }
+            latenciesHTML += '</div>';
+        }
+
         latenciesHTML += '</div>';
     }
+
+    const fullUrl = server.baseUrl + (server.jsonPath || server.wirePath || '');
 
     card.innerHTML = `
         <div class="server-header">
@@ -653,7 +715,7 @@ function updateServerCard(index, server, result) {
                 <span>${statusText}</span>
             </div>
         </div>
-        <div class="server-url">${server.baseUrl}${server.jsonPath || server.wirePath || ''}</div>
+        <div class="server-url">${fullUrl}</div>
         ${latenciesHTML}
         ${recordsHTML}
     `;
@@ -1009,40 +1071,67 @@ function renderServerCards() {
 
         let statusClass = 'pending';
         let statusText = '等待测试';
-        let latencyClass = '';
+        const hasJson = server.jsonPath !== null && server.jsonPath !== undefined;
+        const hasWire = server.wirePath !== null && server.wirePath !== undefined;
 
-        if (result && result.latencies) {
+        if (result) {
             if (result.success) {
                 statusClass = 'success';
-                statusText = `${result.successCount}/${result.totalRuns}`;
-                latencyClass = getLatencyColor(result.avgLatency);
+                statusText = `${result.jsonLatencies && result.jsonLatencies.length > 0 ? 'JSON ✓' : 'JSON ✗'} | ${result.wireLatencies && result.wireLatencies.length > 0 ? 'Wire ✓' : 'Wire ✗'}`;
             } else {
                 statusClass = 'error';
-                statusText = '失败';
+                statusText = `${result.jsonLatencies && result.jsonLatencies.length > 0 ? 'JSON ✓' : 'JSON ✗'} | ${result.wireLatencies && result.wireLatencies.length > 0 ? 'Wire ✓' : 'Wire ✗'}`;
             }
         }
-        
+
         let recordsHTML = '';
         if (result && result.records && result.records.length > 0) {
             recordsHTML = renderRecordsDisplay(result.records);
         }
 
-        // Render latency display if we have results
         let latenciesHTML = '';
-        if (result && result.success && result.latencies && result.latencies.length > 0) {
+        if (result && result.success && ((result.jsonLatencies && result.jsonLatencies.length > 0) || (result.wireLatencies && result.wireLatencies.length > 0))) {
+            const jsonLatencies = result.jsonLatencies || [];
+            const wireLatencies = result.wireLatencies || [];
+            const jsonAvg = jsonLatencies.length > 0 ? Math.round(jsonLatencies.reduce((a, b) => a + b, 0) / jsonLatencies.length) : 0;
+            const wireAvg = wireLatencies.length > 0 ? Math.round(wireLatencies.reduce((a, b) => a + b, 0) / wireLatencies.length) : 0;
+
             latenciesHTML = '<div class="latency-display">';
-            latenciesHTML += '<div class="latency-points">';
-            result.latencies.forEach((lat, i) => {
-                const color = getLatencyColor(lat);
-                latenciesHTML += `<span class="latency-point ${color}" title="${lat}ms"></span>`;
-            });
-            latenciesHTML += '</div>';
-            latenciesHTML += '<div class="latency-average">';
-            latenciesHTML += `<span class="latency-avg-label">平均:</span>`;
-            latenciesHTML += `<span class="latency-avg-value ${latencyClass}">${result.avgLatency}ms</span>`;
-            latenciesHTML += '</div>';
+
+            if (hasJson) {
+                latenciesHTML += '<div class="format-row">';
+                latenciesHTML += '<span class="format-label">JSON:</span>';
+                latenciesHTML += '<div class="format-points">';
+                jsonLatencies.forEach((lat) => {
+                    const color = getLatencyColor(lat);
+                    latenciesHTML += `<span class="latency-point ${color}">${lat}</span>`;
+                });
+                latenciesHTML += '</div>';
+                if (jsonAvg > 0) {
+                    latenciesHTML += `<span class="format-avg ${getLatencyColor(jsonAvg)}">${jsonAvg}ms</span>`;
+                }
+                latenciesHTML += '</div>';
+            }
+
+            if (hasWire) {
+                latenciesHTML += '<div class="format-row">';
+                latenciesHTML += '<span class="format-label">Wire:</span>';
+                latenciesHTML += '<div class="format-points">';
+                wireLatencies.forEach((lat) => {
+                    const color = getLatencyColor(lat);
+                    latenciesHTML += `<span class="latency-point ${color}">${lat}</span>`;
+                });
+                latenciesHTML += '</div>';
+                if (wireAvg > 0) {
+                    latenciesHTML += `<span class="format-avg ${getLatencyColor(wireAvg)}">${wireAvg}ms</span>`;
+                }
+                latenciesHTML += '</div>';
+            }
+
             latenciesHTML += '</div>';
         }
+
+        const fullUrl = server.baseUrl + (server.jsonPath || server.wirePath || '');
 
         card.innerHTML = `
             <div class="server-header">
@@ -1052,7 +1141,7 @@ function renderServerCards() {
                     <span>${statusText}</span>
                 </div>
             </div>
-            <div class="server-url">${server.baseUrl}${server.jsonPath || server.wirePath || ''}</div>
+            <div class="server-url">${fullUrl}</div>
             ${latenciesHTML}
             ${recordsHTML}
         `;

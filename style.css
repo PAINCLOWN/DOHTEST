@@ -881,6 +881,45 @@ body {
 .latency-avg-value.medium { color: var(--warning); }
 .latency-avg-value.slow { color: var(--error); }
 
+/* Format Row Layout */
+.format-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.format-row:last-child {
+    border-bottom: none;
+}
+
+.format-label {
+    min-width: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.format-points {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    flex: 1;
+}
+
+.format-avg {
+    min-width: 60px;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 1rem;
+    text-align: right;
+}
+
+.format-avg.fast { color: var(--success); }
+.format-avg.medium { color: var(--warning); }
+.format-avg.slow { color: var(--error); }
+
 .dns-records-display {
     margin: 12px 0;
     padding: 12px;
