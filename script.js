@@ -154,7 +154,7 @@ const DOMESTIC_DEFAULT_DOMAIN = 'example.com';
 const FOREIGN_DEFAULT_DOMAIN = 'example.com';
 
 let TEST_TYPE = 'A';
-const TIMEOUT = 10000;
+const TIMEOUT = 2000;
 const MAX_CONCURRENT = 20;
 const BATCH_SIZE = 10;
 
@@ -240,7 +240,7 @@ let currentDomain = DOMESTIC_DEFAULT_DOMAIN;
 let isTesting = false;
 let results = {};
 let history = [];
-let testCount = 3;
+let testCount = 1;
 
 function init() {
     loadHistory();
