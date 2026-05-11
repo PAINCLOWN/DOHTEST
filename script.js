@@ -382,6 +382,7 @@ async function testServerMultiple(server, index) {
     const latencies = [];
     let finalResult = null;
     let ip = null;
+    let records = null;
 
     for (let run = 0; run < testCount; run++) {
         const startTime = performance.now();
