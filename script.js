@@ -23,164 +23,180 @@ const VERSION = {
 
 const DNS_SERVERS = {
   'all': [
-    // Google (10条)
-    { name: 'Google - 默认 - 域名 - JSON', url: 'https://dns.google/resolve', note: 'JSON API（原始）' },
-    { name: 'Google - 默认 - 域名 - Wire', url: 'https://dns.google/dns-query', note: 'RFC 8484' },
-    { name: 'Google - 默认 - IP (8.8.8.8) - JSON', url: 'https://8.8.8.8/resolve', note: '' },
-    { name: 'Google - 默认 - IP (8.8.8.8) - Wire', url: 'https://8.8.8.8/dns-query', note: '' },
-    { name: 'Google - 默认 - IP (8.8.4.4) - JSON', url: 'https://8.8.4.4/resolve', note: '' },
-    { name: 'Google - 默认 - IP (8.8.4.4) - Wire', url: 'https://8.8.4.4/dns-query', note: '' },
-    { name: 'Google - 默认 - IPv6 - JSON', url: 'https://2001:4860:4860::8888/resolve', note: 'IPv6' },
-    { name: 'Google - 默认 - IPv6 - Wire', url: 'https://2001:4860:4860::8888/dns-query', note: 'IPv6' },
-    { name: 'Google - 默认 - IPv6 - JSON', url: 'https://2001:4860:4860::8844/resolve', note: 'IPv6' },
-    { name: 'Google - 默认 - IPv6 - Wire', url: 'https://2001:4860:4860::8844/dns-query', note: 'IPv6' },
+    // Google (10条) - 美国
+    { name: 'Google - 默认 - 域名 - JSON', url: 'https://dns.google/resolve', note: 'JSON API（原始）', region: 'usa' },
+    { name: 'Google - 默认 - 域名 - Wire', url: 'https://dns.google/dns-query', note: 'RFC 8484', region: 'usa' },
+    { name: 'Google - 默认 - IP (8.8.8.8) - JSON', url: 'https://8.8.8.8/resolve', note: '', region: 'usa' },
+    { name: 'Google - 默认 - IP (8.8.8.8) - Wire', url: 'https://8.8.8.8/dns-query', note: '', region: 'usa' },
+    { name: 'Google - 默认 - IP (8.8.4.4) - JSON', url: 'https://8.8.4.4/resolve', note: '', region: 'usa' },
+    { name: 'Google - 默认 - IP (8.8.4.4) - Wire', url: 'https://8.8.4.4/dns-query', note: '', region: 'usa' },
+    { name: 'Google - 默认 - IPv6 - JSON', url: 'https://2001:4860:4860::8888/resolve', note: 'IPv6', region: 'usa' },
+    { name: 'Google - 默认 - IPv6 - Wire', url: 'https://2001:4860:4860::8888/dns-query', note: 'IPv6', region: 'usa' },
+    { name: 'Google - 默认 - IPv6 - JSON', url: 'https://2001:4860:4860::8844/resolve', note: 'IPv6', region: 'usa' },
+    { name: 'Google - 默认 - IPv6 - Wire', url: 'https://2001:4860:4860::8844/dns-query', note: 'IPv6', region: 'usa' },
     
-    // Cloudflare (26条)
-    { name: 'Cloudflare - 默认 - 域名 - JSON', url: 'https://cloudflare-dns.com/resolve', note: '兼容 Google JSON' },
-    { name: 'Cloudflare - 默认 - 域名 - Wire', url: 'https://cloudflare-dns.com/dns-query', note: '' },
-    { name: 'Cloudflare - 默认 - IP (1.1.1.1) - JSON', url: 'https://1.1.1.1/resolve', note: '' },
-    { name: 'Cloudflare - 默认 - IP (1.1.1.1) - Wire', url: 'https://1.1.1.1/dns-query', note: '' },
-    { name: 'Cloudflare - 默认 - IP (1.0.0.1) - JSON', url: 'https://1.0.0.1/resolve', note: '' },
-    { name: 'Cloudflare - 默认 - IP (1.0.0.1) - Wire', url: 'https://1.0.0.1/dns-query', note: '' },
-    { name: 'Cloudflare - 默认 - IPv6 - JSON', url: 'https://2606:4700:4700::1111/resolve', note: 'IPv6' },
-    { name: 'Cloudflare - 默认 - IPv6 - Wire', url: 'https://2606:4700:4700::1111/dns-query', note: 'IPv6' },
-    { name: 'Cloudflare - 默认 - IPv6 - JSON', url: 'https://2606:4700:4700::1001/resolve', note: 'IPv6' },
-    { name: 'Cloudflare - 默认 - IPv6 - Wire', url: 'https://2606:4700:4700::1001/dns-query', note: 'IPv6' },
-    { name: 'Cloudflare - 恶意软件 - 域名 - JSON', url: 'https://security.cloudflare-dns.com/resolve', note: '' },
-    { name: 'Cloudflare - 恶意软件 - 域名 - Wire', url: 'https://security.cloudflare-dns.com/dns-query', note: '' },
-    { name: 'Cloudflare - 恶意软件 - IP - JSON', url: 'https://1.1.1.2/resolve', note: '' },
-    { name: 'Cloudflare - 恶意软件 - IP - Wire', url: 'https://1.1.1.2/dns-query', note: '' },
-    { name: 'Cloudflare - 恶意软件 - IP - JSON', url: 'https://1.0.0.2/resolve', note: '' },
-    { name: 'Cloudflare - 恶意软件 - IP - Wire', url: 'https://1.0.0.2/dns-query', note: '' },
-    { name: 'Cloudflare - 家庭 - 域名 - JSON', url: 'https://family.cloudflare-dns.com/resolve', note: '' },
-    { name: 'Cloudflare - 家庭 - 域名 - Wire', url: 'https://family.cloudflare-dns.com/dns-query', note: '' },
-    { name: 'Cloudflare - 家庭 - IP - JSON', url: 'https://1.1.1.3/resolve', note: '' },
-    { name: 'Cloudflare - 家庭 - IP - Wire', url: 'https://1.1.1.3/dns-query', note: '' },
-    { name: 'Cloudflare - 家庭 - IP - JSON', url: 'https://1.0.0.3/resolve', note: '' },
-    { name: 'Cloudflare - 家庭 - IP - Wire', url: 'https://1.0.0.3/dns-query', note: '' },
-    { name: 'Cloudflare - Mozilla - 域名 - JSON', url: 'https://mozilla.cloudflare-dns.com/resolve', note: '' },
-    { name: 'Cloudflare - Mozilla - 域名 - Wire', url: 'https://mozilla.cloudflare-dns.com/dns-query', note: '' },
-    { name: 'Cloudflare - DNS64 - 域名 - JSON', url: 'https://dns64.cloudflare-dns.com/resolve', note: '' },
-    { name: 'Cloudflare - DNS64 - 域名 - Wire', url: 'https://dns64.cloudflare-dns.com/dns-query', note: '' },
+    // Cloudflare (26条) - 美国
+    { name: 'Cloudflare - 默认 - 域名 - JSON', url: 'https://cloudflare-dns.com/resolve', note: '兼容 Google JSON', region: 'usa' },
+    { name: 'Cloudflare - 默认 - 域名 - Wire', url: 'https://cloudflare-dns.com/dns-query', note: '', region: 'usa' },
+    { name: 'Cloudflare - 默认 - IP (1.1.1.1) - JSON', url: 'https://1.1.1.1/resolve', note: '', region: 'usa' },
+    { name: 'Cloudflare - 默认 - IP (1.1.1.1) - Wire', url: 'https://1.1.1.1/dns-query', note: '', region: 'usa' },
+    { name: 'Cloudflare - 默认 - IP (1.0.0.1) - JSON', url: 'https://1.0.0.1/resolve', note: '', region: 'usa' },
+    { name: 'Cloudflare - 默认 - IP (1.0.0.1) - Wire', url: 'https://1.0.0.1/dns-query', note: '', region: 'usa' },
+    { name: 'Cloudflare - 默认 - IPv6 - JSON', url: 'https://2606:4700:4700::1111/resolve', note: 'IPv6', region: 'usa' },
+    { name: 'Cloudflare - 默认 - IPv6 - Wire', url: 'https://2606:4700:4700::1111/dns-query', note: 'IPv6', region: 'usa' },
+    { name: 'Cloudflare - 默认 - IPv6 - JSON', url: 'https://2606:4700:4700::1001/resolve', note: 'IPv6', region: 'usa' },
+    { name: 'Cloudflare - 默认 - IPv6 - Wire', url: 'https://2606:4700:4700::1001/dns-query', note: 'IPv6', region: 'usa' },
+    { name: 'Cloudflare - 恶意软件 - 域名 - JSON', url: 'https://security.cloudflare-dns.com/resolve', note: '', region: 'usa' },
+    { name: 'Cloudflare - 恶意软件 - 域名 - Wire', url: 'https://security.cloudflare-dns.com/dns-query', note: '', region: 'usa' },
+    { name: 'Cloudflare - 恶意软件 - IP - JSON', url: 'https://1.1.1.2/resolve', note: '', region: 'usa' },
+    { name: 'Cloudflare - 恶意软件 - IP - Wire', url: 'https://1.1.1.2/dns-query', note: '', region: 'usa' },
+    { name: 'Cloudflare - 恶意软件 - IP - JSON', url: 'https://1.0.0.2/resolve', note: '', region: 'usa' },
+    { name: 'Cloudflare - 恶意软件 - IP - Wire', url: 'https://1.0.0.2/dns-query', note: '', region: 'usa' },
+    { name: 'Cloudflare - 家庭 - 域名 - JSON', url: 'https://family.cloudflare-dns.com/resolve', note: '', region: 'usa' },
+    { name: 'Cloudflare - 家庭 - 域名 - Wire', url: 'https://family.cloudflare-dns.com/dns-query', note: '', region: 'usa' },
+    { name: 'Cloudflare - 家庭 - IP - JSON', url: 'https://1.1.1.3/resolve', note: '', region: 'usa' },
+    { name: 'Cloudflare - 家庭 - IP - Wire', url: 'https://1.1.1.3/dns-query', note: '', region: 'usa' },
+    { name: 'Cloudflare - 家庭 - IP - JSON', url: 'https://1.0.0.3/resolve', note: '', region: 'usa' },
+    { name: 'Cloudflare - 家庭 - IP - Wire', url: 'https://1.0.0.3/dns-query', note: '', region: 'usa' },
+    { name: 'Cloudflare - Mozilla - 域名 - JSON', url: 'https://mozilla.cloudflare-dns.com/resolve', note: '', region: 'usa' },
+    { name: 'Cloudflare - Mozilla - 域名 - Wire', url: 'https://mozilla.cloudflare-dns.com/dns-query', note: '', region: 'usa' },
+    { name: 'Cloudflare - DNS64 - 域名 - JSON', url: 'https://dns64.cloudflare-dns.com/resolve', note: '', region: 'usa' },
+    { name: 'Cloudflare - DNS64 - 域名 - Wire', url: 'https://dns64.cloudflare-dns.com/dns-query', note: '', region: 'usa' },
     
-    // Quad9 (16条)
-    { name: 'Quad9 - 安全 - 域名 - JSON', url: 'https://dns.quad9.net/resolve', note: 'DNSSEC；无日志' },
-    { name: 'Quad9 - 安全 - 域名 - Wire', url: 'https://dns.quad9.net/dns-query', note: '' },
-    { name: 'Quad9 - 安全 - 域名 - JSON', url: 'https://dns9.quad9.net/resolve', note: '' },
-    { name: 'Quad9 - 安全 - 域名 - Wire', url: 'https://dns9.quad9.net/dns-query', note: '' },
-    { name: 'Quad9 - 安全 - IP - JSON', url: 'https://9.9.9.9/resolve', note: '' },
-    { name: 'Quad9 - 安全 - IP - Wire', url: 'https://9.9.9.9/dns-query', note: '' },
-    { name: 'Quad9 - 安全 - IP - JSON', url: 'https://149.112.112.112/resolve', note: '' },
-    { name: 'Quad9 - 安全 - IP - Wire', url: 'https://149.112.112.112/dns-query', note: '' },
-    { name: 'Quad9 - 安全 - IPv6 - JSON', url: 'https://2620:fe::fe/resolve', note: 'IPv6' },
-    { name: 'Quad9 - 安全 - IPv6 - Wire', url: 'https://2620:fe::fe/dns-query', note: 'IPv6' },
-    { name: 'Quad9 - 无阻断 - 域名 - JSON', url: 'https://dns10.quad9.net/resolve', note: '' },
-    { name: 'Quad9 - 无阻断 - 域名 - Wire', url: 'https://dns10.quad9.net/dns-query', note: '' },
-    { name: 'Quad9 - 无阻断 - IP - JSON', url: 'https://9.9.9.10/resolve', note: '' },
-    { name: 'Quad9 - 无阻断 - IP - Wire', url: 'https://9.9.9.10/dns-query', note: '' },
-    { name: 'Quad9 - 无阻断 - IP - JSON', url: 'https://149.112.112.10/resolve', note: '' },
-    { name: 'Quad9 - 无阻断 - IP - Wire', url: 'https://149.112.112.10/dns-query', note: '' },
+    // Quad9 (16条) - 美国/欧洲
+    { name: 'Quad9 - 安全 - 域名 - JSON', url: 'https://dns.quad9.net/resolve', note: 'DNSSEC；无日志', region: 'usa' },
+    { name: 'Quad9 - 安全 - 域名 - Wire', url: 'https://dns.quad9.net/dns-query', note: '', region: 'usa' },
+    { name: 'Quad9 - 安全 - 域名 - JSON', url: 'https://dns9.quad9.net/resolve', note: '', region: 'usa' },
+    { name: 'Quad9 - 安全 - 域名 - Wire', url: 'https://dns9.quad9.net/dns-query', note: '', region: 'usa' },
+    { name: 'Quad9 - 安全 - IP - JSON', url: 'https://9.9.9.9/resolve', note: '', region: 'usa' },
+    { name: 'Quad9 - 安全 - IP - Wire', url: 'https://9.9.9.9/dns-query', note: '', region: 'usa' },
+    { name: 'Quad9 - 安全 - IP - JSON', url: 'https://149.112.112.112/resolve', note: '', region: 'usa' },
+    { name: 'Quad9 - 安全 - IP - Wire', url: 'https://149.112.112.112/dns-query', note: '', region: 'usa' },
+    { name: 'Quad9 - 安全 - IPv6 - JSON', url: 'https://2620:fe::fe/resolve', note: 'IPv6', region: 'usa' },
+    { name: 'Quad9 - 安全 - IPv6 - Wire', url: 'https://2620:fe::fe/dns-query', note: 'IPv6', region: 'usa' },
+    { name: 'Quad9 - 无阻断 - 域名 - JSON', url: 'https://dns10.quad9.net/resolve', note: '', region: 'usa' },
+    { name: 'Quad9 - 无阻断 - 域名 - Wire', url: 'https://dns10.quad9.net/dns-query', note: '', region: 'usa' },
+    { name: 'Quad9 - 无阻断 - IP - JSON', url: 'https://9.9.9.10/resolve', note: '', region: 'usa' },
+    { name: 'Quad9 - 无阻断 - IP - Wire', url: 'https://9.9.9.10/dns-query', note: '', region: 'usa' },
+    { name: 'Quad9 - 无阻断 - IP - JSON', url: 'https://149.112.112.10/resolve', note: '', region: 'usa' },
+    { name: 'Quad9 - 无阻断 - IP - Wire', url: 'https://149.112.112.10/dns-query', note: '', region: 'usa' },
     
-    // AdGuard (10条)
-    { name: 'AdGuard - 默认 - 域名 - JSON', url: 'https://dns.adguard-dns.com/resolve', note: 'DNSSEC；DoQ' },
-    { name: 'AdGuard - 默认 - 域名 - Wire', url: 'https://dns.adguard-dns.com/dns-query', note: '' },
-    { name: 'AdGuard - 默认 - 旧域名 - JSON', url: 'https://dns.adguard.com/resolve', note: '旧域名' },
-    { name: 'AdGuard - 默认 - 旧域名 - Wire', url: 'https://dns.adguard.com/dns-query', note: '旧域名' },
-    { name: 'AdGuard - 家庭 - 域名 - JSON', url: 'https://family.adguard-dns.com/resolve', note: '' },
-    { name: 'AdGuard - 家庭 - 域名 - Wire', url: 'https://family.adguard-dns.com/dns-query', note: '' },
-    { name: 'AdGuard - 家庭 - 旧域名 - JSON', url: 'https://dns-family.adguard.com/resolve', note: '旧域名' },
-    { name: 'AdGuard - 家庭 - 旧域名 - Wire', url: 'https://dns-family.adguard.com/dns-query', note: '旧域名' },
-    { name: 'AdGuard - 无过滤 - 域名 - JSON', url: 'https://unfiltered.adguard-dns.com/resolve', note: '' },
-    { name: 'AdGuard - 无过滤 - 域名 - Wire', url: 'https://unfiltered.adguard-dns.com/dns-query', note: '' },
+    // AdGuard (10条) - 欧洲
+    { name: 'AdGuard - 默认 - 域名 - JSON', url: 'https://dns.adguard-dns.com/resolve', note: 'DNSSEC；DoQ', region: 'europe' },
+    { name: 'AdGuard - 默认 - 域名 - Wire', url: 'https://dns.adguard-dns.com/dns-query', note: '', region: 'europe' },
+    { name: 'AdGuard - 默认 - 旧域名 - JSON', url: 'https://dns.adguard.com/resolve', note: '旧域名', region: 'europe' },
+    { name: 'AdGuard - 默认 - 旧域名 - Wire', url: 'https://dns.adguard.com/dns-query', note: '旧域名', region: 'europe' },
+    { name: 'AdGuard - 家庭 - 域名 - JSON', url: 'https://family.adguard-dns.com/resolve', note: '', region: 'europe' },
+    { name: 'AdGuard - 家庭 - 域名 - Wire', url: 'https://family.adguard-dns.com/dns-query', note: '', region: 'europe' },
+    { name: 'AdGuard - 家庭 - 旧域名 - JSON', url: 'https://dns-family.adguard.com/resolve', note: '旧域名', region: 'europe' },
+    { name: 'AdGuard - 家庭 - 旧域名 - Wire', url: 'https://dns-family.adguard.com/dns-query', note: '旧域名', region: 'europe' },
+    { name: 'AdGuard - 无过滤 - 域名 - JSON', url: 'https://unfiltered.adguard-dns.com/resolve', note: '', region: 'europe' },
+    { name: 'AdGuard - 无过滤 - 域名 - Wire', url: 'https://unfiltered.adguard-dns.com/dns-query', note: '', region: 'europe' },
     
-    // Mullvad (6条)
-    { name: 'Mullvad - 广告拦截 - 域名 - JSON', url: 'https://adblock.doh.mullvad.net/resolve', note: '' },
-    { name: 'Mullvad - 广告拦截 - 域名 - Wire', url: 'https://adblock.doh.mullvad.net/dns-query', note: '' },
-    { name: 'Mullvad - 无过滤 - 域名 - JSON', url: 'https://base.doh.mullvad.net/resolve', note: '' },
-    { name: 'Mullvad - 无过滤 - 域名 - Wire', url: 'https://base.doh.mullvad.net/dns-query', note: '' },
-    { name: 'Mullvad - 全功能 - 域名 - JSON', url: 'https://all.doh.mullvad.net/resolve', note: '' },
-    { name: 'Mullvad - 全功能 - 域名 - Wire', url: 'https://all.doh.mullvad.net/dns-query', note: '' },
+    // Mullvad (6条) - 欧洲
+    { name: 'Mullvad - 广告拦截 - 域名 - JSON', url: 'https://adblock.doh.mullvad.net/resolve', note: '', region: 'europe' },
+    { name: 'Mullvad - 广告拦截 - 域名 - Wire', url: 'https://adblock.doh.mullvad.net/dns-query', note: '', region: 'europe' },
+    { name: 'Mullvad - 无过滤 - 域名 - JSON', url: 'https://base.doh.mullvad.net/resolve', note: '', region: 'europe' },
+    { name: 'Mullvad - 无过滤 - 域名 - Wire', url: 'https://base.doh.mullvad.net/dns-query', note: '', region: 'europe' },
+    { name: 'Mullvad - 全功能 - 域名 - JSON', url: 'https://all.doh.mullvad.net/resolve', note: '', region: 'europe' },
+    { name: 'Mullvad - 全功能 - 域名 - Wire', url: 'https://all.doh.mullvad.net/dns-query', note: '', region: 'europe' },
     
-    // Control D (6条)
-    { name: 'Control D - 无过滤 - 域名', url: 'https://freedns.controld.com/p0', note: '' },
-    { name: 'Control D - 恶意软件拦截 - 域名', url: 'https://freedns.controld.com/p1', note: '' },
-    { name: 'Control D - 广告拦截 - 域名', url: 'https://freedns.controld.com/p2', note: '' },
-    { name: 'Control D - 社交拦截 - 域名', url: 'https://freedns.controld.com/p3', note: '' },
-    { name: 'Control D - 家庭 - 域名', url: 'https://freedns.controld.com/family', note: '' },
-    { name: 'Control D - 无审查 - 域名', url: 'https://freedns.controld.com/uncensored', note: '' },
+    // Control D (6条) - 美国/欧洲
+    { name: 'Control D - 无过滤 - 域名', url: 'https://freedns.controld.com/p0', note: '', region: 'usa' },
+    { name: 'Control D - 恶意软件拦截 - 域名', url: 'https://freedns.controld.com/p1', note: '', region: 'usa' },
+    { name: 'Control D - 广告拦截 - 域名', url: 'https://freedns.controld.com/p2', note: '', region: 'usa' },
+    { name: 'Control D - 社交拦截 - 域名', url: 'https://freedns.controld.com/p3', note: '', region: 'usa' },
+    { name: 'Control D - 家庭 - 域名', url: 'https://freedns.controld.com/family', note: '', region: 'usa' },
+    { name: 'Control D - 无审查 - 域名', url: 'https://freedns.controld.com/uncensored', note: '', region: 'usa' },
     
-    // NextDNS (2条)
-    { name: 'NextDNS - 默认 - 域名 - JSON', url: 'https://dns.nextdns.io/resolve', note: '' },
-    { name: 'NextDNS - 默认 - 域名 - Wire', url: 'https://dns.nextdns.io/dns-query', note: '' },
+    // NextDNS (2条) - 美国
+    { name: 'NextDNS - 默认 - 域名 - JSON', url: 'https://dns.nextdns.io/resolve', note: '', region: 'usa' },
+    { name: 'NextDNS - 默认 - 域名 - Wire', url: 'https://dns.nextdns.io/dns-query', note: '', region: 'usa' },
     
-    // Cisco OpenDNS (16条)
-    { name: 'OpenDNS - 默认 - 域名 - JSON', url: 'https://doh.opendns.com/resolve', note: '' },
-    { name: 'OpenDNS - 默认 - 域名 - Wire', url: 'https://doh.opendns.com/dns-query', note: '' },
-    { name: 'OpenDNS - 默认 - IP - JSON', url: 'https://208.67.222.222/resolve', note: '' },
-    { name: 'OpenDNS - 默认 - IP - Wire', url: 'https://208.67.222.222/dns-query', note: '' },
-    { name: 'OpenDNS - 默认 - IP - JSON', url: 'https://208.67.220.220/resolve', note: '' },
-    { name: 'OpenDNS - 默认 - IP - Wire', url: 'https://208.67.220.220/dns-query', note: '' },
-    { name: 'OpenDNS - 家庭 - 域名 - JSON', url: 'https://doh.familyshield.opendns.com/resolve', note: '' },
-    { name: 'OpenDNS - 家庭 - 域名 - Wire', url: 'https://doh.familyshield.opendns.com/dns-query', note: '' },
-    { name: 'OpenDNS - 家庭 - IP - JSON', url: 'https://208.67.222.123/resolve', note: '' },
-    { name: 'OpenDNS - 家庭 - IP - Wire', url: 'https://208.67.222.123/dns-query', note: '' },
-    { name: 'OpenDNS - 家庭 - IP - JSON', url: 'https://208.67.220.123/resolve', note: '' },
-    { name: 'OpenDNS - 家庭 - IP - Wire', url: 'https://208.67.220.123/dns-query', note: '' },
-    { name: 'OpenDNS - Sandbox - 域名 - JSON', url: 'https://sandbox.opendns.com/resolve', note: '无过滤' },
-    { name: 'OpenDNS - Sandbox - 域名 - Wire', url: 'https://sandbox.opendns.com/dns-query', note: '无过滤' },
-    { name: 'OpenDNS - Sandbox - IP - JSON', url: 'https://208.67.222.2/resolve', note: '' },
-    { name: 'OpenDNS - Sandbox - IP - Wire', url: 'https://208.67.222.2/dns-query', note: '' },
+    // Cisco OpenDNS (16条) - 美国
+    { name: 'OpenDNS - 默认 - 域名 - JSON', url: 'https://doh.opendns.com/resolve', note: '', region: 'usa' },
+    { name: 'OpenDNS - 默认 - 域名 - Wire', url: 'https://doh.opendns.com/dns-query', note: '', region: 'usa' },
+    { name: 'OpenDNS - 默认 - IP - JSON', url: 'https://208.67.222.222/resolve', note: '', region: 'usa' },
+    { name: 'OpenDNS - 默认 - IP - Wire', url: 'https://208.67.222.222/dns-query', note: '', region: 'usa' },
+    { name: 'OpenDNS - 默认 - IP - JSON', url: 'https://208.67.220.220/resolve', note: '', region: 'usa' },
+    { name: 'OpenDNS - 默认 - IP - Wire', url: 'https://208.67.220.220/dns-query', note: '', region: 'usa' },
+    { name: 'OpenDNS - 家庭 - 域名 - JSON', url: 'https://doh.familyshield.opendns.com/resolve', note: '', region: 'usa' },
+    { name: 'OpenDNS - 家庭 - 域名 - Wire', url: 'https://doh.familyshield.opendns.com/dns-query', note: '', region: 'usa' },
+    { name: 'OpenDNS - 家庭 - IP - JSON', url: 'https://208.67.222.123/resolve', note: '', region: 'usa' },
+    { name: 'OpenDNS - 家庭 - IP - Wire', url: 'https://208.67.222.123/dns-query', note: '', region: 'usa' },
+    { name: 'OpenDNS - 家庭 - IP - JSON', url: 'https://208.67.220.123/resolve', note: '', region: 'usa' },
+    { name: 'OpenDNS - 家庭 - IP - Wire', url: 'https://208.67.220.123/dns-query', note: '', region: 'usa' },
+    { name: 'OpenDNS - Sandbox - 域名 - JSON', url: 'https://sandbox.opendns.com/resolve', note: '无过滤', region: 'usa' },
+    { name: 'OpenDNS - Sandbox - 域名 - Wire', url: 'https://sandbox.opendns.com/dns-query', note: '无过滤', region: 'usa' },
+    { name: 'OpenDNS - Sandbox - IP - JSON', url: 'https://208.67.222.2/resolve', note: '', region: 'usa' },
+    { name: 'OpenDNS - Sandbox - IP - Wire', url: 'https://208.67.222.2/dns-query', note: '', region: 'usa' },
     
-    // Cisco Umbrella (2条)
-    { name: 'Cisco Umbrella - 企业 - 域名 - JSON', url: 'https://doh.umbrella.com/resolve', note: '' },
-    { name: 'Cisco Umbrella - 企业 - 域名 - Wire', url: 'https://doh.umbrella.com/dns-query', note: '' },
+    // Cisco Umbrella (2条) - 美国
+    { name: 'Cisco Umbrella - 企业 - 域名 - JSON', url: 'https://doh.umbrella.com/resolve', note: '', region: 'usa' },
+    { name: 'Cisco Umbrella - 企业 - 域名 - Wire', url: 'https://doh.umbrella.com/dns-query', note: '', region: 'usa' },
     
-    // CleanBrowsing (3条)
-    { name: 'CleanBrowsing - 家庭 - 域名', url: 'https://doh.cleanbrowsing.org/doh/family-filter', note: '' },
-    { name: 'CleanBrowsing - 成人 - 域名', url: 'https://doh.cleanbrowsing.org/doh/adult-filter', note: '' },
-    { name: 'CleanBrowsing - 安全 - 域名', url: 'https://doh.cleanbrowsing.org/doh/security-filter', note: '' },
+    // CleanBrowsing (3条) - 美国
+    { name: 'CleanBrowsing - 家庭 - 域名', url: 'https://doh.cleanbrowsing.org/doh/family-filter', note: '', region: 'usa' },
+    { name: 'CleanBrowsing - 成人 - 域名', url: 'https://doh.cleanbrowsing.org/doh/adult-filter', note: '', region: 'usa' },
+    { name: 'CleanBrowsing - 安全 - 域名', url: 'https://doh.cleanbrowsing.org/doh/security-filter', note: '', region: 'usa' },
     
-    // AliDNS (10条)
-    { name: 'AliDNS - 默认 - 域名 - JSON', url: 'https://dns.alidns.com/resolve', note: '中国优化' },
-    { name: 'AliDNS - 默认 - 域名 - Wire', url: 'https://dns.alidns.com/dns-query', note: '' },
-    { name: 'AliDNS - 默认 - IP - JSON', url: 'https://223.5.5.5/resolve', note: '' },
-    { name: 'AliDNS - 默认 - IP - Wire', url: 'https://223.5.5.5/dns-query', note: '' },
-    { name: 'AliDNS - 默认 - IP - JSON', url: 'https://223.6.6.6/resolve', note: '' },
-    { name: 'AliDNS - 默认 - IP - Wire', url: 'https://223.6.6.6/dns-query', note: '' },
-    { name: 'AliDNS - 默认 - IPv6 - JSON', url: 'https://2400:3200::1/resolve', note: 'IPv6' },
-    { name: 'AliDNS - 默认 - IPv6 - Wire', url: 'https://2400:3200::1/dns-query', note: 'IPv6' },
-    { name: 'AliDNS - 默认 - IPv6 - JSON', url: 'https://2400:3200:baba::1/resolve', note: 'IPv6' },
-    { name: 'AliDNS - 默认 - IPv6 - Wire', url: 'https://2400:3200:baba::1/dns-query', note: 'IPv6' },
+    // AliDNS (10条) - 中国
+    { name: 'AliDNS - 默认 - 域名 - JSON', url: 'https://dns.alidns.com/resolve', note: '中国优化', region: 'china' },
+    { name: 'AliDNS - 默认 - 域名 - Wire', url: 'https://dns.alidns.com/dns-query', note: '', region: 'china' },
+    { name: 'AliDNS - 默认 - IP - JSON', url: 'https://223.5.5.5/resolve', note: '', region: 'china' },
+    { name: 'AliDNS - 默认 - IP - Wire', url: 'https://223.5.5.5/dns-query', note: '', region: 'china' },
+    { name: 'AliDNS - 默认 - IP - JSON', url: 'https://223.6.6.6/resolve', note: '', region: 'china' },
+    { name: 'AliDNS - 默认 - IP - Wire', url: 'https://223.6.6.6/dns-query', note: '', region: 'china' },
+    { name: 'AliDNS - 默认 - IPv6 - JSON', url: 'https://2400:3200::1/resolve', note: 'IPv6', region: 'china' },
+    { name: 'AliDNS - 默认 - IPv6 - Wire', url: 'https://2400:3200::1/dns-query', note: 'IPv6', region: 'china' },
+    { name: 'AliDNS - 默认 - IPv6 - JSON', url: 'https://2400:3200:baba::1/resolve', note: 'IPv6', region: 'china' },
+    { name: 'AliDNS - 默认 - IPv6 - Wire', url: 'https://2400:3200:baba::1/dns-query', note: 'IPv6', region: 'china' },
     
-    // DNSPod (8条)
-    { name: 'DNSPod - 默认 - 域名 - JSON', url: 'https://doh.pub/resolve', note: '中国优化' },
-    { name: 'DNSPod - 默认 - 域名 - Wire', url: 'https://doh.pub/dns-query', note: '' },
-    { name: 'DNSPod - 默认 - IP - JSON', url: 'https://1.12.12.12/resolve', note: '' },
-    { name: 'DNSPod - 默认 - IP - Wire', url: 'https://1.12.12.12/dns-query', note: '' },
-    { name: 'DNSPod - 默认 - IP - JSON', url: 'https://120.53.53.53/resolve', note: '' },
-    { name: 'DNSPod - 默认 - IP - Wire', url: 'https://120.53.53.53/dns-query', note: '' },
-    { name: 'DNSPod - 默认 - IPv6 - JSON', url: 'https://2402:4e00::/resolve', note: 'IPv6' },
-    { name: 'DNSPod - 默认 - IPv6 - Wire', url: 'https://2402:4e00::/dns-query', note: 'IPv6' },
+    // DNSPod (8条) - 中国
+    { name: 'DNSPod - 默认 - 域名 - JSON', url: 'https://doh.pub/resolve', note: '中国优化', region: 'china' },
+    { name: 'DNSPod - 默认 - 域名 - Wire', url: 'https://doh.pub/dns-query', note: '', region: 'china' },
+    { name: 'DNSPod - 默认 - IP - JSON', url: 'https://1.12.12.12/resolve', note: '', region: 'china' },
+    { name: 'DNSPod - 默认 - IP - Wire', url: 'https://1.12.12.12/dns-query', note: '', region: 'china' },
+    { name: 'DNSPod - 默认 - IP - JSON', url: 'https://120.53.53.53/resolve', note: '', region: 'china' },
+    { name: 'DNSPod - 默认 - IP - Wire', url: 'https://120.53.53.53/dns-query', note: '', region: 'china' },
+    { name: 'DNSPod - 默认 - IPv6 - JSON', url: 'https://2402:4e00::/resolve', note: 'IPv6', region: 'china' },
+    { name: 'DNSPod - 默认 - IPv6 - Wire', url: 'https://2402:4e00::/dns-query', note: 'IPv6', region: 'china' },
     
-    // 360 DNS (2条)
-    { name: '360 DNS - 默认 - 域名 - JSON', url: 'https://doh.360.cn/resolve', note: '' },
-    { name: '360 DNS - 默认 - 域名 - Wire', url: 'https://doh.360.cn/dns-query', note: '' },
+    // 360 DNS (2条) - 中国
+    { name: '360 DNS - 默认 - 域名 - JSON', url: 'https://doh.360.cn/resolve', note: '', region: 'china' },
+    { name: '360 DNS - 默认 - 域名 - Wire', url: 'https://doh.360.cn/dns-query', note: '', region: 'china' },
     
-    // 其他 (6条)
-    { name: 'DNS.SB - 默认 - 域名 - JSON', url: 'https://doh.dns.sb/resolve', note: '' },
-    { name: 'DNS.SB - 默认 - 域名 - Wire', url: 'https://doh.dns.sb/dns-query', note: '' },
-    { name: 'Wikimedia DNS - 域名 - JSON', url: 'https://wikimedia-dns.org/resolve', note: '维基基金会' },
-    { name: 'Wikimedia DNS - 域名 - Wire', url: 'https://wikimedia-dns.org/dns-query', note: '' },
-    { name: 'Yandex DNS - 域名 - JSON', url: 'https://dns.yandex.com/resolve', note: '' },
-    { name: 'Yandex DNS - 域名 - Wire', url: 'https://dns.yandex.com/dns-query', note: '' },
-    { name: 'IIJ (日本) - 域名 - JSON', url: 'https://public.dns.iij.jp/resolve', note: '' },
-    { name: 'IIJ (日本) - 域名 - Wire', url: 'https://public.dns.iij.jp/dns-query', note: '' },
-    { name: 'JPNE (日本) - 域名 - JSON', url: 'https://doh.jpne.jp/resolve', note: '' },
-    { name: 'JPNE (日本) - 域名 - Wire', url: 'https://doh.jpne.jp/dns-query', note: '' },
-    { name: 'PowerDNS - 域名 - JSON', url: 'https://doh.powerdns.org/resolve', note: '' },
-    { name: 'PowerDNS - 域名 - Wire', url: 'https://doh.powerdns.org/dns-query', note: '' }
-  ]
+    // IIJ (日本) (2条) - 亚洲
+    { name: 'IIJ (日本) - 域名 - JSON', url: 'https://public.dns.iij.jp/resolve', note: '', region: 'asia' },
+    { name: 'IIJ (日本) - 域名 - Wire', url: 'https://public.dns.iij.jp/dns-query', note: '', region: 'asia' },
+    { name: 'JPNE (日本) - 域名 - JSON', url: 'https://doh.jpne.jp/resolve', note: '', region: 'asia' },
+    { name: 'JPNE (日本) - 域名 - Wire', url: 'https://doh.jpne.jp/dns-query', note: '', region: 'asia' },
+    
+    // Yandex DNS (2条) - 俄罗斯(欧洲/亚洲)
+    { name: 'Yandex DNS - 域名 - JSON', url: 'https://dns.yandex.com/resolve', note: '', region: 'europe' },
+    { name: 'Yandex DNS - 域名 - Wire', url: 'https://dns.yandex.com/dns-query', note: '', region: 'europe' },
+    
+    // 其他
+    { name: 'DNS.SB - 默认 - 域名 - JSON', url: 'https://doh.dns.sb/resolve', note: '', region: 'other' },
+    { name: 'DNS.SB - 默认 - 域名 - Wire', url: 'https://doh.dns.sb/dns-query', note: '', region: 'other' },
+    { name: 'Wikimedia DNS - 域名 - JSON', url: 'https://wikimedia-dns.org/resolve', note: '维基基金会', region: 'other' },
+    { name: 'Wikimedia DNS - 域名 - Wire', url: 'https://wikimedia-dns.org/dns-query', note: '', region: 'other' },
+    { name: 'PowerDNS - 域名 - JSON', url: 'https://doh.powerdns.org/resolve', note: '', region: 'europe' },
+    { name: 'PowerDNS - 域名 - Wire', url: 'https://doh.powerdns.org/dns-query', note: '', region: 'europe' }
+  ],
+  'china': [],
+  'usa': [],
+  'europe': [],
+  'asia': [],
+  'other': []
 };
+
+// 自动填充各区域服务器列表
+DNS_SERVERS.all.forEach(server => {
+  if (server.region && DNS_SERVERS[server.region]) {
+    DNS_SERVERS[server.region].push(server);
+  }
+});
 
 const DOMESTIC_DEFAULT_DOMAIN = 'example.com';
 const FOREIGN_DEFAULT_DOMAIN = 'example.com';
@@ -261,7 +277,13 @@ async function init() {
   initCountSlider();
   initTypeSlider();
 
-  document.getElementById('all-tab').addEventListener('click', () => switchTab('all'));
+  // 添加所有选项卡的点击事件
+  ['all', 'china', 'usa', 'europe', 'asia', 'other'].forEach(tab => {
+    const tabBtn = document.getElementById(`${tab}-tab`);
+    if (tabBtn) {
+      tabBtn.addEventListener('click', () => switchTab(tab));
+    }
+  });
   document.getElementById('test-btn').addEventListener('click', startTest);
   document.getElementById('domain-input').addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
@@ -659,11 +681,11 @@ function updateServerCardProgress(index, server, data) {
   const card = document.querySelector(`[data-index="${index}"]`);
   if (!card) return;
 
-  const { endpoints, endpointResults, records } = data;
-  
+  const { jsonSupported, wireSupported, jsonLatencies, wireLatencies, records } = data;
+
   card.classList.remove('testing', 'success', 'error');
 
-  const anySuccess = Object.values(endpointResults).some(er => er.latencies && er.latencies.length > 0);
+  const anySuccess = (jsonLatencies && jsonLatencies.length > 0) || (wireLatencies && wireLatencies.length > 0);
   if (anySuccess) {
     card.classList.add('success');
   }
@@ -686,13 +708,12 @@ function updateServerCardProgress(index, server, data) {
     </div>
     <div class="server-url">${server.url}</div>
     <div class="server-formats">
-      ${endpoints.map(ep => 
-        `<span class="format-badge supported">${ep.name}</span>`
-      ).join('')}
+      ${jsonSupported ? '<span class="format-badge supported">JSON</span>' : ''}
+      ${wireSupported ? '<span class="format-badge supported">Wire</span>' : ''}
     </div>
-    
-    ${renderEndpointResults(endpointResults)}
-    
+
+    ${renderEndpointResults(jsonLatencies, wireLatencies)}
+
     ${recordsHTML}
   `;
 }
@@ -727,40 +748,53 @@ function updateServerCard(index, server, result) {
     </div>
     <div class="server-url">${server.url}</div>
     <div class="server-formats">
-      ${result.endpoints.map(ep => 
-        `<span class="format-badge supported">${ep.name}</span>`
-      ).join('')}
+      ${result.jsonSupported ? '<span class="format-badge supported">JSON</span>' : ''}
+      ${result.wireSupported ? '<span class="format-badge supported">Wire</span>' : ''}
     </div>
-    
+
     ${result.success ? `
-      ${renderEndpointResults(result.endpointResults)}
-      
+      ${renderEndpointResults(result.jsonLatencies, result.wireLatencies, result.jsonAvgLatency, result.wireAvgLatency)}
+
       ${recordsHTML}
     ` : ''}
   `;
 }
 
-function renderEndpointResults(endpointResults) {
+function renderEndpointResults(jsonLatencies, wireLatencies, jsonAvgLatency = 0, wireAvgLatency = 0) {
   let html = '';
-  
-  for (const key in endpointResults) {
-    const result = endpointResults[key];
-    if (result.latencies && result.latencies.length > 0) {
-      html += `
-        <div class="format-section">
-          <div class="format-title">${result.endpoint.name}</div>
-          <div class="latency-display">
-            ${result.latencies.map(lat => `<span class="latency-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}
-          </div>
-          <div class="latency-average">
-            <span class="latency-avg-label">平均:</span>
-            <span class="latency-avg-value ${getLatencyColor(result.avgLatency)}">${result.avgLatency}ms</span>
-          </div>
+
+  if (jsonLatencies && jsonLatencies.length > 0) {
+    const avgLat = jsonAvgLatency || Math.round(jsonLatencies.reduce((a, b) => a + b, 0) / jsonLatencies.length);
+    html += `
+      <div class="format-section">
+        <div class="format-title">JSON</div>
+        <div class="latency-display">
+          ${jsonLatencies.map(lat => `<span class="latency-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}
         </div>
-      `;
-    }
+        <div class="latency-average">
+          <span class="latency-avg-label">平均:</span>
+          <span class="latency-avg-value ${getLatencyColor(avgLat)}">${avgLat}ms</span>
+        </div>
+      </div>
+    `;
   }
-  
+
+  if (wireLatencies && wireLatencies.length > 0) {
+    const avgLat = wireAvgLatency || Math.round(wireLatencies.reduce((a, b) => a + b, 0) / wireLatencies.length);
+    html += `
+      <div class="format-section">
+        <div class="format-title">Wire</div>
+        <div class="latency-display">
+          ${wireLatencies.map(lat => `<span class="latency-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}
+        </div>
+        <div class="latency-average">
+          <span class="latency-avg-label">平均:</span>
+          <span class="latency-avg-value ${getLatencyColor(avgLat)}">${avgLat}ms</span>
+        </div>
+      </div>
+    `;
+  }
+
   return html;
 }
 
@@ -1059,14 +1093,13 @@ function renderServerCards() {
       </div>
       <div class="server-url">${server.url}</div>
       <div class="server-formats">
-        ${result ? (result.endpoints || []).map(ep => 
-          `<span class="format-badge supported">${ep.name}</span>`
-        ).join('') : ''}
+        ${result ? (result.jsonSupported ? '<span class="format-badge supported">JSON</span>' : '') : ''}
+        ${result ? (result.wireSupported ? '<span class="format-badge supported">Wire</span>' : '') : ''}
       </div>
-      
+
       ${result && result.success ? `
-        ${renderEndpointResults(result.endpointResults)}
-        
+        ${renderEndpointResults(result.jsonLatencies, result.wireLatencies, result.jsonAvgLatency, result.wireAvgLatency)}
+
         ${recordsHTML}
       ` : ''}
     `;
@@ -1087,7 +1120,7 @@ function updateStats() {
 
   Object.values(results).forEach(result => {
     if (result && result.success) {
-      const minLatency = getMinLatency(result.endpointResults);
+      const minLatency = getMinLatency(result);
       if (minLatency && minLatency !== Infinity) {
         totalLatencies += minLatency;
         successCount++;
@@ -1110,19 +1143,19 @@ function updateStats() {
 function saveToHistory() {
   const servers = getCurrentServers();
   const successCount = Object.values(results).filter(r => r.success).length;
-  
+
   let totalLatency = 0;
   let validCount = 0;
   Object.values(results).forEach(result => {
     if (result && result.success) {
-      const minLatency = getMinLatency(result.endpointResults);
+      const minLatency = getMinLatency(result);
       if (minLatency) {
         totalLatency += minLatency;
         validCount++;
       }
     }
   });
-  
+
   const avgLatency = validCount > 0 ? Math.round(totalLatency / validCount) : 0;
 
   const record = {
@@ -1170,13 +1203,22 @@ function renderHistory() {
     return;
   }
 
+  const tabNames = {
+    'all': '全部',
+    'china': '中国',
+    'usa': '美国',
+    'europe': '欧洲',
+    'asia': '亚洲',
+    'other': '其他'
+  };
+
   history.forEach((record) => {
     const item = document.createElement('div');
     item.className = 'history-item';
     item.innerHTML = `
       <span class="history-domain">${record.domain}</span>
       <div class="history-meta">
-        <span class="history-tab">${record.tab === 'domestic' ? '国内' : record.tab === 'international' ? '国际' : record.tab === 'europe' ? '欧洲' : '亚洲'}</span>
+        <span class="history-tab">${tabNames[record.tab] || record.tab}</span>
         <span class="history-time">${record.timestamp}</span>
         <div class="history-stats">
           <span class="history-success">${record.successCount}/${record.totalCount}成功</span>
