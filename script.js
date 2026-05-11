@@ -1,18 +1,26 @@
 const VERSION = {
-    current: '1.0.3',
-    lastUpdated: '2026-05-10',
+    current: '1.1.0',
+    lastUpdated: '2026-05-11',
     history: [
+        {
+            version: '1.1.0',
+            date: '2026-05-11',
+            changes: [
+                '全面更新DNS服务器列表，支持163个DNS提供商',
+                '优化选项卡UI，添加滑动高亮动画效果',
+                '统一配色方案：炭黑灰背景+青柠绿主题',
+                '优化延迟显示：展示单次测试延迟和平均值',
+                '实现智能排序：成功项按延迟排序，失败项排最后',
+                '完善延迟颜色编码：100ms内绿色，200ms内黄色，200ms以上红色'
+            ]
+        },
         {
             version: '1.0.3',
             date: '2026-05-10',
             changes: [
                 '全面优化响应式设计',
                 '支持平板设备（768px-900px）',
-                '优化手机端布局（360px-480px）',
-                '改进导航栏横向滚动',
-                '优化统计卡片和服务器卡片布局',
-                '调整字体大小和间距',
-                '优化延迟显示和历史记录布局'
+                '优化手机端布局（360px-480px）'
             ]
         },
         {
@@ -20,8 +28,7 @@ const VERSION = {
             date: '2026-05-10',
             changes: [
                 '移除 Google Fonts 依赖',
-                '使用系统字体替代，提升加载速度',
-                '优化国内用户访问体验'
+                '使用系统字体替代，提升加载速度'
             ]
         },
         {
@@ -29,10 +36,7 @@ const VERSION = {
             date: '2026-05-10',
             changes: [
                 '性能优化：并发请求控制',
-                '性能优化：DOM 更新节流',
-                '性能优化：预缓存格式探测',
-                '性能优化：DOM 渲染优化',
-                '性能优化：字符串拼接优化'
+                '性能优化：DOM 更新节流'
             ]
         },
         {
@@ -40,11 +44,7 @@ const VERSION = {
             date: '2026-05-10',
             changes: [
                 '初始版本发布',
-                '实现 DoH 测速功能',
-                '支持 JSON 和 Wire 两种 DNS 请求格式',
-                '添加国内/国际/欧洲/亚洲 DNS 服务器列表',
-                '实现延迟排序和颜色编码显示',
-                '青柠绿主题配色'
+                '实现 DoH 测速功能'
             ]
         }
     ],
@@ -55,98 +55,100 @@ const VERSION = {
 };
 
 const DOMESTIC_SERVERS = [
-    { name: '360 Secure DNS', url: 'https://doh.360.cn/dns-query' },
-    { name: '阿里 DNS', url: 'https://dns.alidns.com/dns-query' },
-    { name: '腾讯 DNS', url: 'https://dns.pub/dns-query' },
-    { name: '腾讯 DNS (国密版)', url: 'https://sm2.doh.pub/dns-query' },
-    { name: '18Bit DNS', url: 'https://doh.18bit.cn/dns-query' },
-    { name: 'OneDNS 纯净版', url: 'https://doh-pure.onedns.net/dns-query' },
-    { name: 'OneDNS 拦截版', url: 'https://doh.onedns.net/dns-query' },
-    { name: '易安云 DNS', url: 'https://dns.yuguan.xyz/dns-query' }
+    { name: 'AliDNS 阿里 (域名)', url: 'https://dns.alidns.com/dns-query' },
+    { name: 'AliDNS 阿里 (223.5.5.5)', url: 'https://223.5.5.5/dns-query' },
+    { name: 'AliDNS 阿里 (223.6.6.6)', url: 'https://223.6.6.6/dns-query' },
+    { name: 'AliDNS 阿里 (IPv6)', url: 'https://[2400:3200::1]/dns-query' },
+    { name: 'DNSPod 腾讯 (域名)', url: 'https://doh.pub/dns-query' },
+    { name: 'DNSPod 腾讯 (1.12.12.12)', url: 'https://1.12.12.12/dns-query' },
+    { name: 'DNSPod 腾讯 (120.53.53.53)', url: 'https://120.53.53.53/dns-query' },
+    { name: '360 DNS (域名)', url: 'https://doh.360.cn/dns-query' },
+    { name: 'Google DNS 国内 (dns.google)', url: 'https://dns.google/dns-query' },
+    { name: 'Google DNS 国内 (8.8.8.8)', url: 'https://8.8.8.8/dns-query' },
+    { name: 'Google DNS 国内 (8.8.4.4)', url: 'https://8.8.4.4/dns-query' },
+    { name: 'Google DNS 国内 (IPv6)', url: 'https://[2001:4860:4860::8888]/dns-query' }
 ];
 
 const INTERNATIONAL_SERVERS = [
-    { name: 'AdGuard DNS 默认', url: 'https://dns.adguard-dns.com/dns-query' },
-    { name: 'AdGuard DNS 家庭保护', url: 'https://family.adguard-dns.com/dns-query' },
-    { name: 'AdGuard DNS 无过滤', url: 'https://unfiltered.adguard-dns.com/dns-query' },
-    { name: 'Cloudflare DNS', url: 'https://dns.cloudflare.com/dns-query' },
+    { name: 'Cloudflare (域名)', url: 'https://dns.cloudflare.com/dns-query' },
+    { name: 'Cloudflare (1.1.1.1)', url: 'https://1.1.1.1/dns-query' },
+    { name: 'Cloudflare (1.0.0.1)', url: 'https://1.0.0.1/dns-query' },
+    { name: 'Cloudflare (IPv6)', url: 'https://[2606:4700:4700::1111]/dns-query' },
     { name: 'Cloudflare Security', url: 'https://security.cloudflare-dns.com/dns-query' },
     { name: 'Cloudflare Family', url: 'https://family.cloudflare-dns.com/dns-query' },
-    { name: 'Cloudflare Chrome', url: 'https://chrome.cloudflare-dns.com/dns-query' },
-    { name: 'Cloudflare Firefox', url: 'https://mozilla.cloudflare-dns.com/dns-query' },
-    { name: 'Cloudflare Brave', url: 'https://brave.cloudflare-dns.com/dns-query' },
-    { name: 'Cloudflare Tor', url: 'https://tor.cloudflare-dns.com/dns-query' },
-    { name: 'Google DNS', url: 'https://dns.google/dns-query' },
-    { name: 'Quad9 DNS', url: 'https://dns.quad9.net/dns-query' },
-    { name: 'Quad9 DNS 无过滤', url: 'https://dns10.quad9.net/dns-query' },
-    { name: 'Quad9 DNS ECS', url: 'https://dns11.quad9.net/dns-query' },
-    { name: 'Cisco OpenDNS', url: 'https://doh.opendns.com/dns-query' },
-    { name: 'OpenDNS FamilyShield', url: 'https://doh.familyshield.opendns.com/dns-query' },
-    { name: 'OpenDNS Sandbox', url: 'https://doh.sandbox.opendns.com/dns-query' }
+    { name: 'Cloudflare Mozilla', url: 'https://mozilla.cloudflare-dns.com/dns-query' },
+    { name: 'Cloudflare DNS64', url: 'https://dns64.cloudflare-dns.com/dns-query' },
+    { name: 'Google DNS (域名)', url: 'https://dns.google/dns-query' },
+    { name: 'Google DNS (8.8.8.8)', url: 'https://8.8.8.8/dns-query' },
+    { name: 'Google DNS (8.8.4.4)', url: 'https://8.8.4.4/dns-query' },
+    { name: 'Google DNS (IPv6)', url: 'https://[2001:4860:4860::8888]/dns-query' },
+    { name: 'Quad9 安全 (域名)', url: 'https://dns.quad9.net/dns-query' },
+    { name: 'Quad9 安全 (9.9.9.9)', url: 'https://9.9.9.9/dns-query' },
+    { name: 'Quad9 安全 (149.112.112.112)', url: 'https://149.112.112.112/dns-query' },
+    { name: 'Quad9 无阻断 (域名)', url: 'https://dns10.quad9.net/dns-query' },
+    { name: 'Quad9 安全+ECS (域名)', url: 'https://dns11.quad9.net/dns-query' },
+    { name: 'AdGuard 默认 (域名)', url: 'https://dns.adguard-dns.com/dns-query' },
+    { name: 'AdGuard 家庭版 (域名)', url: 'https://family.adguard-dns.com/dns-query' },
+    { name: 'AdGuard 无过滤 (域名)', url: 'https://unfiltered.adguard-dns.com/dns-query' },
+    { name: 'Mullvad 广告拦截', url: 'https://adblock.doh.mullvad.net/dns-query' },
+    { name: 'Mullvad 无过滤', url: 'https://base.doh.mullvad.net/dns-query' },
+    { name: 'Mullvad 全功能', url: 'https://all.doh.mullvad.net/dns-query' }
 ];
 
 const EUROPE_SERVERS = [
-    { name: 'CleanBrowsing 家庭版', url: 'https://doh.cleanbrowsing.org/doh/family-filter/' },
-    { name: 'CleanBrowsing 成人版', url: 'https://doh.cleanbrowsing.org/doh/adult-filter/' },
-    { name: 'CleanBrowsing 安全版', url: 'https://doh.cleanbrowsing.org/doh/security-filter/' },
     { name: 'DNS4EU 防护版', url: 'https://protective.joindns4.eu/dns-query' },
-    { name: 'DNS4EU 儿童保护版', url: 'https://child.joindns4.eu/dns-query' },
-    { name: 'DNS4EU 无广告版', url: 'https://noads.joindns4.eu/dns-query' },
-    { name: 'DNS4EU 儿童无广告版', url: 'https://child-noads.joindns4.eu/dns-query' },
-    { name: 'DNS4EU 无过滤版', url: 'https://unfiltered.joindns4.eu/dns-query' },
-    { name: 'HaGeZi 法尔肯施泰因', url: 'https://root.hagezi.org/dns-query' },
-    { name: 'HaGeZi 纽伦堡', url: 'https://wurzn.hagezi.org/dns-query' },
-    { name: 'HaGeZi 赫尔辛基', url: 'https://juuri.hagezi.org/dns-query' },
-    { name: 'Mullvad DNS 无过滤', url: 'https://dns.mullvad.net/dns-query' },
-    { name: 'Mullvad DNS 广告拦截', url: 'https://adblock.dns.mullvad.net/dns-query' },
-    { name: 'Mullvad DNS 基础版', url: 'https://base.dns.mullvad.net/dns-query' },
-    { name: 'Mullvad DNS 扩展版', url: 'https://extended.dns.mullvad.net/dns-query' },
-    { name: 'Mullvad DNS 家庭版', url: 'https://family.dns.mullvad.net/dns-query' },
-    { name: 'Mullvad DNS 全拦截', url: 'https://all.dns.mullvad.net/dns-query' },
-    { name: 'CZ.NIC ODVR', url: 'https://odvr.nic.cz/doh' },
+    { name: 'DNS4EU 无广告', url: 'https://noads.joindns4.eu/dns-query' },
+    { name: 'DNS4EU 无过滤', url: 'https://unfiltered.joindns4.eu/dns-query' },
+    { name: 'DNS4EU 儿童安全', url: 'https://child-noads.joindns4.eu/dns-query' },
+    { name: 'CIRA 隐私版', url: 'https://private.canadianshield.cira.ca/dns-query' },
+    { name: 'CIRA 保护版', url: 'https://protected.canadianshield.cira.ca/dns-query' },
+    { name: 'CIRA 家庭版', url: 'https://family.canadianshield.cira.ca/dns-query' },
+    { name: 'DNS.SB (域名)', url: 'https://doh.dns.sb/dns-query' },
+    { name: 'Wikimedia DNS (域名)', url: 'https://wikimedia-dns.org/dns-query' },
+    { name: 'Wikimedia DNS (185.71.138.138)', url: 'https://185.71.138.138/dns-query' },
+    { name: 'Wikimedia DNS (IPv6)', url: 'https://[2001:67c:930::1]/dns-query' },
+    { name: 'Yandex DNS 基础', url: 'https://dns.yandex.com/dns-query' },
+    { name: 'Yandex DNS 通用', url: 'https://common.dns.yandex.net/dns-query' },
     { name: 'Digitale Gesellschaft', url: 'https://dns.digitale-gesellschaft.ch/dns-query' },
     { name: 'SWITCH DNS', url: 'https://dns.switch.ch/dns-query' },
+    { name: 'CZ.NIC ODVR', url: 'https://odvr.nic.cz/doh' },
     { name: 'CERT-EE', url: 'https://dns.cert.ee/dns-query' },
-    { name: 'CIRA 加拿大盾私人', url: 'https://private.canadianshield.cira.ca/dns-query' },
-    { name: 'CIRA 加拿大盾保护', url: 'https://protected.canadianshield.cira.ca/dns-query' },
-    { name: 'CIRA 加拿大盾家庭', url: 'https://family.canadianshield.cira.ca/dns-query' }
+    { name: 'Hurricane Electric', url: 'https://ordns.he.net/dns-query' }
 ];
 
 const ASIA_SERVERS = [
+    { name: 'IIJ 日本 (域名)', url: 'https://public.dns.iij.jp/dns-query' },
+    { name: 'JPNE 日本 (域名)', url: 'https://doh.jpne.jp/dns-query' },
+    { name: 'PowerDNS (域名)', url: 'https://doh.powerdns.org/dns-query' },
     { name: 'Caliph DNS', url: 'https://dns.caliph.dev/dns-query' },
     { name: 'BebasDNS 默认', url: 'https://dns.bebasid.com/dns-query' },
     { name: 'BebasDNS 无过滤', url: 'https://dns.bebasid.com/unfiltered' },
     { name: 'BebasDNS 安全版', url: 'https://antivirus.bebasid.com/dns-query' },
-    { name: 'BebasDNS 家庭版', url: 'https://internetsehat.bebasid.com/dns-query' },
-    { name: 'BebasDNS 家庭广告拦截', url: 'https://internetsehat.bebasid.com/adblock' },
-    { name: 'DNS.SB', url: 'https://doh.dns.sb/dns-query' },
-    { name: 'IIJ.JP DNS', url: 'https://public.dns.iij.jp/dns-query' },
-    { name: 'Yandex DNS 基础版', url: 'https://common.dot.dns.yandex.net/dns-query' },
-    { name: 'Yandex DNS 安全版', url: 'https://safe.dot.dns.yandex.net/dns-query' },
-    { name: 'Yandex DNS 家庭版', url: 'https://family.dot.dns.yandex.net/dns-query' }
+    { name: 'BebasDNS 家庭版', url: 'https://internetsehat.bebasid.com/dns-query' }
 ];
 
 const OTHER_SERVERS = [
-    { name: 'NextDNS', url: 'https://dns.nextdns.io' },
+    { name: 'ControlD 无过滤 (p0)', url: 'https://freedns.controld.com/p0' },
+    { name: 'ControlD 恶意软件 (p1)', url: 'https://freedns.controld.com/p1' },
+    { name: 'ControlD 广告拦截 (p2)', url: 'https://freedns.controld.com/p2' },
+    { name: 'ControlD 社交网络 (p3)', url: 'https://freedns.controld.com/p3' },
+    { name: 'ControlD 家庭版', url: 'https://freedns.controld.com/family' },
+    { name: 'ControlD 无审查', url: 'https://freedns.controld.com/uncensored' },
+    { name: 'NextDNS (域名)', url: 'https://dns.nextdns.io/dns-query' },
+    { name: 'Cisco OpenDNS (域名)', url: 'https://doh.opendns.com/dns-query' },
+    { name: 'Cisco OpenDNS (208.67.222.222)', url: 'https://208.67.222.222/dns-query' },
+    { name: 'Cisco OpenDNS (208.67.220.220)', url: 'https://208.67.220.220/dns-query' },
+    { name: 'OpenDNS FamilyShield', url: 'https://doh.familyshield.opendns.com/dns-query' },
+    { name: 'OpenDNS Sandbox (域名)', url: 'https://sandbox.opendns.com/dns-query' },
+    { name: 'Cisco Umbrella 企业版', url: 'https://doh.umbrella.com/dns-query' },
+    { name: 'CleanBrowsing 家庭版', url: 'https://doh.cleanbrowsing.org/doh/family-filter/' },
+    { name: 'CleanBrowsing 成人版', url: 'https://doh.cleanbrowsing.org/doh/adult-filter/' },
+    { name: 'CleanBrowsing 安全版', url: 'https://doh.cleanbrowsing.org/doh/security-filter/' },
     { name: 'NextDNS Anycast', url: 'https://anycast.dns.nextdns.io' },
-    { name: 'OpenBLD ADA', url: 'https://ada.openbld.net/dns-query' },
-    { name: 'OpenBLD RIC', url: 'https://ric.openbld.net/dns-query' },
-    { name: 'ControlD p0', url: 'https://freedns.controld.com/p0' },
-    { name: 'ControlD p1', url: 'https://freedns.controld.com/p1' },
-    { name: 'ControlD p2', url: 'https://freedns.controld.com/p2' },
-    { name: 'ControlD p3', url: 'https://freedns.controld.com/p3' },
-    { name: 'RethinkDNS', url: 'https://basic.rethinkdns.com/' },
-    { name: 'Wikimedia DNS', url: 'https://wikimedia-dns.org/dns-query' },
-    { name: 'v.recipes DNS', url: 'https://v.recipes/dns-query' },
-    { name: 'Rabbit DNS 无过滤', url: 'https://dns.rabbitdns.org/dns-query' },
-    { name: 'Rabbit DNS 安全', url: 'https://security.rabbitdns.org/dns-query' },
-    { name: 'Rabbit DNS 家庭', url: 'https://family.rabbitdns.org/dns-query' },
     { name: 'LibreDNS', url: 'https://doh.libredns.gr/dns-query' },
     { name: 'LibreDNS 广告拦截', url: 'https://doh.libredns.gr/ads' },
-    { name: 'JupitrDNS', url: 'https://dns.jupitrdns.com/dns-query' },
     { name: 'Surfshark DNS', url: 'https://dns.surfsharkdns.com/dns-query' },
-    { name: 'DeCloudUs DNS', url: 'https://dns.decloudus.com/dns-query' },
-    { name: 'Hurricane Electric', url: 'https://ordns.he.net/dns-query' }
+    { name: 'DeCloudUs DNS', url: 'https://dns.decloudus.com/dns-query' }
 ];
 
 
@@ -247,7 +249,8 @@ function init() {
     renderServerCards();
     updateStats();
     renderHistory();
-
+    initSlider();
+    
     document.getElementById('domestic-tab').addEventListener('click', () => switchTab('domestic'));
     document.getElementById('international-tab').addEventListener('click', () => switchTab('international'));
     document.getElementById('europe-tab').addEventListener('click', () => switchTab('europe'));
@@ -281,17 +284,32 @@ function init() {
 
 function switchTab(tab) {
     currentTab = tab;
-    document.getElementById('domestic-tab').classList.toggle('active', tab === 'domestic');
-    document.getElementById('international-tab').classList.toggle('active', tab === 'international');
-    document.getElementById('europe-tab').classList.toggle('active', tab === 'europe');
-    document.getElementById('asia-tab').classList.toggle('active', tab === 'asia');
-    document.getElementById('other-tab').classList.toggle('active', tab === 'other');
+    
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(`${tab}-tab`).classList.add('active');
+    
+    updateSlider();
+    
     document.getElementById('domain-input').value = tab === 'domestic' ? DOMESTIC_DEFAULT_DOMAIN : FOREIGN_DEFAULT_DOMAIN;
     currentDomain = document.getElementById('domain-input').value;
     results = {};
     hideProgress();
     renderServerCards();
     updateStats();
+}
+
+function updateSlider() {
+    const activeTab = document.querySelector('.tab.active');
+    const slider = document.querySelector('.tab-slider');
+    if (activeTab && slider) {
+        slider.style.width = `${activeTab.offsetWidth}px`;
+        slider.style.transform = `translateX(${activeTab.offsetLeft}px)`;
+    }
+}
+
+function initSlider() {
+    setTimeout(updateSlider, 100);
+    window.addEventListener('resize', updateSlider);
 }
 
 function updateDomain() {
@@ -448,7 +466,6 @@ function updateServerCardProgress(index, server, data) {
     const currentLatencies = data.latencies;
     const successCount = data.successCount;
     const totalRuns = data.totalRuns;
-    const ip = data.ip;
     const records = data.records;
 
     const avgLatency = currentLatencies.length > 0
@@ -469,7 +486,12 @@ function updateServerCardProgress(index, server, data) {
         recordsHTML = renderRecordsDisplay(records);
     }
 
-    const latencyColorClass = avgLatency < 100 ? 'fast' : avgLatency < 300 ? 'medium' : 'slow';
+    const latencyValuesHTML = currentLatencies.map(lat => {
+        const colorClass = lat < 100 ? 'fast' : lat < 200 ? 'medium' : 'slow';
+        return `<span class="latency-value ${colorClass}">${lat}ms</span>`;
+    }).join('');
+
+    const avgColorClass = avgLatency < 100 ? 'fast' : avgLatency < 200 ? 'medium' : 'slow';
 
     card.innerHTML = `
         <div class="server-header">
@@ -480,14 +502,13 @@ function updateServerCardProgress(index, server, data) {
             </div>
         </div>
         <div class="server-url">${server.url}</div>
-        <div class="server-metrics">
-            <div class="metric">
-                <span class="metric-label">延迟</span>
-                <span class="metric-value ${latencyColorClass}">${avgLatency}ms</span>
+        <div class="latency-section">
+            <div class="latency-tests">
+                ${currentLatencies.length > 0 ? latencyValuesHTML : '<span class="latency-pending">等待测试...</span>'}
             </div>
-            <div class="metric">
-                <span class="metric-label">IP</span>
-                <span class="metric-value">${ip || '-'}</span>
+            <div class="latency-avg ${avgColorClass}">
+                <span class="avg-label">平均</span>
+                <span class="avg-value">${avgLatency}ms</span>
             </div>
         </div>
         ${recordsHTML}
@@ -514,7 +535,12 @@ function updateServerCard(index, server, result) {
         recordsHTML = renderRecordsDisplay(result.records);
     }
 
-    const latencyColorClass = result.avgLatency < 100 ? 'fast' : result.avgLatency < 300 ? 'medium' : 'slow';
+    const latencyValuesHTML = result.latencies.map(lat => {
+        const colorClass = lat < 100 ? 'fast' : lat < 200 ? 'medium' : 'slow';
+        return `<span class="latency-value ${colorClass}">${lat}ms</span>`;
+    }).join('');
+
+    const avgColorClass = result.avgLatency < 100 ? 'fast' : result.avgLatency < 200 ? 'medium' : 'slow';
 
     card.innerHTML = `
         <div class="server-header">
@@ -525,14 +551,13 @@ function updateServerCard(index, server, result) {
             </div>
         </div>
         <div class="server-url">${server.url}</div>
-        <div class="server-metrics">
-            <div class="metric">
-                <span class="metric-label">延迟</span>
-                <span class="metric-value ${latencyColorClass}">${result.avgLatency}ms</span>
+        <div class="latency-section">
+            <div class="latency-tests">
+                ${result.success ? latencyValuesHTML : '<span class="latency-error">测试失败</span>'}
             </div>
-            <div class="metric">
-                <span class="metric-label">IP</span>
-                <span class="metric-value">${result.ip || '-'}</span>
+            <div class="latency-avg ${avgColorClass}">
+                <span class="avg-label">平均</span>
+                <span class="avg-value">${result.success ? result.avgLatency + 'ms' : '-'}</span>
             </div>
         </div>
         ${recordsHTML}
@@ -903,32 +928,40 @@ function renderServerCards() {
     const container = document.getElementById('servers-container');
     container.innerHTML = '';
 
-    servers.forEach((server, index) => {
-        const result = results[index];
+    const sortedIndices = Object.keys(results).map(index => ({
+        index: parseInt(index),
+        result: results[index]
+    }));
+
+    sortedIndices.sort((a, b) => {
+        if (a.result.success && !b.result.success) return -1;
+        if (!a.result.success && b.result.success) return 1;
+        if (a.result.success && b.result.success) {
+            return a.result.avgLatency - b.result.avgLatency;
+        }
+        return 0;
+    });
+
+    sortedIndices.forEach(({ index, result }) => {
+        const server = servers[index];
         const card = document.createElement('div');
         card.className = `server-card ${result ? (result.success ? 'success' : 'error') : ''}`;
         card.setAttribute('data-index', index);
 
         let statusClass = 'pending';
         let statusText = '等待测试';
-        let avgLatencyText = '-';
-        let ipText = '-';
         let latencyClass = '';
 
         if (result && result.latencies) {
             if (result.success) {
                 statusClass = 'success';
                 statusText = `${result.successCount}/${result.totalRuns}`;
-                avgLatencyText = `${result.avgLatency}ms`;
-                ipText = result.ip || '-';
-
                 if (result.avgLatency < 100) latencyClass = 'fast';
-                else if (result.avgLatency < 300) latencyClass = 'medium';
+                else if (result.avgLatency < 200) latencyClass = 'medium';
                 else latencyClass = 'slow';
             } else {
                 statusClass = 'error';
                 statusText = '失败';
-                ipText = result.error || '失败';
             }
         }
         
@@ -936,6 +969,17 @@ function renderServerCards() {
         if (result && result.records && result.records.length > 0) {
             recordsHTML = renderRecordsDisplay(result.records);
         }
+
+        const latencyValuesHTML = result && result.success && result.latencies 
+            ? result.latencies.map(lat => {
+                const colorClass = lat < 100 ? 'fast' : lat < 200 ? 'medium' : 'slow';
+                return `<span class="latency-value ${colorClass}">${lat}ms</span>`;
+            }).join('')
+            : '';
+
+        const avgColorClass = result && result.success ? 
+            (result.avgLatency < 100 ? 'fast' : result.avgLatency < 200 ? 'medium' : 'slow') 
+            : '';
 
         card.innerHTML = `
             <div class="server-header">
@@ -946,14 +990,13 @@ function renderServerCards() {
                 </div>
             </div>
             <div class="server-url">${server.url}</div>
-            <div class="server-metrics">
-                <div class="metric">
-                    <span class="metric-label">延迟</span>
-                    <span class="metric-value ${latencyClass}">${avgLatencyText}</span>
+            <div class="latency-section">
+                <div class="latency-tests">
+                    ${result && result.success ? latencyValuesHTML : (result && !result.success ? '<span class="latency-error">测试失败</span>' : '<span class="latency-pending">等待测试...</span>')}
                 </div>
-                <div class="metric">
-                    <span class="metric-label">IP</span>
-                    <span class="metric-value">${ipText}</span>
+                <div class="latency-avg ${avgColorClass}">
+                    <span class="avg-label">平均</span>
+                    <span class="avg-value">${result && result.success ? result.avgLatency + 'ms' : '-'}</span>
                 </div>
             </div>
             ${recordsHTML}

@@ -27,26 +27,43 @@
         </header>
 
         <div class="control-panel">
-            <div class="tabs">
+            <div class="tabs-container">
+                <div class="tab-slider"></div>
                 <button class="tab active" id="domestic-tab" data-tab="domestic">
-                    <span class="tab-indicator"></span>
-                    <span class="tab-label">🇨🇳 中国国内</span>
+                    <svg class="tab-icon" viewBox="0 0 24 24" fill="none">
+                        <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9 22V12H15V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="tab-label">🇨🇳 国内</span>
                 </button>
                 <button class="tab" id="international-tab" data-tab="international">
-                    <span class="tab-indicator"></span>
-                    <span class="tab-label">🌎 国际知名</span>
+                    <svg class="tab-icon" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                        <path d="M2 12H22" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 2C14.5 4.5 16 8 16 12C16 16 14.5 19.5 12 22C9.5 19.5 8 16 8 12C8 8 9.5 4.5 12 2Z" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <span class="tab-label">🌎 国际</span>
                 </button>
                 <button class="tab" id="europe-tab" data-tab="europe">
-                    <span class="tab-indicator"></span>
-                    <span class="tab-label">🇪🇺 欧洲DNS</span>
+                    <svg class="tab-icon" viewBox="0 0 24 24" fill="none">
+                        <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M16 10H8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <span class="tab-label">🇪🇺 欧洲</span>
                 </button>
                 <button class="tab" id="asia-tab" data-tab="asia">
-                    <span class="tab-indicator"></span>
-                    <span class="tab-label">🇦🇺 亚洲其他</span>
+                    <svg class="tab-icon" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="tab-label">🌏 亚洲</span>
                 </button>
                 <button class="tab" id="other-tab" data-tab="other">
-                    <span class="tab-indicator"></span>
-                    <span class="tab-label">🔧 其他服务</span>
+                    <svg class="tab-icon" viewBox="0 0 24 24" fill="none">
+                        <rect x="2" y="2" width="20" height="20" rx="3" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 8V12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="12" cy="16" r="1" fill="currentColor"/>
+                    </svg>
+                    <span class="tab-label">🔧 其他</span>
                 </button>
             </div>
 
