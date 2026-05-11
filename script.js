@@ -316,14 +316,8 @@ function sortResults() {
     if (!a.result || !a.result.success) return 1;
     if (!b.result || !b.result.success) return -1;
 
-    const aMin = Math.min(
-      a.result.jsonAvgLatency || Infinity,
-      a.result.wireAvgLatency || Infinity
-    );
-    const bMin = Math.min(
-      b.result.jsonAvgLatency || Infinity,
-      b.result.wireAvgLatency || Infinity
-    );
+    const aMin = getMinLatency(a.result.endpointResults);
+    const bMin = getMinLatency(b.result.endpointResults);
     return aMin - bMin;
   });
 
@@ -336,6 +330,17 @@ function sortResults() {
   });
 
   results = newResults;
+}
+
+function getMinLatency(endpointResults) {
+  let min = Infinity;
+  for (const key in endpointResults) {
+    const result = endpointResults[key];
+    if (result.avgLatency && result.avgLatency < min) {
+      min = result.avgLatency;
+    }
+  }
+  return min === Infinity ? 0 : min;
 }
 
 async function testServersBatch(servers) {
@@ -369,79 +374,143 @@ async function testServersBatch(servers) {
 }
 
 async function testServer(server, index) {
-  // 同时测试两种格式的端点
-  const jsonResult = await testFormat(server, 'json');
-  const wireResult = await testFormat(server, 'wire');
+  // 全面探测所有可能的格式和路径组合
+  const endpoints = [
+    { name: 'JSON (/resolve)', path: '/resolve', format: 'json', method: 'get' },
+    { name: 'Wire (/dns-query)', path: '/dns-query', format: 'wire', method: 'post' },
+    { name: 'JSON (/dns-query)', path: '/dns-query', format: 'json', method: 'get' },
+    { name: 'Wire (/resolve)', path: '/resolve', format: 'wire', method: 'post' }
+  ];
 
-  // 对可用的格式进行多次测试
-  const jsonLatencies = [];
-  const wireLatencies = [];
+  // 探测所有组合
+  const probeResults = [];
+  for (const endpoint of endpoints) {
+    try {
+      const testResult = await testEndpoint(server, endpoint);
+      if (testResult && testResult.success) {
+        probeResults.push({ ...endpoint, supported: true });
+      }
+    } catch {
+      // 忽略探测失败
+    }
+  }
+
+  // 对所有探测到的可用组合进行多次测试
+  const endpointResults = {};
   let records = null;
 
   for (let run = 0; run < testCount; run++) {
-    // 测试 JSON 格式
-    if (jsonResult.supported) {
+    for (const endpoint of probeResults) {
+      const key = `${endpoint.name}`;
+      if (!endpointResults[key]) {
+        endpointResults[key] = { endpoint, latencies: [] };
+      }
+
       const startTime = performance.now();
-      const testResult = await testWithFormat(server, 'json');
+      const testResult = await testEndpoint(server, endpoint);
       const endTime = performance.now();
       const latency = Math.round(endTime - startTime);
 
       if (testResult && testResult.success) {
-        jsonLatencies.push(latency);
+        endpointResults[key].latencies.push(latency);
         if (!records) records = testResult.records;
       }
     }
 
-    // 测试 Wire 格式
-    if (wireResult.supported) {
-      const startTime = performance.now();
-      const testResult = await testWithFormat(server, 'wire');
-      const endTime = performance.now();
-      const latency = Math.round(endTime - startTime);
-
-      if (testResult && testResult.success) {
-        wireLatencies.push(latency);
-        if (!records) records = testResult.records;
-      }
-    }
-
+    // 更新进度显示
     updateServerCardProgress(index, server, {
-      jsonSupported: jsonResult.supported,
-      wireSupported: wireResult.supported,
-      jsonLatencies: [...jsonLatencies],
-      wireLatencies: [...wireLatencies],
+      endpoints: probeResults,
+      endpointResults: { ...endpointResults },
       records
     });
   }
 
-  const jsonAvgLatency = jsonLatencies.length > 0
-    ? Math.round(jsonLatencies.reduce((a, b) => a + b, 0) / jsonLatencies.length)
-    : 0;
-  const wireAvgLatency = wireLatencies.length > 0
-    ? Math.round(wireLatencies.reduce((a, b) => a + b, 0) / wireLatencies.length)
-    : 0;
+  // 计算每个端点的平均延迟
+  for (const key in endpointResults) {
+    const result = endpointResults[key];
+    if (result.latencies.length > 0) {
+      result.avgLatency = Math.round(
+        result.latencies.reduce((a, b) => a + b, 0) / result.latencies.length
+      );
+    }
+  }
 
   return {
-    success: jsonResult.supported || wireResult.supported,
-    jsonSupported: jsonResult.supported,
-    wireSupported: wireResult.supported,
-    jsonLatencies,
-    wireLatencies,
-    jsonAvgLatency,
-    wireAvgLatency,
+    success: probeResults.length > 0,
+    endpoints: probeResults,
+    endpointResults,
     records,
     totalRuns: testCount
   };
 }
 
-async function testFormat(server, format) {
+async function testEndpoint(server, endpoint) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), TIMEOUT);
+
   try {
-    const testResult = await testWithFormat(server, format);
+    let fetchUrl, options;
+    const fullUrl = server.url + endpoint.path;
+
+    if (endpoint.format === 'wire') {
+      // Wire 格式始终使用 POST
+      const dnsQuery = buildDNSQuery(currentDomain, TEST_TYPE);
+      fetchUrl = fullUrl;
+      options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/dns-message',
+          'Accept': 'application/dns-message'
+        },
+        body: dnsQuery,
+        signal: controller.signal
+      };
+    } else {
+      // JSON 格式使用 GET
+      const timestamp = Date.now();
+      fetchUrl = `${fullUrl}?name=${currentDomain}&type=${TEST_TYPE}&t=${timestamp}`;
+      options = {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/dns-json'
+        },
+        signal: controller.signal
+      };
+    }
+
+    const response = await fetch(fetchUrl, options);
+    clearTimeout(timeoutId);
+
+    if (response.ok) {
+      let records = null;
+      if (endpoint.format === 'wire') {
+        const arrayBuffer = await response.arrayBuffer();
+        records = parseWireResponse(new Uint8Array(arrayBuffer));
+      } else {
+        try {
+          const json = await response.json();
+          records = parseJSONResponse(json);
+        } catch {
+          records = null;
+        }
+      }
+
+      return {
+        success: records !== null,
+        records: records
+      };
+    } else {
+      return {
+        success: false,
+        error: `HTTP ${response.status}`
+      };
+    }
+  } catch (error) {
+    clearTimeout(timeoutId);
     return {
-      supported: testResult && testResult.success
+      success: false,
+      error: error.message
     };
-  } catch {
-    return { supported: false };
   }
 }
 
@@ -455,11 +524,11 @@ function updateServerCardProgress(index, server, data) {
   const card = document.querySelector(`[data-index="${index}"]`);
   if (!card) return;
 
-  const { jsonSupported, wireSupported, jsonLatencies, wireLatencies, records } = data;
+  const { endpoints, endpointResults, records } = data;
   
   card.classList.remove('testing', 'success', 'error');
 
-  const anySuccess = (jsonLatencies && jsonLatencies.length > 0) || (wireLatencies && wireLatencies.length > 0);
+  const anySuccess = Object.values(endpointResults).some(er => er.latencies && er.latencies.length > 0);
   if (anySuccess) {
     card.classList.add('success');
   }
@@ -472,9 +541,6 @@ function updateServerCardProgress(index, server, data) {
     recordsHTML = renderRecordsDisplay(records);
   }
 
-  const jsonAvgLatency = jsonLatencies && jsonLatencies.length > 0 ? Math.round(jsonLatencies.reduce((a, b) => a + b, 0) / jsonLatencies.length) : 0;
-  const wireAvgLatency = wireLatencies && wireLatencies.length > 0 ? Math.round(wireLatencies.reduce((a, b) => a + b, 0) / wireLatencies.length) : 0;
-
   card.innerHTML = `
     <div class="server-header">
       <span class="server-name">${server.name}</span>
@@ -485,35 +551,12 @@ function updateServerCardProgress(index, server, data) {
     </div>
     <div class="server-url">${server.url}</div>
     <div class="server-formats">
-      <span class="format-badge ${jsonSupported ? 'supported' : 'unsupported'}">JSON ${jsonSupported ? '✓' : '✗'}</span>
-      <span class="format-badge ${wireSupported ? 'supported' : 'unsupported'}">Wire ${wireSupported ? '✓' : '✗'}</span>
+      ${endpoints.map(ep => 
+        `<span class="format-badge supported">${ep.name}</span>`
+      ).join('')}
     </div>
     
-    ${jsonLatencies && jsonLatencies.length > 0 ? `
-    <div class="format-section">
-      <div class="format-title">JSON</div>
-      <div class="latency-display">
-        ${jsonLatencies.map(lat => `<span class="latency-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}
-      </div>
-      <div class="latency-average">
-        <span class="latency-avg-label">平均:</span>
-        <span class="latency-avg-value ${getLatencyColor(jsonAvgLatency)}">${jsonAvgLatency}ms</span>
-      </div>
-    </div>
-    ` : ''}
-    
-    ${wireLatencies && wireLatencies.length > 0 ? `
-    <div class="format-section">
-      <div class="format-title">Wire</div>
-      <div class="latency-display">
-        ${wireLatencies.map(lat => `<span class="latency-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}
-      </div>
-      <div class="latency-average">
-        <span class="latency-avg-label">平均:</span>
-        <span class="latency-avg-value ${getLatencyColor(wireAvgLatency)}">${wireAvgLatency}ms</span>
-      </div>
-    </div>
-    ` : ''}
+    ${renderEndpointResults(endpointResults)}
     
     ${recordsHTML}
   `;
@@ -539,8 +582,6 @@ function updateServerCard(index, server, result) {
     recordsHTML = renderRecordsDisplay(result.records);
   }
 
-  const { jsonSupported, wireSupported, jsonLatencies, wireLatencies, jsonAvgLatency, wireAvgLatency } = result;
-
   card.innerHTML = `
     <div class="server-header">
       <span class="server-name">${server.name}</span>
@@ -551,40 +592,41 @@ function updateServerCard(index, server, result) {
     </div>
     <div class="server-url">${server.url}</div>
     <div class="server-formats">
-      <span class="format-badge ${jsonSupported ? 'supported' : 'unsupported'}">JSON ${jsonSupported ? '✓' : '✗'}</span>
-      <span class="format-badge ${wireSupported ? 'supported' : 'unsupported'}">Wire ${wireSupported ? '✓' : '✗'}</span>
+      ${result.endpoints.map(ep => 
+        `<span class="format-badge supported">${ep.name}</span>`
+      ).join('')}
     </div>
     
     ${result.success ? `
-      ${jsonSupported && jsonLatencies && jsonLatencies.length > 0 ? `
-      <div class="format-section">
-        <div class="format-title">JSON</div>
-        <div class="latency-display">
-          ${jsonLatencies.map(lat => `<span class="latency-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}
-        </div>
-        <div class="latency-average">
-          <span class="latency-avg-label">平均:</span>
-          <span class="latency-avg-value ${getLatencyColor(jsonAvgLatency)}">${jsonAvgLatency}ms</span>
-        </div>
-      </div>
-      ` : ''}
-      
-      ${wireSupported && wireLatencies && wireLatencies.length > 0 ? `
-      <div class="format-section">
-        <div class="format-title">Wire</div>
-        <div class="latency-display">
-          ${wireLatencies.map(lat => `<span class="latency-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}
-        </div>
-        <div class="latency-average">
-          <span class="latency-avg-label">平均:</span>
-          <span class="latency-avg-value ${getLatencyColor(wireAvgLatency)}">${wireAvgLatency}ms</span>
-        </div>
-      </div>
-      ` : ''}
+      ${renderEndpointResults(result.endpointResults)}
       
       ${recordsHTML}
     ` : ''}
   `;
+}
+
+function renderEndpointResults(endpointResults) {
+  let html = '';
+  
+  for (const key in endpointResults) {
+    const result = endpointResults[key];
+    if (result.latencies && result.latencies.length > 0) {
+      html += `
+        <div class="format-section">
+          <div class="format-title">${result.endpoint.name}</div>
+          <div class="latency-display">
+            ${result.latencies.map(lat => `<span class="latency-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}
+          </div>
+          <div class="latency-average">
+            <span class="latency-avg-label">平均:</span>
+            <span class="latency-avg-value ${getLatencyColor(result.avgLatency)}">${result.avgLatency}ms</span>
+          </div>
+        </div>
+      `;
+    }
+  }
+  
+  return html;
 }
 
 function renderRecordsDisplay(records) {
@@ -633,80 +675,6 @@ function escapeHtml(text) {
   const div = document.createElement('div');
   div.textContent = text;
   return div.innerHTML;
-}
-
-// Test server with specific format
-async function testWithFormat(server, format) {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), TIMEOUT);
-
-  try {
-    let fetchUrl, options;
-
-    if (format === 'wire') {
-      // Wire format: POST with binary DNS query
-      const dnsQuery = buildDNSQuery(currentDomain, TEST_TYPE);
-      fetchUrl = `${server.url}/dns-query`;
-      options = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/dns-message',
-          'Accept': 'application/dns-message'
-        },
-        body: dnsQuery,
-        signal: controller.signal
-      };
-    } else {
-      // JSON format: GET with name and type parameters
-      const timestamp = Date.now();
-      fetchUrl = `${server.url}/resolve?name=${currentDomain}&type=${TEST_TYPE}&t=${timestamp}`;
-      options = {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/dns-json'
-        },
-        signal: controller.signal
-      };
-    }
-
-    const response = await fetch(fetchUrl, options);
-    clearTimeout(timeoutId);
-
-    if (response.ok) {
-      let records = null;
-      if (format === 'wire') {
-        const arrayBuffer = await response.arrayBuffer();
-        records = parseWireResponse(new Uint8Array(arrayBuffer));
-      } else {
-        try {
-          const json = await response.json();
-          records = parseJSONResponse(json);
-        } catch {
-          records = null;
-        }
-      }
-      
-      return {
-        success: records !== null,
-        records: records
-      };
-    } else {
-      return {
-        success: false,
-        error: `HTTP ${response.status}`
-      };
-    }
-  } catch (error) {
-    clearTimeout(timeoutId);
-    let errorMessage = error.message;
-    if (error.name === 'AbortError') {
-      errorMessage = '请求超时';
-    }
-    return {
-      success: false,
-      error: errorMessage
-    };
-  }
 }
 
 // Parse DNS wire format response
@@ -930,12 +898,8 @@ function renderServerCards() {
 
     let statusClass = 'pending';
     let statusText = '等待测试';
-    let jsonSupported = false;
-    let wireSupported = false;
 
     if (result) {
-      jsonSupported = result.jsonSupported || false;
-      wireSupported = result.wireSupported || false;
       if (result.success) {
         statusClass = 'success';
         statusText = '成功';
@@ -950,11 +914,6 @@ function renderServerCards() {
       recordsHTML = renderRecordsDisplay(result.records);
     }
 
-    const jsonLatencies = result && result.jsonLatencies ? result.jsonLatencies : [];
-    const wireLatencies = result && result.wireLatencies ? result.wireLatencies : [];
-    const jsonAvgLatency = result && result.jsonAvgLatency ? result.jsonAvgLatency : 0;
-    const wireAvgLatency = result && result.wireAvgLatency ? result.wireAvgLatency : 0;
-
     card.innerHTML = `
       <div class="server-header">
         <span class="server-name">${server.name}</span>
@@ -965,40 +924,13 @@ function renderServerCards() {
       </div>
       <div class="server-url">${server.url}</div>
       <div class="server-formats">
-        <span class="format-badge ${result ? (jsonSupported ? 'supported' : 'unsupported') : ''}">
-          JSON ${result ? (jsonSupported ? '✓' : '✗') : '?'}
-        </span>
-        <span class="format-badge ${result ? (wireSupported ? 'supported' : 'unsupported') : ''}">
-          Wire ${result ? (wireSupported ? '✓' : '✗') : '?'}
-        </span>
+        ${result ? (result.endpoints || []).map(ep => 
+          `<span class="format-badge supported">${ep.name}</span>`
+        ).join('') : ''}
       </div>
       
       ${result && result.success ? `
-        ${jsonSupported && jsonLatencies.length > 0 ? `
-        <div class="format-section">
-          <div class="format-title">JSON</div>
-          <div class="latency-display">
-            ${jsonLatencies.map(lat => `<span class="latency-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}
-          </div>
-          <div class="latency-average">
-            <span class="latency-avg-label">平均:</span>
-            <span class="latency-avg-value ${getLatencyColor(jsonAvgLatency)}">${jsonAvgLatency}ms</span>
-          </div>
-        </div>
-        ` : ''}
-        
-        ${wireSupported && wireLatencies.length > 0 ? `
-        <div class="format-section">
-          <div class="format-title">Wire</div>
-          <div class="latency-display">
-            ${wireLatencies.map(lat => `<span class="latency-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}
-          </div>
-          <div class="latency-average">
-            <span class="latency-avg-label">平均:</span>
-            <span class="latency-avg-value ${getLatencyColor(wireAvgLatency)}">${wireAvgLatency}ms</span>
-          </div>
-        </div>
-        ` : ''}
+        ${renderEndpointResults(result.endpointResults)}
         
         ${recordsHTML}
       ` : ''}
@@ -1020,10 +952,7 @@ function updateStats() {
 
   Object.values(results).forEach(result => {
     if (result && result.success) {
-      const minLatency = Math.min(
-        result.jsonAvgLatency || Infinity,
-        result.wireAvgLatency || Infinity
-      );
+      const minLatency = getMinLatency(result.endpointResults);
       if (minLatency && minLatency !== Infinity) {
         totalLatencies += minLatency;
         successCount++;
@@ -1046,9 +975,20 @@ function updateStats() {
 function saveToHistory() {
   const servers = getCurrentServers();
   const successCount = Object.values(results).filter(r => r.success).length;
-  const avgLatency = successCount > 0
-    ? Math.round(Object.values(results).filter(r => r.success && r.avgLatency).reduce((sum, r) => sum + r.avgLatency, 0) / successCount)
-    : 0;
+  
+  let totalLatency = 0;
+  let validCount = 0;
+  Object.values(results).forEach(result => {
+    if (result && result.success) {
+      const minLatency = getMinLatency(result.endpointResults);
+      if (minLatency) {
+        totalLatency += minLatency;
+        validCount++;
+      }
+    }
+  });
+  
+  const avgLatency = validCount > 0 ? Math.round(totalLatency / validCount) : 0;
 
   const record = {
     id: Date.now(),
