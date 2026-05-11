@@ -37,18 +37,18 @@ const VERSION = {
 const DNS_SERVERS = {
     'domestic': [
         { name: 'AliDNS 阿里 DNS', baseUrl: 'https://dns.alidns.com', jsonPath: '/resolve', wirePath: '/dns-query', note: '中国优化' },
-        { name: 'AliDNS 阿里 DNS (IPv4)', baseUrl: 'https://223.5.5.5', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4' },
-        { name: 'AliDNS 阿里 DNS (IPv4 Alt)', baseUrl: 'https://223.6.6.6', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4备用' },
+        { name: 'AliDNS (223.5.5.5)', baseUrl: 'https://223.5.5.5', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4' },
+        { name: 'AliDNS (223.6.6.6)', baseUrl: 'https://223.6.6.6', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4备用' },
         { name: 'DNSPod 腾讯 DNS', baseUrl: 'https://doh.pub', jsonPath: '/resolve', wirePath: '/dns-query', note: '中国优化' },
-        { name: 'DNSPod 腾讯 DNS (IPv4)', baseUrl: 'https://1.12.12.12', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4' },
-        { name: 'DNSPod 腾讯 DNS (IPv4 Alt)', baseUrl: 'https://120.53.53.53', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4备用' },
+        { name: 'DNSPod (1.12.12.12)', baseUrl: 'https://1.12.12.12', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4' },
+        { name: 'DNSPod (120.53.53.53)', baseUrl: 'https://120.53.53.53', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4备用' },
         { name: '360 DNS', baseUrl: 'https://doh.360.cn', jsonPath: '/resolve', wirePath: '/dns-query', note: '中国' }
     ],
     'international': [
-        { name: 'Google DNS (域名)', baseUrl: 'https://dns.google', jsonPath: '/resolve', wirePath: '/dns-query', note: 'Google官方' },
+        { name: 'Google DNS (域名)', baseUrl: 'https://dns.google', jsonPath: '/resolve', wirePath: '/dns-query', note: 'JSON API (原始)' },
         { name: 'Google DNS (8.8.8.8)', baseUrl: 'https://8.8.8.8', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4' },
         { name: 'Google DNS (8.8.4.4)', baseUrl: 'https://8.8.4.4', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4备用' },
-        { name: 'Cloudflare DNS (域名)', baseUrl: 'https://cloudflare-dns.com', jsonPath: '/resolve', wirePath: '/dns-query', note: 'Cloudflare' },
+        { name: 'Cloudflare DNS (域名)', baseUrl: 'https://cloudflare-dns.com', jsonPath: '/resolve', wirePath: '/dns-query', note: '兼容 Google JSON' },
         { name: 'Cloudflare DNS (1.1.1.1)', baseUrl: 'https://1.1.1.1', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4' },
         { name: 'Cloudflare DNS (1.0.0.1)', baseUrl: 'https://1.0.0.1', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4备用' },
         { name: 'Cloudflare Security', baseUrl: 'https://security.cloudflare-dns.com', jsonPath: '/resolve', wirePath: '/dns-query', note: '恶意软件拦截' },
@@ -195,8 +195,10 @@ async function init() {
     updateStats();
     renderHistory();
 
-    // Initialize tab slider
+    // Initialize all sliders
     initTabSlider();
+    initCountSlider();
+    initTypeSlider();
 
     document.getElementById('domestic-tab').addEventListener('click', () => switchTab('domestic'));
     document.getElementById('international-tab').addEventListener('click', () => switchTab('international'));
@@ -216,6 +218,7 @@ async function init() {
             document.querySelectorAll('.count-btn').forEach(b => b.classList.remove('active'));
             e.target.classList.add('active');
             testCount = parseInt(e.target.dataset.count);
+            updateCountSlider(e.target);
         });
     });
 
@@ -224,8 +227,47 @@ async function init() {
             document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
             e.target.classList.add('active');
             TEST_TYPE = e.target.dataset.type;
+            updateTypeSlider(e.target);
         });
     });
+}
+
+function initCountSlider() {
+    const activeBtn = document.querySelector('.count-btn.active');
+    if (activeBtn) {
+        updateCountSlider(activeBtn);
+    }
+}
+
+function updateCountSlider(activeBtn) {
+    const slider = document.querySelector('.count-slider');
+    if (!slider || !activeBtn) return;
+
+    const rect = activeBtn.getBoundingClientRect();
+    const parentRect = activeBtn.parentElement.getBoundingClientRect();
+
+    slider.style.left = (rect.left - parentRect.left) + 'px';
+    slider.style.width = rect.width + 'px';
+    slider.style.height = rect.height + 'px';
+}
+
+function initTypeSlider() {
+    const activeBtn = document.querySelector('.type-btn.active');
+    if (activeBtn) {
+        updateTypeSlider(activeBtn);
+    }
+}
+
+function updateTypeSlider(activeBtn) {
+    const slider = document.querySelector('.type-slider');
+    if (!slider || !activeBtn) return;
+
+    const rect = activeBtn.getBoundingClientRect();
+    const parentRect = activeBtn.parentElement.getBoundingClientRect();
+
+    slider.style.left = (rect.left - parentRect.left) + 'px';
+    slider.style.width = rect.width + 'px';
+    slider.style.height = rect.height + 'px';
 }
 
 function initTabSlider() {
@@ -507,14 +549,14 @@ function updateServerCardProgress(index, server, data) {
 
     const latencyColorClass = getLatencyColor(avgLatency);
 
-    // Render each latency point
+    // Render each latency point with values
     let latenciesHTML = '';
     if (currentLatencies.length > 0) {
         latenciesHTML = '<div class="latency-display">';
         latenciesHTML += '<div class="latency-points">';
         currentLatencies.forEach((lat, i) => {
             const color = getLatencyColor(lat);
-            latenciesHTML += `<span class="latency-point ${color}" title="${lat}ms"></span>`;
+            latenciesHTML += `<span class="latency-point ${color}">${lat}</span>`;
         });
         latenciesHTML += '</div>';
         latenciesHTML += '<div class="latency-average">';
@@ -560,14 +602,14 @@ function updateServerCard(index, server, result) {
 
     const latencyColorClass = getLatencyColor(result.avgLatency);
 
-    // Render each latency point
+    // Render each latency point with values
     let latenciesHTML = '';
     if (result.success && result.latencies.length > 0) {
         latenciesHTML = '<div class="latency-display">';
         latenciesHTML += '<div class="latency-points">';
         result.latencies.forEach((lat, i) => {
             const color = getLatencyColor(lat);
-            latenciesHTML += `<span class="latency-point ${color}" title="${lat}ms"></span>`;
+            latenciesHTML += `<span class="latency-point ${color}">${lat}</span>`;
         });
         latenciesHTML += '</div>';
         latenciesHTML += '<div class="latency-average">';
