@@ -23,55 +23,35 @@ const VERSION = {
 
 const DNS_SERVERS = {
   'domestic': [
-    { name: 'AliDNS (域名) - JSON', url: 'https://dns.alidns.com/resolve', format: 'json', note: '中国优化' },
-    { name: 'AliDNS (域名) - Wire', url: 'https://dns.alidns.com/dns-query', format: 'wire', note: '中国优化' },
-    { name: 'AliDNS (223.5.5.5) - JSON', url: 'https://223.5.5.5/resolve', format: 'json', note: 'IPv4' },
-    { name: 'AliDNS (223.5.5.5) - Wire', url: 'https://223.5.5.5/dns-query', format: 'wire', note: 'IPv4' },
-    { name: 'AliDNS (223.6.6.6) - JSON', url: 'https://223.6.6.6/resolve', format: 'json', note: 'IPv4备用' },
-    { name: 'AliDNS (223.6.6.6) - Wire', url: 'https://223.6.6.6/dns-query', format: 'wire', note: 'IPv4备用' },
-    { name: 'DNSPod (域名) - JSON', url: 'https://doh.pub/resolve', format: 'json', note: '中国优化' },
-    { name: 'DNSPod (域名) - Wire', url: 'https://doh.pub/dns-query', format: 'wire', note: '中国优化' },
-    { name: 'DNSPod (1.12.12.12) - JSON', url: 'https://1.12.12.12/resolve', format: 'json', note: 'IPv4' },
-    { name: 'DNSPod (1.12.12.12) - Wire', url: 'https://1.12.12.12/dns-query', format: 'wire', note: 'IPv4' },
-    { name: 'DNSPod (120.53.53.53) - JSON', url: 'https://120.53.53.53/resolve', format: 'json', note: 'IPv4备用' },
-    { name: 'DNSPod (120.53.53.53) - Wire', url: 'https://120.53.53.53/dns-query', format: 'wire', note: 'IPv4备用' },
-    { name: '360 DNS (域名) - JSON', url: 'https://doh.360.cn/resolve', format: 'json', note: '中国' },
-    { name: '360 DNS (域名) - Wire', url: 'https://doh.360.cn/dns-query', format: 'wire', note: '中国' }
+    { name: 'AliDNS (域名)', url: 'https://dns.alidns.com', note: '中国优化' },
+    { name: 'AliDNS (223.5.5.5)', url: 'https://223.5.5.5', note: 'IPv4' },
+    { name: 'AliDNS (223.6.6.6)', url: 'https://223.6.6.6', note: 'IPv4备用' },
+    { name: 'DNSPod (域名)', url: 'https://doh.pub', note: '中国优化' },
+    { name: 'DNSPod (1.12.12.12)', url: 'https://1.12.12.12', note: 'IPv4' },
+    { name: 'DNSPod (120.53.53.53)', url: 'https://120.53.53.53', note: 'IPv4备用' },
+    { name: '360 DNS (域名)', url: 'https://doh.360.cn', note: '中国' }
   ],
   'international': [
-    { name: 'Google DNS (域名) - JSON', url: 'https://dns.google/resolve', format: 'json', note: 'JSON API' },
-    { name: 'Google DNS (域名) - Wire', url: 'https://dns.google/dns-query', format: 'wire', note: 'Wire Format' },
-    { name: 'Google DNS (8.8.8.8) - JSON', url: 'https://8.8.8.8/resolve', format: 'json', note: 'IPv4' },
-    { name: 'Google DNS (8.8.8.8) - Wire', url: 'https://8.8.8.8/dns-query', format: 'wire', note: 'IPv4' },
-    { name: 'Google DNS (8.8.4.4) - JSON', url: 'https://8.8.4.4/resolve', format: 'json', note: 'IPv4备用' },
-    { name: 'Google DNS (8.8.4.4) - Wire', url: 'https://8.8.4.4/dns-query', format: 'wire', note: 'IPv4备用' },
-    { name: 'Cloudflare DNS (域名) - JSON', url: 'https://cloudflare-dns.com/resolve', format: 'json', note: '兼容Google JSON' },
-    { name: 'Cloudflare DNS (域名) - Wire', url: 'https://cloudflare-dns.com/dns-query', format: 'wire', note: 'Wire Format' },
-    { name: 'Cloudflare DNS (1.1.1.1) - JSON', url: 'https://1.1.1.1/resolve', format: 'json', note: 'IPv4' },
-    { name: 'Cloudflare DNS (1.1.1.1) - Wire', url: 'https://1.1.1.1/dns-query', format: 'wire', note: 'IPv4' },
-    { name: 'Cloudflare DNS (1.0.0.1) - JSON', url: 'https://1.0.0.1/resolve', format: 'json', note: 'IPv4备用' },
-    { name: 'Cloudflare DNS (1.0.0.1) - Wire', url: 'https://1.0.0.1/dns-query', format: 'wire', note: 'IPv4备用' },
-    { name: 'Quad9 DNS (dns.quad9.net) - JSON', url: 'https://dns.quad9.net/resolve', format: 'json', note: '威胁阻断' },
-    { name: 'Quad9 DNS (dns.quad9.net) - Wire', url: 'https://dns.quad9.net/dns-query', format: 'wire', note: '威胁阻断' },
-    { name: 'Quad9 DNS (9.9.9.9) - JSON', url: 'https://9.9.9.9/resolve', format: 'json', note: 'IPv4' },
-    { name: 'Quad9 DNS (9.9.9.9) - Wire', url: 'https://9.9.9.9/dns-query', format: 'wire', note: 'IPv4' },
-    { name: 'AdGuard DNS (dns.adguard-dns.com) - JSON', url: 'https://dns.adguard-dns.com/resolve', format: 'json', note: '广告拦截' },
-    { name: 'AdGuard DNS (dns.adguard-dns.com) - Wire', url: 'https://dns.adguard-dns.com/dns-query', format: 'wire', note: '广告拦截' }
+    { name: 'Google DNS (域名)', url: 'https://dns.google', note: 'Google DNS' },
+    { name: 'Google DNS (8.8.8.8)', url: 'https://8.8.8.8', note: 'IPv4' },
+    { name: 'Google DNS (8.8.4.4)', url: 'https://8.8.4.4', note: 'IPv4备用' },
+    { name: 'Cloudflare DNS (域名)', url: 'https://cloudflare-dns.com', note: 'Cloudflare' },
+    { name: 'Cloudflare DNS (1.1.1.1)', url: 'https://1.1.1.1', note: 'IPv4' },
+    { name: 'Cloudflare DNS (1.0.0.1)', url: 'https://1.0.0.1', note: 'IPv4备用' },
+    { name: 'Quad9 DNS (dns.quad9.net)', url: 'https://dns.quad9.net', note: '威胁阻断' },
+    { name: 'Quad9 DNS (9.9.9.9)', url: 'https://9.9.9.9', note: 'IPv4' },
+    { name: 'AdGuard DNS (dns.adguard-dns.com)', url: 'https://dns.adguard-dns.com', note: '广告拦截' }
   ],
   'europe': [
-    { name: 'CleanBrowsing Family - Wire', url: 'https://doh.cleanbrowsing.org/doh/family-filter/', format: 'wire', note: '家庭过滤' },
-    { name: 'CleanBrowsing Adult - Wire', url: 'https://doh.cleanbrowsing.org/doh/adult-filter/', format: 'wire', note: '成人内容过滤' },
-    { name: 'CleanBrowsing Security - Wire', url: 'https://doh.cleanbrowsing.org/doh/security-filter/', format: 'wire', note: '安全过滤' },
-    { name: 'DNS.SB (域名) - JSON', url: 'https://doh.dns.sb/resolve', format: 'json', note: '欧洲' },
-    { name: 'DNS.SB (域名) - Wire', url: 'https://doh.dns.sb/dns-query', format: 'wire', note: '欧洲' },
-    { name: 'PowerDNS (域名) - JSON', url: 'https://doh.powerdns.org/resolve', format: 'json', note: '欧洲' },
-    { name: 'PowerDNS (域名) - Wire', url: 'https://doh.powerdns.org/dns-query', format: 'wire', note: '欧洲' }
+    { name: 'CleanBrowsing Family', url: 'https://doh.cleanbrowsing.org', note: '家庭过滤' },
+    { name: 'CleanBrowsing Adult', url: 'https://doh.cleanbrowsing.org', note: '成人内容过滤' },
+    { name: 'CleanBrowsing Security', url: 'https://doh.cleanbrowsing.org', note: '安全过滤' },
+    { name: 'DNS.SB (域名)', url: 'https://doh.dns.sb', note: '欧洲' },
+    { name: 'PowerDNS (域名)', url: 'https://doh.powerdns.org', note: '欧洲' }
   ],
   'asia': [
-    { name: 'Yandex DNS (dns.yandex.com) - JSON', url: 'https://dns.yandex.com/resolve', format: 'json', note: '俄罗斯' },
-    { name: 'Yandex DNS (dns.yandex.com) - Wire', url: 'https://dns.yandex.com/dns-query', format: 'wire', note: '俄罗斯' },
-    { name: 'IIJ DNS (public.dns.iij.jp) - JSON', url: 'https://public.dns.iij.jp/resolve', format: 'json', note: '日本' },
-    { name: 'IIJ DNS (public.dns.iij.jp) - Wire', url: 'https://public.dns.iij.jp/dns-query', format: 'wire', note: '日本' }
+    { name: 'Yandex DNS (dns.yandex.com)', url: 'https://dns.yandex.com', note: '俄罗斯' },
+    { name: 'IIJ DNS (public.dns.iij.jp)', url: 'https://public.dns.iij.jp', note: '日本' }
   ]
 };
 
@@ -335,7 +315,16 @@ function sortResults() {
   resultArray.sort((a, b) => {
     if (!a.result || !a.result.success) return 1;
     if (!b.result || !b.result.success) return -1;
-    return a.result.avgLatency - b.result.avgLatency;
+
+    const aMin = Math.min(
+      a.result.jsonAvgLatency || Infinity,
+      a.result.wireAvgLatency || Infinity
+    );
+    const bMin = Math.min(
+      b.result.jsonAvgLatency || Infinity,
+      b.result.wireAvgLatency || Infinity
+    );
+    return aMin - bMin;
   });
 
   const newResults = {};
@@ -380,37 +369,80 @@ async function testServersBatch(servers) {
 }
 
 async function testServer(server, index) {
-  const latencies = [];
+  // 同时测试两种格式的端点
+  const jsonResult = await testFormat(server, 'json');
+  const wireResult = await testFormat(server, 'wire');
+
+  // 对可用的格式进行多次测试
+  const jsonLatencies = [];
+  const wireLatencies = [];
   let records = null;
 
   for (let run = 0; run < testCount; run++) {
-    const startTime = performance.now();
-    const testResult = await testWithFormat(server);
-    const endTime = performance.now();
-    const latency = Math.round(endTime - startTime);
+    // 测试 JSON 格式
+    if (jsonResult.supported) {
+      const startTime = performance.now();
+      const testResult = await testWithFormat(server, 'json');
+      const endTime = performance.now();
+      const latency = Math.round(endTime - startTime);
 
-    if (testResult && testResult.success) {
-      latencies.push(latency);
-      if (!records) records = testResult.records;
+      if (testResult && testResult.success) {
+        jsonLatencies.push(latency);
+        if (!records) records = testResult.records;
+      }
+    }
+
+    // 测试 Wire 格式
+    if (wireResult.supported) {
+      const startTime = performance.now();
+      const testResult = await testWithFormat(server, 'wire');
+      const endTime = performance.now();
+      const latency = Math.round(endTime - startTime);
+
+      if (testResult && testResult.success) {
+        wireLatencies.push(latency);
+        if (!records) records = testResult.records;
+      }
     }
 
     updateServerCardProgress(index, server, {
-      latencies: [...latencies],
+      jsonSupported: jsonResult.supported,
+      wireSupported: wireResult.supported,
+      jsonLatencies: [...jsonLatencies],
+      wireLatencies: [...wireLatencies],
       records
     });
   }
 
-  const avgLatency = latencies.length > 0
-    ? Math.round(latencies.reduce((a, b) => a + b, 0) / latencies.length)
+  const jsonAvgLatency = jsonLatencies.length > 0
+    ? Math.round(jsonLatencies.reduce((a, b) => a + b, 0) / jsonLatencies.length)
+    : 0;
+  const wireAvgLatency = wireLatencies.length > 0
+    ? Math.round(wireLatencies.reduce((a, b) => a + b, 0) / wireLatencies.length)
     : 0;
 
   return {
-    success: latencies.length > 0,
-    latencies,
-    avgLatency,
+    success: jsonResult.supported || wireResult.supported,
+    jsonSupported: jsonResult.supported,
+    wireSupported: wireResult.supported,
+    jsonLatencies,
+    wireLatencies,
+    jsonAvgLatency,
+    wireAvgLatency,
     records,
     totalRuns: testCount
   };
+}
+
+async function testFormat(server, format) {
+  try {
+    const testResult = await testWithFormat(server, format);
+    return {
+      supported: testResult && testResult.success
+    };
+  } catch {
+    return { supported: false };
+  }
 }
 
 function getLatencyColor(latency) {
@@ -423,23 +455,25 @@ function updateServerCardProgress(index, server, data) {
   const card = document.querySelector(`[data-index="${index}"]`);
   if (!card) return;
 
-  const { latencies, records } = data;
+  const { jsonSupported, wireSupported, jsonLatencies, wireLatencies, records } = data;
   
   card.classList.remove('testing', 'success', 'error');
 
-  if (latencies.length > 0) {
+  const anySuccess = (jsonLatencies && jsonLatencies.length > 0) || (wireLatencies && wireLatencies.length > 0);
+  if (anySuccess) {
     card.classList.add('success');
   }
 
-  const statusClass = latencies.length > 0 ? 'success' : 'pending';
-  const statusText = latencies.length > 0 ? '测试中...' : '等待测试';
+  const statusClass = anySuccess ? 'success' : 'pending';
+  const statusText = anySuccess ? '测试中...' : '等待测试';
 
   let recordsHTML = '';
   if (records && records.length > 0) {
     recordsHTML = renderRecordsDisplay(records);
   }
 
-  const avgLatency = latencies.length > 0 ? Math.round(latencies.reduce((a, b) => a + b, 0) / latencies.length) : 0;
+  const jsonAvgLatency = jsonLatencies && jsonLatencies.length > 0 ? Math.round(jsonLatencies.reduce((a, b) => a + b, 0) / jsonLatencies.length) : 0;
+  const wireAvgLatency = wireLatencies && wireLatencies.length > 0 ? Math.round(wireLatencies.reduce((a, b) => a + b, 0) / wireLatencies.length) : 0;
 
   card.innerHTML = `
     <div class="server-header">
@@ -450,16 +484,37 @@ function updateServerCardProgress(index, server, data) {
       </div>
     </div>
     <div class="server-url">${server.url}</div>
-    <div class="server-format">
-      <span class="format-badge ${server.format}">${server.format.toUpperCase()}</span>
+    <div class="server-formats">
+      <span class="format-badge ${jsonSupported ? 'supported' : 'unsupported'}">JSON ${jsonSupported ? '✓' : '✗'}</span>
+      <span class="format-badge ${wireSupported ? 'supported' : 'unsupported'}">Wire ${wireSupported ? '✓' : '✗'}</span>
     </div>
-    <div class="latency-display">
-      ${latencies.map(lat => `<span class="latency-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}
+    
+    ${jsonLatencies && jsonLatencies.length > 0 ? `
+    <div class="format-section">
+      <div class="format-title">JSON</div>
+      <div class="latency-display">
+        ${jsonLatencies.map(lat => `<span class="latency-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}
+      </div>
+      <div class="latency-average">
+        <span class="latency-avg-label">平均:</span>
+        <span class="latency-avg-value ${getLatencyColor(jsonAvgLatency)}">${jsonAvgLatency}ms</span>
+      </div>
     </div>
-    ${avgLatency > 0 ? `<div class="latency-average">
-      <span class="latency-avg-label">平均延迟:</span>
-      <span class="latency-avg-value ${getLatencyColor(avgLatency)}">${avgLatency}ms</span>
-    </div>` : ''}
+    ` : ''}
+    
+    ${wireLatencies && wireLatencies.length > 0 ? `
+    <div class="format-section">
+      <div class="format-title">Wire</div>
+      <div class="latency-display">
+        ${wireLatencies.map(lat => `<span class="latency-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}
+      </div>
+      <div class="latency-average">
+        <span class="latency-avg-label">平均:</span>
+        <span class="latency-avg-value ${getLatencyColor(wireAvgLatency)}">${wireAvgLatency}ms</span>
+      </div>
+    </div>
+    ` : ''}
+    
     ${recordsHTML}
   `;
 }
@@ -484,7 +539,7 @@ function updateServerCard(index, server, result) {
     recordsHTML = renderRecordsDisplay(result.records);
   }
 
-  const { latencies, avgLatency } = result;
+  const { jsonSupported, wireSupported, jsonLatencies, wireLatencies, jsonAvgLatency, wireAvgLatency } = result;
 
   card.innerHTML = `
     <div class="server-header">
@@ -495,18 +550,39 @@ function updateServerCard(index, server, result) {
       </div>
     </div>
     <div class="server-url">${server.url}</div>
-    <div class="server-format">
-      <span class="format-badge ${server.format}">${server.format.toUpperCase()}</span>
+    <div class="server-formats">
+      <span class="format-badge ${jsonSupported ? 'supported' : 'unsupported'}">JSON ${jsonSupported ? '✓' : '✗'}</span>
+      <span class="format-badge ${wireSupported ? 'supported' : 'unsupported'}">Wire ${wireSupported ? '✓' : '✗'}</span>
     </div>
+    
     ${result.success ? `
-    <div class="latency-display">
-      ${latencies.map(lat => `<span class="latency-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}
-    </div>
-    <div class="latency-average">
-      <span class="latency-avg-label">平均延迟:</span>
-      <span class="latency-avg-value ${getLatencyColor(avgLatency)}">${avgLatency}ms</span>
-    </div>
-    ${recordsHTML}
+      ${jsonSupported && jsonLatencies && jsonLatencies.length > 0 ? `
+      <div class="format-section">
+        <div class="format-title">JSON</div>
+        <div class="latency-display">
+          ${jsonLatencies.map(lat => `<span class="latency-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}
+        </div>
+        <div class="latency-average">
+          <span class="latency-avg-label">平均:</span>
+          <span class="latency-avg-value ${getLatencyColor(jsonAvgLatency)}">${jsonAvgLatency}ms</span>
+        </div>
+      </div>
+      ` : ''}
+      
+      ${wireSupported && wireLatencies && wireLatencies.length > 0 ? `
+      <div class="format-section">
+        <div class="format-title">Wire</div>
+        <div class="latency-display">
+          ${wireLatencies.map(lat => `<span class="latency-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}
+        </div>
+        <div class="latency-average">
+          <span class="latency-avg-label">平均:</span>
+          <span class="latency-avg-value ${getLatencyColor(wireAvgLatency)}">${wireAvgLatency}ms</span>
+        </div>
+      </div>
+      ` : ''}
+      
+      ${recordsHTML}
     ` : ''}
   `;
 }
@@ -560,17 +636,17 @@ function escapeHtml(text) {
 }
 
 // Test server with specific format
-async function testWithFormat(server) {
+async function testWithFormat(server, format) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), TIMEOUT);
 
   try {
     let fetchUrl, options;
 
-    if (server.format === 'wire') {
+    if (format === 'wire') {
       // Wire format: POST with binary DNS query
       const dnsQuery = buildDNSQuery(currentDomain, TEST_TYPE);
-      fetchUrl = server.url;
+      fetchUrl = `${server.url}/dns-query`;
       options = {
         method: 'POST',
         headers: {
@@ -583,7 +659,7 @@ async function testWithFormat(server) {
     } else {
       // JSON format: GET with name and type parameters
       const timestamp = Date.now();
-      fetchUrl = `${server.url}?name=${currentDomain}&type=${TEST_TYPE}&t=${timestamp}`;
+      fetchUrl = `${server.url}/resolve?name=${currentDomain}&type=${TEST_TYPE}&t=${timestamp}`;
       options = {
         method: 'GET',
         headers: {
@@ -598,7 +674,7 @@ async function testWithFormat(server) {
 
     if (response.ok) {
       let records = null;
-      if (server.format === 'wire') {
+      if (format === 'wire') {
         const arrayBuffer = await response.arrayBuffer();
         records = parseWireResponse(new Uint8Array(arrayBuffer));
       } else {
@@ -854,8 +930,12 @@ function renderServerCards() {
 
     let statusClass = 'pending';
     let statusText = '等待测试';
+    let jsonSupported = false;
+    let wireSupported = false;
 
     if (result) {
+      jsonSupported = result.jsonSupported || false;
+      wireSupported = result.wireSupported || false;
       if (result.success) {
         statusClass = 'success';
         statusText = '成功';
@@ -870,10 +950,10 @@ function renderServerCards() {
       recordsHTML = renderRecordsDisplay(result.records);
     }
 
-    let latenciesHTML = '';
-    if (result && result.success && result.latencies && result.latencies.length > 0) {
-      latenciesHTML = result.latencies.map(lat => `<span class="latency-point ${getLatencyColor(lat)}">${lat}</span>`).join('');
-    }
+    const jsonLatencies = result && result.jsonLatencies ? result.jsonLatencies : [];
+    const wireLatencies = result && result.wireLatencies ? result.wireLatencies : [];
+    const jsonAvgLatency = result && result.jsonAvgLatency ? result.jsonAvgLatency : 0;
+    const wireAvgLatency = result && result.wireAvgLatency ? result.wireAvgLatency : 0;
 
     card.innerHTML = `
       <div class="server-header">
@@ -884,18 +964,43 @@ function renderServerCards() {
         </div>
       </div>
       <div class="server-url">${server.url}</div>
-      <div class="server-format">
-        <span class="format-badge ${server.format}">${server.format.toUpperCase()}</span>
+      <div class="server-formats">
+        <span class="format-badge ${result ? (jsonSupported ? 'supported' : 'unsupported') : ''}">
+          JSON ${result ? (jsonSupported ? '✓' : '✗') : '?'}
+        </span>
+        <span class="format-badge ${result ? (wireSupported ? 'supported' : 'unsupported') : ''}">
+          Wire ${result ? (wireSupported ? '✓' : '✗') : '?'}
+        </span>
       </div>
+      
       ${result && result.success ? `
-      <div class="latency-display">
-        ${latenciesHTML}
-      </div>
-      <div class="latency-average">
-        <span class="latency-avg-label">平均延迟:</span>
-        <span class="latency-avg-value ${getLatencyColor(result.avgLatency)}">${result.avgLatency}ms</span>
-      </div>
-      ${recordsHTML}
+        ${jsonSupported && jsonLatencies.length > 0 ? `
+        <div class="format-section">
+          <div class="format-title">JSON</div>
+          <div class="latency-display">
+            ${jsonLatencies.map(lat => `<span class="latency-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}
+          </div>
+          <div class="latency-average">
+            <span class="latency-avg-label">平均:</span>
+            <span class="latency-avg-value ${getLatencyColor(jsonAvgLatency)}">${jsonAvgLatency}ms</span>
+          </div>
+        </div>
+        ` : ''}
+        
+        ${wireSupported && wireLatencies.length > 0 ? `
+        <div class="format-section">
+          <div class="format-title">Wire</div>
+          <div class="latency-display">
+            ${wireLatencies.map(lat => `<span class="latency-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}
+          </div>
+          <div class="latency-average">
+            <span class="latency-avg-label">平均:</span>
+            <span class="latency-avg-value ${getLatencyColor(wireAvgLatency)}">${wireAvgLatency}ms</span>
+          </div>
+        </div>
+        ` : ''}
+        
+        ${recordsHTML}
       ` : ''}
     `;
 
@@ -914,9 +1019,15 @@ function updateStats() {
   let successCount = 0;
 
   Object.values(results).forEach(result => {
-    if (result && result.success && result.avgLatency) {
-      totalLatencies += result.avgLatency;
-      successCount++;
+    if (result && result.success) {
+      const minLatency = Math.min(
+        result.jsonAvgLatency || Infinity,
+        result.wireAvgLatency || Infinity
+      );
+      if (minLatency && minLatency !== Infinity) {
+        totalLatencies += minLatency;
+        successCount++;
+      }
     }
   });
 

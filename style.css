@@ -811,8 +811,10 @@ body {
   border-radius: var(--radius-sm);
 }
 
-.server-format {
+.server-formats {
   margin-bottom: 12px;
+  display: flex;
+  gap: 8px;
 }
 
 .format-badge {
@@ -822,16 +824,30 @@ body {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.format-badge.json {
+.format-badge.supported {
   background: rgba(191, 255, 0, 0.2);
   color: var(--primary);
+  border-color: rgba(191, 255, 0, 0.4);
 }
 
-.format-badge.wire {
-  background: rgba(100, 200, 255, 0.2);
-  color: #64c8ff;
+.format-badge.unsupported {
+  background: rgba(255, 68, 68, 0.15);
+  color: var(--error);
+  border-color: rgba(255, 68, 68, 0.4);
+}
+
+.format-section {
+  margin-bottom: 12px;
+}
+
+.format-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
 }
 
 /* Latency Display */
@@ -839,7 +855,7 @@ body {
   padding: 12px;
   background: rgba(0, 0, 0, 0.2);
   border-radius: var(--radius-sm);
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
