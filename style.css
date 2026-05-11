@@ -800,86 +800,55 @@ body {
     color: var(--error);
 }
 
-.server-urls {
-  margin-bottom: 12px;
-}
-
-.server-url-part {
+.server-url {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: var(--text-muted);
   word-break: break-all;
-  margin-bottom: 6px;
-  padding: 8px 10px;
+  margin-bottom: 12px;
+  padding: 10px 12px;
   background: rgba(0, 0, 0, 0.3);
   border-radius: var(--radius-sm);
 }
 
-.server-url-part:last-child {
-  margin-bottom: 0;
-}
-
-/* Detection Results */
-.detection-result {
+.server-format {
   margin-bottom: 12px;
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
 }
 
-.detection-badge {
+.format-badge {
   display: inline-block;
-  padding: 6px 14px;
+  padding: 4px 12px;
   border-radius: 12px;
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  transition: all 0.2s ease;
 }
 
-.detection-badge.available {
+.format-badge.json {
   background: rgba(191, 255, 0, 0.2);
   color: var(--primary);
-  border: 1px solid rgba(191, 255, 0, 0.4);
 }
 
-.detection-badge.unavailable {
-  background: rgba(255, 68, 68, 0.2);
-  color: var(--error);
-  border: 1px solid rgba(255, 68, 68, 0.4);
-}
-
-/* Format Test Results */
-.format-test-result {
-  margin-bottom: 12px;
-  padding: 12px;
-  background: rgba(0, 0, 0, 0.15);
-  border-radius: var(--radius-sm);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.format-title {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-  margin-bottom: 10px;
+.format-badge.wire {
+  background: rgba(100, 200, 255, 0.2);
+  color: #64c8ff;
 }
 
 /* Latency Display */
 .latency-display {
-  padding: 10px;
+  padding: 12px;
   background: rgba(0, 0, 0, 0.2);
   border-radius: var(--radius-sm);
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
 }
 
 .latency-point {
-  min-width: 44px;
-  height: 30px;
-  padding: 0 10px;
+  min-width: 40px;
+  height: 28px;
+  padding: 0 8px;
   border-radius: 6px;
   display: flex;
   align-items: center;
@@ -914,7 +883,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 12px;
+    padding: 12px;
     background: rgba(0, 0, 0, 0.2);
     border-radius: var(--radius-sm);
 }
@@ -928,8 +897,8 @@ body {
 .latency-avg-value {
     font-family: var(--font-mono);
     font-weight: 700;
-    font-size: 1.15rem;
-    padding: 6px 14px;
+    font-size: 1.25rem;
+    padding: 6px 16px;
     border-radius: 6px;
 }
 

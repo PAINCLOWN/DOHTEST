@@ -1,15 +1,17 @@
 const VERSION = {
-  current: '3.0.0',
+  current: '2.0.0',
   lastUpdated: '2026-05-11',
   history: [
     {
-      version: '3.0.0',
+      version: '2.0.0',
       date: '2026-05-11',
       changes: [
-        '动态格式探测：自动检测 JSON 和 Wire 格式支持',
-        '显示探测结果和支持的格式',
-        '两种格式都支持时都进行测试',
-        '优化了卡片显示和测试流程'
+        '完整的DNS服务器数据更新',
+        'JSON和Wire格式自动探测',
+        '选项卡滑动高亮动画',
+        '炭黑灰+青柠绿主题配色',
+        '每次测试延迟和平均延迟展示',
+        '智能延迟排序功能'
       ]
     }
   ],
@@ -21,35 +23,55 @@ const VERSION = {
 
 const DNS_SERVERS = {
   'domestic': [
-    { name: 'AliDNS (域名)', baseUrl: 'https://dns.alidns.com', jsonPath: '/resolve', wirePath: '/dns-query', note: '中国优化' },
-    { name: 'AliDNS (223.5.5.5)', baseUrl: 'https://223.5.5.5', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4' },
-    { name: 'AliDNS (223.6.6.6)', baseUrl: 'https://223.6.6.6', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4备用' },
-    { name: 'DNSPod (域名)', baseUrl: 'https://doh.pub', jsonPath: '/resolve', wirePath: '/dns-query', note: '中国优化' },
-    { name: 'DNSPod (1.12.12.12)', baseUrl: 'https://1.12.12.12', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4' },
-    { name: 'DNSPod (120.53.53.53)', baseUrl: 'https://120.53.53.53', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4备用' },
-    { name: '360 DNS (域名)', baseUrl: 'https://doh.360.cn', jsonPath: '/resolve', wirePath: '/dns-query', note: '中国' }
+    { name: 'AliDNS (域名) - JSON', url: 'https://dns.alidns.com/resolve', format: 'json', note: '中国优化' },
+    { name: 'AliDNS (域名) - Wire', url: 'https://dns.alidns.com/dns-query', format: 'wire', note: '中国优化' },
+    { name: 'AliDNS (223.5.5.5) - JSON', url: 'https://223.5.5.5/resolve', format: 'json', note: 'IPv4' },
+    { name: 'AliDNS (223.5.5.5) - Wire', url: 'https://223.5.5.5/dns-query', format: 'wire', note: 'IPv4' },
+    { name: 'AliDNS (223.6.6.6) - JSON', url: 'https://223.6.6.6/resolve', format: 'json', note: 'IPv4备用' },
+    { name: 'AliDNS (223.6.6.6) - Wire', url: 'https://223.6.6.6/dns-query', format: 'wire', note: 'IPv4备用' },
+    { name: 'DNSPod (域名) - JSON', url: 'https://doh.pub/resolve', format: 'json', note: '中国优化' },
+    { name: 'DNSPod (域名) - Wire', url: 'https://doh.pub/dns-query', format: 'wire', note: '中国优化' },
+    { name: 'DNSPod (1.12.12.12) - JSON', url: 'https://1.12.12.12/resolve', format: 'json', note: 'IPv4' },
+    { name: 'DNSPod (1.12.12.12) - Wire', url: 'https://1.12.12.12/dns-query', format: 'wire', note: 'IPv4' },
+    { name: 'DNSPod (120.53.53.53) - JSON', url: 'https://120.53.53.53/resolve', format: 'json', note: 'IPv4备用' },
+    { name: 'DNSPod (120.53.53.53) - Wire', url: 'https://120.53.53.53/dns-query', format: 'wire', note: 'IPv4备用' },
+    { name: '360 DNS (域名) - JSON', url: 'https://doh.360.cn/resolve', format: 'json', note: '中国' },
+    { name: '360 DNS (域名) - Wire', url: 'https://doh.360.cn/dns-query', format: 'wire', note: '中国' }
   ],
   'international': [
-    { name: 'Google DNS (域名)', baseUrl: 'https://dns.google', jsonPath: '/resolve', wirePath: '/dns-query', note: 'JSON API' },
-    { name: 'Google DNS (8.8.8.8)', baseUrl: 'https://8.8.8.8', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4' },
-    { name: 'Google DNS (8.8.4.4)', baseUrl: 'https://8.8.4.4', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4备用' },
-    { name: 'Cloudflare DNS (域名)', baseUrl: 'https://cloudflare-dns.com', jsonPath: '/resolve', wirePath: '/dns-query', note: '兼容Google JSON' },
-    { name: 'Cloudflare DNS (1.1.1.1)', baseUrl: 'https://1.1.1.1', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4' },
-    { name: 'Cloudflare DNS (1.0.0.1)', baseUrl: 'https://1.0.0.1', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4备用' },
-    { name: 'Quad9 DNS (dns.quad9.net)', baseUrl: 'https://dns.quad9.net', jsonPath: '/resolve', wirePath: '/dns-query', note: '威胁阻断' },
-    { name: 'Quad9 DNS (9.9.9.9)', baseUrl: 'https://9.9.9.9', jsonPath: '/resolve', wirePath: '/dns-query', note: 'IPv4' },
-    { name: 'AdGuard DNS (dns.adguard-dns.com)', baseUrl: 'https://dns.adguard-dns.com', jsonPath: '/resolve', wirePath: '/dns-query', note: '广告拦截' }
+    { name: 'Google DNS (域名) - JSON', url: 'https://dns.google/resolve', format: 'json', note: 'JSON API' },
+    { name: 'Google DNS (域名) - Wire', url: 'https://dns.google/dns-query', format: 'wire', note: 'Wire Format' },
+    { name: 'Google DNS (8.8.8.8) - JSON', url: 'https://8.8.8.8/resolve', format: 'json', note: 'IPv4' },
+    { name: 'Google DNS (8.8.8.8) - Wire', url: 'https://8.8.8.8/dns-query', format: 'wire', note: 'IPv4' },
+    { name: 'Google DNS (8.8.4.4) - JSON', url: 'https://8.8.4.4/resolve', format: 'json', note: 'IPv4备用' },
+    { name: 'Google DNS (8.8.4.4) - Wire', url: 'https://8.8.4.4/dns-query', format: 'wire', note: 'IPv4备用' },
+    { name: 'Cloudflare DNS (域名) - JSON', url: 'https://cloudflare-dns.com/resolve', format: 'json', note: '兼容Google JSON' },
+    { name: 'Cloudflare DNS (域名) - Wire', url: 'https://cloudflare-dns.com/dns-query', format: 'wire', note: 'Wire Format' },
+    { name: 'Cloudflare DNS (1.1.1.1) - JSON', url: 'https://1.1.1.1/resolve', format: 'json', note: 'IPv4' },
+    { name: 'Cloudflare DNS (1.1.1.1) - Wire', url: 'https://1.1.1.1/dns-query', format: 'wire', note: 'IPv4' },
+    { name: 'Cloudflare DNS (1.0.0.1) - JSON', url: 'https://1.0.0.1/resolve', format: 'json', note: 'IPv4备用' },
+    { name: 'Cloudflare DNS (1.0.0.1) - Wire', url: 'https://1.0.0.1/dns-query', format: 'wire', note: 'IPv4备用' },
+    { name: 'Quad9 DNS (dns.quad9.net) - JSON', url: 'https://dns.quad9.net/resolve', format: 'json', note: '威胁阻断' },
+    { name: 'Quad9 DNS (dns.quad9.net) - Wire', url: 'https://dns.quad9.net/dns-query', format: 'wire', note: '威胁阻断' },
+    { name: 'Quad9 DNS (9.9.9.9) - JSON', url: 'https://9.9.9.9/resolve', format: 'json', note: 'IPv4' },
+    { name: 'Quad9 DNS (9.9.9.9) - Wire', url: 'https://9.9.9.9/dns-query', format: 'wire', note: 'IPv4' },
+    { name: 'AdGuard DNS (dns.adguard-dns.com) - JSON', url: 'https://dns.adguard-dns.com/resolve', format: 'json', note: '广告拦截' },
+    { name: 'AdGuard DNS (dns.adguard-dns.com) - Wire', url: 'https://dns.adguard-dns.com/dns-query', format: 'wire', note: '广告拦截' }
   ],
   'europe': [
-    { name: 'CleanBrowsing Family', baseUrl: 'https://doh.cleanbrowsing.org', jsonPath: null, wirePath: '/doh/family-filter/', note: '家庭过滤' },
-    { name: 'CleanBrowsing Adult', baseUrl: 'https://doh.cleanbrowsing.org', jsonPath: null, wirePath: '/doh/adult-filter/', note: '成人内容过滤' },
-    { name: 'CleanBrowsing Security', baseUrl: 'https://doh.cleanbrowsing.org', jsonPath: null, wirePath: '/doh/security-filter/', note: '安全过滤' },
-    { name: 'DNS.SB (域名)', baseUrl: 'https://doh.dns.sb', jsonPath: '/resolve', wirePath: '/dns-query', note: '欧洲' },
-    { name: 'PowerDNS (域名)', baseUrl: 'https://doh.powerdns.org', jsonPath: '/resolve', wirePath: '/dns-query', note: '欧洲' }
+    { name: 'CleanBrowsing Family - Wire', url: 'https://doh.cleanbrowsing.org/doh/family-filter/', format: 'wire', note: '家庭过滤' },
+    { name: 'CleanBrowsing Adult - Wire', url: 'https://doh.cleanbrowsing.org/doh/adult-filter/', format: 'wire', note: '成人内容过滤' },
+    { name: 'CleanBrowsing Security - Wire', url: 'https://doh.cleanbrowsing.org/doh/security-filter/', format: 'wire', note: '安全过滤' },
+    { name: 'DNS.SB (域名) - JSON', url: 'https://doh.dns.sb/resolve', format: 'json', note: '欧洲' },
+    { name: 'DNS.SB (域名) - Wire', url: 'https://doh.dns.sb/dns-query', format: 'wire', note: '欧洲' },
+    { name: 'PowerDNS (域名) - JSON', url: 'https://doh.powerdns.org/resolve', format: 'json', note: '欧洲' },
+    { name: 'PowerDNS (域名) - Wire', url: 'https://doh.powerdns.org/dns-query', format: 'wire', note: '欧洲' }
   ],
   'asia': [
-    { name: 'Yandex DNS (dns.yandex.com)', baseUrl: 'https://dns.yandex.com', jsonPath: '/resolve', wirePath: '/dns-query', note: '俄罗斯' },
-    { name: 'IIJ DNS (public.dns.iij.jp)', baseUrl: 'https://public.dns.iij.jp', jsonPath: '/resolve', wirePath: '/dns-query', note: '日本' }
+    { name: 'Yandex DNS (dns.yandex.com) - JSON', url: 'https://dns.yandex.com/resolve', format: 'json', note: '俄罗斯' },
+    { name: 'Yandex DNS (dns.yandex.com) - Wire', url: 'https://dns.yandex.com/dns-query', format: 'wire', note: '俄罗斯' },
+    { name: 'IIJ DNS (public.dns.iij.jp) - JSON', url: 'https://public.dns.iij.jp/resolve', format: 'json', note: '日本' },
+    { name: 'IIJ DNS (public.dns.iij.jp) - Wire', url: 'https://public.dns.iij.jp/dns-query', format: 'wire', note: '日本' }
   ]
 };
 
@@ -278,21 +300,12 @@ async function startTest() {
   btn.classList.add('testing');
   btn.innerHTML = `
     <div class="btn-icon" style="width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.8s linear infinite;"></div>
-    <span>探测格式中...</span>
+    <span>测试中...</span>
   `;
 
   showProgress();
   renderServerCards();
 
-  // 先进行格式探测
-  await detectAllFormats(servers);
-  
-  btn.innerHTML = `
-    <div class="btn-icon" style="width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.8s linear infinite;"></div>
-    <span>测试中...</span>
-  `;
-
-  // 然后进行完整测试
   const batchResults = await testServersBatch(servers);
   servers.forEach((server, index) => {
     results[index] = batchResults[index];
@@ -305,120 +318,6 @@ async function startTest() {
   updateProgress();
   updateStats();
   checkAllComplete();
-}
-
-async function detectAllFormats(servers) {
-  for (let i = 0; i < servers.length; i++) {
-    const server = servers[i];
-    const detectionResult = await detectServerFormats(server);
-    if (!results[i]) {
-      results[i] = {};
-    }
-    results[i].detection = detectionResult;
-    updateServerCardDetection(i, server, detectionResult);
-  }
-}
-
-async function detectServerFormats(server) {
-  const detection = {
-    jsonAvailable: false,
-    wireAvailable: false,
-    jsonLatency: null,
-    wireLatency: null
-  };
-
-  // 探测 JSON 格式
-  if (server.jsonPath) {
-    try {
-      const startTime = performance.now();
-      const result = await testFormatOnce(server, 'json');
-      const endTime = performance.now();
-      if (result.success) {
-        detection.jsonAvailable = true;
-        detection.jsonLatency = Math.round(endTime - startTime);
-      }
-    } catch (e) {
-      // JSON 探测失败
-    }
-  }
-
-  // 探测 Wire 格式
-  if (server.wirePath) {
-    try {
-      const startTime = performance.now();
-      const result = await testFormatOnce(server, 'wire');
-      const endTime = performance.now();
-      if (result.success) {
-        detection.wireAvailable = true;
-        detection.wireLatency = Math.round(endTime - startTime);
-      }
-    } catch (e) {
-      // Wire 探测失败
-    }
-  }
-
-  return detection;
-}
-
-async function testFormatOnce(server, format) {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), TIMEOUT);
-
-  try {
-    let fetchUrl, options;
-
-    if (format === 'wire') {
-      const dnsQuery = buildDNSQuery(currentDomain, TEST_TYPE);
-      fetchUrl = server.baseUrl + server.wirePath;
-      options = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/dns-message',
-          'Accept': 'application/dns-message'
-        },
-        body: dnsQuery,
-        signal: controller.signal
-      };
-    } else {
-      const timestamp = Date.now();
-      fetchUrl = `${server.baseUrl}${server.jsonPath}?name=${currentDomain}&type=${TEST_TYPE}&t=${timestamp}`;
-      options = {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/dns-json'
-        },
-        signal: controller.signal
-      };
-    }
-
-    const response = await fetch(fetchUrl, options);
-    clearTimeout(timeoutId);
-
-    if (response.ok) {
-      let records = null;
-      if (format === 'wire') {
-        const arrayBuffer = await response.arrayBuffer();
-        records = parseWireResponse(new Uint8Array(arrayBuffer));
-      } else {
-        try {
-          const json = await response.json();
-          records = parseJSONResponse(json);
-        } catch {
-          records = null;
-        }
-      }
-      
-      return {
-        success: records !== null,
-        records: records
-      };
-    } else {
-      return { success: false };
-    }
-  } catch (error) {
-    clearTimeout(timeoutId);
-    return { success: false };
-  }
 }
 
 function sortResults() {
@@ -436,11 +335,7 @@ function sortResults() {
   resultArray.sort((a, b) => {
     if (!a.result || !a.result.success) return 1;
     if (!b.result || !b.result.success) return -1;
-    
-    const aLatency = getBestLatency(a.result);
-    const bLatency = getBestLatency(b.result);
-    
-    return aLatency - bLatency;
+    return a.result.avgLatency - b.result.avgLatency;
   });
 
   const newResults = {};
@@ -452,20 +347,6 @@ function sortResults() {
   });
 
   results = newResults;
-}
-
-function getBestLatency(result) {
-  let minLatency = Infinity;
-  
-  if (result.json && result.json.avgLatency && result.json.avgLatency < minLatency) {
-    minLatency = result.json.avgLatency;
-  }
-  
-  if (result.wire && result.wire.avgLatency && result.wire.avgLatency < minLatency) {
-    minLatency = result.wire.avgLatency;
-  }
-  
-  return minLatency === Infinity ? 0 : minLatency;
 }
 
 async function testServersBatch(servers) {
@@ -499,35 +380,12 @@ async function testServersBatch(servers) {
 }
 
 async function testServer(server, index) {
-  const result = {
-    success: false,
-    detection: results[index]?.detection || { jsonAvailable: false, wireAvailable: false },
-    json: null,
-    wire: null
-  };
-
-  // 测试 JSON 格式
-  if (result.detection.jsonAvailable) {
-    result.json = await testFormatMultiple(server, 'json');
-  }
-
-  // 测试 Wire 格式
-  if (result.detection.wireAvailable) {
-    result.wire = await testFormatMultiple(server, 'wire');
-  }
-
-  result.success = (result.json?.success || false) || (result.wire?.success || false);
-  
-  return result;
-}
-
-async function testFormatMultiple(server, format) {
   const latencies = [];
   let records = null;
 
   for (let run = 0; run < testCount; run++) {
     const startTime = performance.now();
-    const testResult = await testFormatOnce(server, format);
+    const testResult = await testWithFormat(server);
     const endTime = performance.now();
     const latency = Math.round(endTime - startTime);
 
@@ -535,6 +393,11 @@ async function testFormatMultiple(server, format) {
       latencies.push(latency);
       if (!records) records = testResult.records;
     }
+
+    updateServerCardProgress(index, server, {
+      latencies: [...latencies],
+      records
+    });
   }
 
   const avgLatency = latencies.length > 0
@@ -556,88 +419,29 @@ function getLatencyColor(latency) {
   return 'slow';
 }
 
-function updateServerCardDetection(index, server, detection) {
-  const card = document.querySelector(`[data-index="${index}"]`);
-  if (!card) return;
-
-  let statusClass = 'pending';
-  let statusText = '探测中...';
-
-  card.innerHTML = renderCardContent(server, {
-    detection,
-    isDetecting: true
-  });
-}
-
 function updateServerCardProgress(index, server, data) {
-  // 不再需要这个函数
-}
-
-function updateServerCard(index, server, result) {
   const card = document.querySelector(`[data-index="${index}"]`);
   if (!card) return;
 
+  const { latencies, records } = data;
+  
   card.classList.remove('testing', 'success', 'error');
-  card.classList.add(result.success ? 'success' : 'error');
 
-  card.innerHTML = renderCardContent(server, result);
-}
-
-function renderCardContent(server, result) {
-  const detection = result.detection || { jsonAvailable: false, wireAvailable: false };
-  const isDetecting = result.isDetecting || false;
-  
-  let statusClass = isDetecting ? 'pending' : (result.success ? 'success' : 'error');
-  let statusText = isDetecting ? '探测中...' : (result.success ? '成功' : '失败');
-
-  let detectionHtml = '<div class="detection-result">';
-  
-  if (server.jsonPath) {
-    detectionHtml += `<span class="detection-badge ${detection.jsonAvailable ? 'available' : 'unavailable'}">`;
-    detectionHtml += 'JSON ';
-    detectionHtml += detection.jsonAvailable ? '✓' : '✗';
-    if (detection.jsonLatency) {
-      detectionHtml += ` (${detection.jsonLatency}ms)`;
-    }
-    detectionHtml += '</span>';
-  }
-  
-  if (server.wirePath) {
-    detectionHtml += `<span class="detection-badge ${detection.wireAvailable ? 'available' : 'unavailable'}">`;
-    detectionHtml += 'Wire ';
-    detectionHtml += detection.wireAvailable ? '✓' : '✗';
-    if (detection.wireLatency) {
-      detectionHtml += ` (${detection.wireLatency}ms)`;
-    }
-    detectionHtml += '</span>';
-  }
-  
-  detectionHtml += '</div>';
-
-  let testResultsHtml = '';
-  
-  if (!isDetecting) {
-    // JSON 测试结果
-    if (result.json && result.json.success) {
-      testResultsHtml += renderFormatTestResult('JSON', result.json);
-    }
-    
-    // Wire 测试结果
-    if (result.wire && result.wire.success) {
-      testResultsHtml += renderFormatTestResult('Wire', result.wire);
-    }
+  if (latencies.length > 0) {
+    card.classList.add('success');
   }
 
-  // 显示服务器 URL
-  let urlHtml = '';
-  if (server.jsonPath) {
-    urlHtml += `<div class="server-url-part">${server.baseUrl}${server.jsonPath}</div>`;
-  }
-  if (server.wirePath) {
-    urlHtml += `<div class="server-url-part">${server.baseUrl}${server.wirePath}</div>`;
+  const statusClass = latencies.length > 0 ? 'success' : 'pending';
+  const statusText = latencies.length > 0 ? '测试中...' : '等待测试';
+
+  let recordsHTML = '';
+  if (records && records.length > 0) {
+    recordsHTML = renderRecordsDisplay(records);
   }
 
-  return `
+  const avgLatency = latencies.length > 0 ? Math.round(latencies.reduce((a, b) => a + b, 0) / latencies.length) : 0;
+
+  card.innerHTML = `
     <div class="server-header">
       <span class="server-name">${server.name}</span>
       <div class="server-status ${statusClass}">
@@ -645,38 +449,66 @@ function renderCardContent(server, result) {
         <span>${statusText}</span>
       </div>
     </div>
-    <div class="server-urls">
-      ${urlHtml}
+    <div class="server-url">${server.url}</div>
+    <div class="server-format">
+      <span class="format-badge ${server.format}">${server.format.toUpperCase()}</span>
     </div>
-    ${detectionHtml}
-    ${testResultsHtml}
+    <div class="latency-display">
+      ${latencies.map(lat => `<span class="latency-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}
+    </div>
+    ${avgLatency > 0 ? `<div class="latency-average">
+      <span class="latency-avg-label">平均延迟:</span>
+      <span class="latency-avg-value ${getLatencyColor(avgLatency)}">${avgLatency}ms</span>
+    </div>` : ''}
+    ${recordsHTML}
   `;
 }
 
-function renderFormatTestResult(formatName, formatResult) {
-  const color = getLatencyColor(formatResult.avgLatency);
-  
-  let html = `<div class="format-test-result">`;
-  html += `<div class="format-title">${formatName} 测试</div>`;
-  
-  html += `<div class="latency-display">`;
-  formatResult.latencies.forEach(lat => {
-    html += `<span class="latency-point ${getLatencyColor(lat)}">${lat}</span>`;
-  });
-  html += `</div>`;
-  
-  html += `<div class="latency-average">`;
-  html += `<span class="latency-avg-label">${formatName} 平均延迟:</span>`;
-  html += `<span class="latency-avg-value ${color}">${formatResult.avgLatency}ms</span>`;
-  html += `</div>`;
-  
-  if (formatResult.records && formatResult.records.length > 0) {
-    html += renderRecordsDisplay(formatResult.records);
+function updateServerCard(index, server, result) {
+  const card = document.querySelector(`[data-index="${index}"]`);
+  if (!card) return;
+
+  card.classList.remove('testing', 'success', 'error');
+
+  if (!result) {
+    return;
   }
-  
-  html += `</div>`;
-  
-  return html;
+
+  card.classList.add(result.success ? 'success' : 'error');
+
+  const statusClass = result.success ? 'success' : 'error';
+  const statusText = result.success ? '成功' : '失败';
+
+  let recordsHTML = '';
+  if (result.records && result.records.length > 0) {
+    recordsHTML = renderRecordsDisplay(result.records);
+  }
+
+  const { latencies, avgLatency } = result;
+
+  card.innerHTML = `
+    <div class="server-header">
+      <span class="server-name">${server.name}</span>
+      <div class="server-status ${statusClass}">
+        <span class="server-loader"></span>
+        <span>${statusText}</span>
+      </div>
+    </div>
+    <div class="server-url">${server.url}</div>
+    <div class="server-format">
+      <span class="format-badge ${server.format}">${server.format.toUpperCase()}</span>
+    </div>
+    ${result.success ? `
+    <div class="latency-display">
+      ${latencies.map(lat => `<span class="latency-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}
+    </div>
+    <div class="latency-average">
+      <span class="latency-avg-label">平均延迟:</span>
+      <span class="latency-avg-value ${getLatencyColor(avgLatency)}">${avgLatency}ms</span>
+    </div>
+    ${recordsHTML}
+    ` : ''}
+  `;
 }
 
 function renderRecordsDisplay(records) {
@@ -706,9 +538,9 @@ function renderRecordsDisplay(records) {
   
   Object.keys(grouped).forEach(typeName => {
     const values = grouped[typeName];
-    html += `<div class="record-type-row">`;
-    html += `<span class="record-type-badge">${typeName}</span>`;
-    html += `<div class="record-values">`;
+    html += `<div class="record-type-row">
+      <span class="record-type-badge">${typeName}</span>
+      <div class="record-values">`;
     
     values.forEach(value => {
       html += `<span class="record-value">${escapeHtml(value)}</span>`;
@@ -727,9 +559,78 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
-// Test server with specific format (保留但更新)
-async function testWithFormat(server, format) {
-  return testFormatOnce(server, format);
+// Test server with specific format
+async function testWithFormat(server) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), TIMEOUT);
+
+  try {
+    let fetchUrl, options;
+
+    if (server.format === 'wire') {
+      // Wire format: POST with binary DNS query
+      const dnsQuery = buildDNSQuery(currentDomain, TEST_TYPE);
+      fetchUrl = server.url;
+      options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/dns-message',
+          'Accept': 'application/dns-message'
+        },
+        body: dnsQuery,
+        signal: controller.signal
+      };
+    } else {
+      // JSON format: GET with name and type parameters
+      const timestamp = Date.now();
+      fetchUrl = `${server.url}?name=${currentDomain}&type=${TEST_TYPE}&t=${timestamp}`;
+      options = {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/dns-json'
+        },
+        signal: controller.signal
+      };
+    }
+
+    const response = await fetch(fetchUrl, options);
+    clearTimeout(timeoutId);
+
+    if (response.ok) {
+      let records = null;
+      if (server.format === 'wire') {
+        const arrayBuffer = await response.arrayBuffer();
+        records = parseWireResponse(new Uint8Array(arrayBuffer));
+      } else {
+        try {
+          const json = await response.json();
+          records = parseJSONResponse(json);
+        } catch {
+          records = null;
+        }
+      }
+      
+      return {
+        success: records !== null,
+        records: records
+      };
+    } else {
+      return {
+        success: false,
+        error: `HTTP ${response.status}`
+      };
+    }
+  } catch (error) {
+    clearTimeout(timeoutId);
+    let errorMessage = error.message;
+    if (error.name === 'AbortError') {
+      errorMessage = '请求超时';
+    }
+    return {
+      success: false,
+      error: errorMessage
+    };
+  }
 }
 
 // Parse DNS wire format response
@@ -891,10 +792,7 @@ function hideProgress() {
 
 function updateProgress() {
   const servers = getCurrentServers();
-  const completed = Object.keys(results).filter(key => {
-    const result = results[key];
-    return result && (result.success !== undefined);
-  }).length;
+  const completed = Object.keys(results).length;
   const total = servers.length;
   const percentage = total > 0 ? (completed / total) * 100 : 0;
 
@@ -951,10 +849,55 @@ function renderServerCards() {
 
   serverList.forEach(({ index, server, result }) => {
     const card = document.createElement('div');
-    card.className = `server-card ${result && result.success ? 'success' : (result && !result.isDetecting ? 'error' : '')}`;
+    card.className = `server-card ${result ? (result.success ? 'success' : 'error') : ''}`;
     card.setAttribute('data-index', index);
 
-    card.innerHTML = renderCardContent(server, result || { detection: { jsonAvailable: false, wireAvailable: false }, isDetecting: false });
+    let statusClass = 'pending';
+    let statusText = '等待测试';
+
+    if (result) {
+      if (result.success) {
+        statusClass = 'success';
+        statusText = '成功';
+      } else {
+        statusClass = 'error';
+        statusText = '失败';
+      }
+    }
+
+    let recordsHTML = '';
+    if (result && result.records && result.records.length > 0) {
+      recordsHTML = renderRecordsDisplay(result.records);
+    }
+
+    let latenciesHTML = '';
+    if (result && result.success && result.latencies && result.latencies.length > 0) {
+      latenciesHTML = result.latencies.map(lat => `<span class="latency-point ${getLatencyColor(lat)}">${lat}</span>`).join('');
+    }
+
+    card.innerHTML = `
+      <div class="server-header">
+        <span class="server-name">${server.name}</span>
+        <div class="server-status ${statusClass}">
+          <span class="server-loader"></span>
+          <span>${statusText}</span>
+        </div>
+      </div>
+      <div class="server-url">${server.url}</div>
+      <div class="server-format">
+        <span class="format-badge ${server.format}">${server.format.toUpperCase()}</span>
+      </div>
+      ${result && result.success ? `
+      <div class="latency-display">
+        ${latenciesHTML}
+      </div>
+      <div class="latency-average">
+        <span class="latency-avg-label">平均延迟:</span>
+        <span class="latency-avg-value ${getLatencyColor(result.avgLatency)}">${result.avgLatency}ms</span>
+      </div>
+      ${recordsHTML}
+      ` : ''}
+    `;
 
     container.appendChild(card);
   });
@@ -971,12 +914,9 @@ function updateStats() {
   let successCount = 0;
 
   Object.values(results).forEach(result => {
-    if (result && result.success) {
-      const bestLatency = getBestLatency(result);
-      if (bestLatency > 0) {
-        totalLatencies += bestLatency;
-        successCount++;
-      }
+    if (result && result.success && result.avgLatency) {
+      totalLatencies += result.avgLatency;
+      successCount++;
     }
   });
 
@@ -995,20 +935,9 @@ function updateStats() {
 function saveToHistory() {
   const servers = getCurrentServers();
   const successCount = Object.values(results).filter(r => r.success).length;
-  
-  let totalLatency = 0;
-  let latencyCount = 0;
-  Object.values(results).forEach(result => {
-    if (result && result.success) {
-      const bestLatency = getBestLatency(result);
-      if (bestLatency > 0) {
-        totalLatency += bestLatency;
-        latencyCount++;
-      }
-    }
-  });
-  
-  const avgLatency = latencyCount > 0 ? Math.round(totalLatency / latencyCount) : 0;
+  const avgLatency = successCount > 0
+    ? Math.round(Object.values(results).filter(r => r.success && r.avgLatency).reduce((sum, r) => sum + r.avgLatency, 0) / successCount)
+    : 0;
 
   const record = {
     id: Date.now(),
