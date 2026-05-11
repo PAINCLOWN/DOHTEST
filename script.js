@@ -22,36 +22,163 @@ const VERSION = {
 };
 
 const DNS_SERVERS = {
-  'domestic': [
-    { name: 'AliDNS (域名)', url: 'https://dns.alidns.com', note: '中国优化' },
-    { name: 'AliDNS (223.5.5.5)', url: 'https://223.5.5.5', note: 'IPv4' },
-    { name: 'AliDNS (223.6.6.6)', url: 'https://223.6.6.6', note: 'IPv4备用' },
-    { name: 'DNSPod (域名)', url: 'https://doh.pub', note: '中国优化' },
-    { name: 'DNSPod (1.12.12.12)', url: 'https://1.12.12.12', note: 'IPv4' },
-    { name: 'DNSPod (120.53.53.53)', url: 'https://120.53.53.53', note: 'IPv4备用' },
-    { name: '360 DNS (域名)', url: 'https://doh.360.cn', note: '中国' }
-  ],
-  'international': [
-    { name: 'Google DNS (域名)', url: 'https://dns.google', note: 'Google DNS' },
-    { name: 'Google DNS (8.8.8.8)', url: 'https://8.8.8.8', note: 'IPv4' },
-    { name: 'Google DNS (8.8.4.4)', url: 'https://8.8.4.4', note: 'IPv4备用' },
-    { name: 'Cloudflare DNS (域名)', url: 'https://cloudflare-dns.com', note: 'Cloudflare' },
-    { name: 'Cloudflare DNS (1.1.1.1)', url: 'https://1.1.1.1', note: 'IPv4' },
-    { name: 'Cloudflare DNS (1.0.0.1)', url: 'https://1.0.0.1', note: 'IPv4备用' },
-    { name: 'Quad9 DNS (dns.quad9.net)', url: 'https://dns.quad9.net', note: '威胁阻断' },
-    { name: 'Quad9 DNS (9.9.9.9)', url: 'https://9.9.9.9', note: 'IPv4' },
-    { name: 'AdGuard DNS (dns.adguard-dns.com)', url: 'https://dns.adguard-dns.com', note: '广告拦截' }
-  ],
-  'europe': [
-    { name: 'CleanBrowsing Family', url: 'https://doh.cleanbrowsing.org', note: '家庭过滤' },
-    { name: 'CleanBrowsing Adult', url: 'https://doh.cleanbrowsing.org', note: '成人内容过滤' },
-    { name: 'CleanBrowsing Security', url: 'https://doh.cleanbrowsing.org', note: '安全过滤' },
-    { name: 'DNS.SB (域名)', url: 'https://doh.dns.sb', note: '欧洲' },
-    { name: 'PowerDNS (域名)', url: 'https://doh.powerdns.org', note: '欧洲' }
-  ],
-  'asia': [
-    { name: 'Yandex DNS (dns.yandex.com)', url: 'https://dns.yandex.com', note: '俄罗斯' },
-    { name: 'IIJ DNS (public.dns.iij.jp)', url: 'https://public.dns.iij.jp', note: '日本' }
+  'all': [
+    // Google (10条)
+    { name: 'Google - 默认 - 域名 - JSON', url: 'https://dns.google/resolve', note: 'JSON API（原始）' },
+    { name: 'Google - 默认 - 域名 - Wire', url: 'https://dns.google/dns-query', note: 'RFC 8484' },
+    { name: 'Google - 默认 - IP (8.8.8.8) - JSON', url: 'https://8.8.8.8/resolve', note: '' },
+    { name: 'Google - 默认 - IP (8.8.8.8) - Wire', url: 'https://8.8.8.8/dns-query', note: '' },
+    { name: 'Google - 默认 - IP (8.8.4.4) - JSON', url: 'https://8.8.4.4/resolve', note: '' },
+    { name: 'Google - 默认 - IP (8.8.4.4) - Wire', url: 'https://8.8.4.4/dns-query', note: '' },
+    { name: 'Google - 默认 - IPv6 - JSON', url: 'https://2001:4860:4860::8888/resolve', note: 'IPv6' },
+    { name: 'Google - 默认 - IPv6 - Wire', url: 'https://2001:4860:4860::8888/dns-query', note: 'IPv6' },
+    { name: 'Google - 默认 - IPv6 - JSON', url: 'https://2001:4860:4860::8844/resolve', note: 'IPv6' },
+    { name: 'Google - 默认 - IPv6 - Wire', url: 'https://2001:4860:4860::8844/dns-query', note: 'IPv6' },
+    
+    // Cloudflare (26条)
+    { name: 'Cloudflare - 默认 - 域名 - JSON', url: 'https://cloudflare-dns.com/resolve', note: '兼容 Google JSON' },
+    { name: 'Cloudflare - 默认 - 域名 - Wire', url: 'https://cloudflare-dns.com/dns-query', note: '' },
+    { name: 'Cloudflare - 默认 - IP (1.1.1.1) - JSON', url: 'https://1.1.1.1/resolve', note: '' },
+    { name: 'Cloudflare - 默认 - IP (1.1.1.1) - Wire', url: 'https://1.1.1.1/dns-query', note: '' },
+    { name: 'Cloudflare - 默认 - IP (1.0.0.1) - JSON', url: 'https://1.0.0.1/resolve', note: '' },
+    { name: 'Cloudflare - 默认 - IP (1.0.0.1) - Wire', url: 'https://1.0.0.1/dns-query', note: '' },
+    { name: 'Cloudflare - 默认 - IPv6 - JSON', url: 'https://2606:4700:4700::1111/resolve', note: 'IPv6' },
+    { name: 'Cloudflare - 默认 - IPv6 - Wire', url: 'https://2606:4700:4700::1111/dns-query', note: 'IPv6' },
+    { name: 'Cloudflare - 默认 - IPv6 - JSON', url: 'https://2606:4700:4700::1001/resolve', note: 'IPv6' },
+    { name: 'Cloudflare - 默认 - IPv6 - Wire', url: 'https://2606:4700:4700::1001/dns-query', note: 'IPv6' },
+    { name: 'Cloudflare - 恶意软件 - 域名 - JSON', url: 'https://security.cloudflare-dns.com/resolve', note: '' },
+    { name: 'Cloudflare - 恶意软件 - 域名 - Wire', url: 'https://security.cloudflare-dns.com/dns-query', note: '' },
+    { name: 'Cloudflare - 恶意软件 - IP - JSON', url: 'https://1.1.1.2/resolve', note: '' },
+    { name: 'Cloudflare - 恶意软件 - IP - Wire', url: 'https://1.1.1.2/dns-query', note: '' },
+    { name: 'Cloudflare - 恶意软件 - IP - JSON', url: 'https://1.0.0.2/resolve', note: '' },
+    { name: 'Cloudflare - 恶意软件 - IP - Wire', url: 'https://1.0.0.2/dns-query', note: '' },
+    { name: 'Cloudflare - 家庭 - 域名 - JSON', url: 'https://family.cloudflare-dns.com/resolve', note: '' },
+    { name: 'Cloudflare - 家庭 - 域名 - Wire', url: 'https://family.cloudflare-dns.com/dns-query', note: '' },
+    { name: 'Cloudflare - 家庭 - IP - JSON', url: 'https://1.1.1.3/resolve', note: '' },
+    { name: 'Cloudflare - 家庭 - IP - Wire', url: 'https://1.1.1.3/dns-query', note: '' },
+    { name: 'Cloudflare - 家庭 - IP - JSON', url: 'https://1.0.0.3/resolve', note: '' },
+    { name: 'Cloudflare - 家庭 - IP - Wire', url: 'https://1.0.0.3/dns-query', note: '' },
+    { name: 'Cloudflare - Mozilla - 域名 - JSON', url: 'https://mozilla.cloudflare-dns.com/resolve', note: '' },
+    { name: 'Cloudflare - Mozilla - 域名 - Wire', url: 'https://mozilla.cloudflare-dns.com/dns-query', note: '' },
+    { name: 'Cloudflare - DNS64 - 域名 - JSON', url: 'https://dns64.cloudflare-dns.com/resolve', note: '' },
+    { name: 'Cloudflare - DNS64 - 域名 - Wire', url: 'https://dns64.cloudflare-dns.com/dns-query', note: '' },
+    
+    // Quad9 (16条)
+    { name: 'Quad9 - 安全 - 域名 - JSON', url: 'https://dns.quad9.net/resolve', note: 'DNSSEC；无日志' },
+    { name: 'Quad9 - 安全 - 域名 - Wire', url: 'https://dns.quad9.net/dns-query', note: '' },
+    { name: 'Quad9 - 安全 - 域名 - JSON', url: 'https://dns9.quad9.net/resolve', note: '' },
+    { name: 'Quad9 - 安全 - 域名 - Wire', url: 'https://dns9.quad9.net/dns-query', note: '' },
+    { name: 'Quad9 - 安全 - IP - JSON', url: 'https://9.9.9.9/resolve', note: '' },
+    { name: 'Quad9 - 安全 - IP - Wire', url: 'https://9.9.9.9/dns-query', note: '' },
+    { name: 'Quad9 - 安全 - IP - JSON', url: 'https://149.112.112.112/resolve', note: '' },
+    { name: 'Quad9 - 安全 - IP - Wire', url: 'https://149.112.112.112/dns-query', note: '' },
+    { name: 'Quad9 - 安全 - IPv6 - JSON', url: 'https://2620:fe::fe/resolve', note: 'IPv6' },
+    { name: 'Quad9 - 安全 - IPv6 - Wire', url: 'https://2620:fe::fe/dns-query', note: 'IPv6' },
+    { name: 'Quad9 - 无阻断 - 域名 - JSON', url: 'https://dns10.quad9.net/resolve', note: '' },
+    { name: 'Quad9 - 无阻断 - 域名 - Wire', url: 'https://dns10.quad9.net/dns-query', note: '' },
+    { name: 'Quad9 - 无阻断 - IP - JSON', url: 'https://9.9.9.10/resolve', note: '' },
+    { name: 'Quad9 - 无阻断 - IP - Wire', url: 'https://9.9.9.10/dns-query', note: '' },
+    { name: 'Quad9 - 无阻断 - IP - JSON', url: 'https://149.112.112.10/resolve', note: '' },
+    { name: 'Quad9 - 无阻断 - IP - Wire', url: 'https://149.112.112.10/dns-query', note: '' },
+    
+    // AdGuard (10条)
+    { name: 'AdGuard - 默认 - 域名 - JSON', url: 'https://dns.adguard-dns.com/resolve', note: 'DNSSEC；DoQ' },
+    { name: 'AdGuard - 默认 - 域名 - Wire', url: 'https://dns.adguard-dns.com/dns-query', note: '' },
+    { name: 'AdGuard - 默认 - 旧域名 - JSON', url: 'https://dns.adguard.com/resolve', note: '旧域名' },
+    { name: 'AdGuard - 默认 - 旧域名 - Wire', url: 'https://dns.adguard.com/dns-query', note: '旧域名' },
+    { name: 'AdGuard - 家庭 - 域名 - JSON', url: 'https://family.adguard-dns.com/resolve', note: '' },
+    { name: 'AdGuard - 家庭 - 域名 - Wire', url: 'https://family.adguard-dns.com/dns-query', note: '' },
+    { name: 'AdGuard - 家庭 - 旧域名 - JSON', url: 'https://dns-family.adguard.com/resolve', note: '旧域名' },
+    { name: 'AdGuard - 家庭 - 旧域名 - Wire', url: 'https://dns-family.adguard.com/dns-query', note: '旧域名' },
+    { name: 'AdGuard - 无过滤 - 域名 - JSON', url: 'https://unfiltered.adguard-dns.com/resolve', note: '' },
+    { name: 'AdGuard - 无过滤 - 域名 - Wire', url: 'https://unfiltered.adguard-dns.com/dns-query', note: '' },
+    
+    // Mullvad (6条)
+    { name: 'Mullvad - 广告拦截 - 域名 - JSON', url: 'https://adblock.doh.mullvad.net/resolve', note: '' },
+    { name: 'Mullvad - 广告拦截 - 域名 - Wire', url: 'https://adblock.doh.mullvad.net/dns-query', note: '' },
+    { name: 'Mullvad - 无过滤 - 域名 - JSON', url: 'https://base.doh.mullvad.net/resolve', note: '' },
+    { name: 'Mullvad - 无过滤 - 域名 - Wire', url: 'https://base.doh.mullvad.net/dns-query', note: '' },
+    { name: 'Mullvad - 全功能 - 域名 - JSON', url: 'https://all.doh.mullvad.net/resolve', note: '' },
+    { name: 'Mullvad - 全功能 - 域名 - Wire', url: 'https://all.doh.mullvad.net/dns-query', note: '' },
+    
+    // Control D (6条)
+    { name: 'Control D - 无过滤 - 域名', url: 'https://freedns.controld.com/p0', note: '' },
+    { name: 'Control D - 恶意软件拦截 - 域名', url: 'https://freedns.controld.com/p1', note: '' },
+    { name: 'Control D - 广告拦截 - 域名', url: 'https://freedns.controld.com/p2', note: '' },
+    { name: 'Control D - 社交拦截 - 域名', url: 'https://freedns.controld.com/p3', note: '' },
+    { name: 'Control D - 家庭 - 域名', url: 'https://freedns.controld.com/family', note: '' },
+    { name: 'Control D - 无审查 - 域名', url: 'https://freedns.controld.com/uncensored', note: '' },
+    
+    // NextDNS (2条)
+    { name: 'NextDNS - 默认 - 域名 - JSON', url: 'https://dns.nextdns.io/resolve', note: '' },
+    { name: 'NextDNS - 默认 - 域名 - Wire', url: 'https://dns.nextdns.io/dns-query', note: '' },
+    
+    // Cisco OpenDNS (16条)
+    { name: 'OpenDNS - 默认 - 域名 - JSON', url: 'https://doh.opendns.com/resolve', note: '' },
+    { name: 'OpenDNS - 默认 - 域名 - Wire', url: 'https://doh.opendns.com/dns-query', note: '' },
+    { name: 'OpenDNS - 默认 - IP - JSON', url: 'https://208.67.222.222/resolve', note: '' },
+    { name: 'OpenDNS - 默认 - IP - Wire', url: 'https://208.67.222.222/dns-query', note: '' },
+    { name: 'OpenDNS - 默认 - IP - JSON', url: 'https://208.67.220.220/resolve', note: '' },
+    { name: 'OpenDNS - 默认 - IP - Wire', url: 'https://208.67.220.220/dns-query', note: '' },
+    { name: 'OpenDNS - 家庭 - 域名 - JSON', url: 'https://doh.familyshield.opendns.com/resolve', note: '' },
+    { name: 'OpenDNS - 家庭 - 域名 - Wire', url: 'https://doh.familyshield.opendns.com/dns-query', note: '' },
+    { name: 'OpenDNS - 家庭 - IP - JSON', url: 'https://208.67.222.123/resolve', note: '' },
+    { name: 'OpenDNS - 家庭 - IP - Wire', url: 'https://208.67.222.123/dns-query', note: '' },
+    { name: 'OpenDNS - 家庭 - IP - JSON', url: 'https://208.67.220.123/resolve', note: '' },
+    { name: 'OpenDNS - 家庭 - IP - Wire', url: 'https://208.67.220.123/dns-query', note: '' },
+    { name: 'OpenDNS - Sandbox - 域名 - JSON', url: 'https://sandbox.opendns.com/resolve', note: '无过滤' },
+    { name: 'OpenDNS - Sandbox - 域名 - Wire', url: 'https://sandbox.opendns.com/dns-query', note: '无过滤' },
+    { name: 'OpenDNS - Sandbox - IP - JSON', url: 'https://208.67.222.2/resolve', note: '' },
+    { name: 'OpenDNS - Sandbox - IP - Wire', url: 'https://208.67.222.2/dns-query', note: '' },
+    
+    // Cisco Umbrella (2条)
+    { name: 'Cisco Umbrella - 企业 - 域名 - JSON', url: 'https://doh.umbrella.com/resolve', note: '' },
+    { name: 'Cisco Umbrella - 企业 - 域名 - Wire', url: 'https://doh.umbrella.com/dns-query', note: '' },
+    
+    // CleanBrowsing (3条)
+    { name: 'CleanBrowsing - 家庭 - 域名', url: 'https://doh.cleanbrowsing.org/doh/family-filter', note: '' },
+    { name: 'CleanBrowsing - 成人 - 域名', url: 'https://doh.cleanbrowsing.org/doh/adult-filter', note: '' },
+    { name: 'CleanBrowsing - 安全 - 域名', url: 'https://doh.cleanbrowsing.org/doh/security-filter', note: '' },
+    
+    // AliDNS (10条)
+    { name: 'AliDNS - 默认 - 域名 - JSON', url: 'https://dns.alidns.com/resolve', note: '中国优化' },
+    { name: 'AliDNS - 默认 - 域名 - Wire', url: 'https://dns.alidns.com/dns-query', note: '' },
+    { name: 'AliDNS - 默认 - IP - JSON', url: 'https://223.5.5.5/resolve', note: '' },
+    { name: 'AliDNS - 默认 - IP - Wire', url: 'https://223.5.5.5/dns-query', note: '' },
+    { name: 'AliDNS - 默认 - IP - JSON', url: 'https://223.6.6.6/resolve', note: '' },
+    { name: 'AliDNS - 默认 - IP - Wire', url: 'https://223.6.6.6/dns-query', note: '' },
+    { name: 'AliDNS - 默认 - IPv6 - JSON', url: 'https://2400:3200::1/resolve', note: 'IPv6' },
+    { name: 'AliDNS - 默认 - IPv6 - Wire', url: 'https://2400:3200::1/dns-query', note: 'IPv6' },
+    { name: 'AliDNS - 默认 - IPv6 - JSON', url: 'https://2400:3200:baba::1/resolve', note: 'IPv6' },
+    { name: 'AliDNS - 默认 - IPv6 - Wire', url: 'https://2400:3200:baba::1/dns-query', note: 'IPv6' },
+    
+    // DNSPod (8条)
+    { name: 'DNSPod - 默认 - 域名 - JSON', url: 'https://doh.pub/resolve', note: '中国优化' },
+    { name: 'DNSPod - 默认 - 域名 - Wire', url: 'https://doh.pub/dns-query', note: '' },
+    { name: 'DNSPod - 默认 - IP - JSON', url: 'https://1.12.12.12/resolve', note: '' },
+    { name: 'DNSPod - 默认 - IP - Wire', url: 'https://1.12.12.12/dns-query', note: '' },
+    { name: 'DNSPod - 默认 - IP - JSON', url: 'https://120.53.53.53/resolve', note: '' },
+    { name: 'DNSPod - 默认 - IP - Wire', url: 'https://120.53.53.53/dns-query', note: '' },
+    { name: 'DNSPod - 默认 - IPv6 - JSON', url: 'https://2402:4e00::/resolve', note: 'IPv6' },
+    { name: 'DNSPod - 默认 - IPv6 - Wire', url: 'https://2402:4e00::/dns-query', note: 'IPv6' },
+    
+    // 360 DNS (2条)
+    { name: '360 DNS - 默认 - 域名 - JSON', url: 'https://doh.360.cn/resolve', note: '' },
+    { name: '360 DNS - 默认 - 域名 - Wire', url: 'https://doh.360.cn/dns-query', note: '' },
+    
+    // 其他 (6条)
+    { name: 'DNS.SB - 默认 - 域名 - JSON', url: 'https://doh.dns.sb/resolve', note: '' },
+    { name: 'DNS.SB - 默认 - 域名 - Wire', url: 'https://doh.dns.sb/dns-query', note: '' },
+    { name: 'Wikimedia DNS - 域名 - JSON', url: 'https://wikimedia-dns.org/resolve', note: '维基基金会' },
+    { name: 'Wikimedia DNS - 域名 - Wire', url: 'https://wikimedia-dns.org/dns-query', note: '' },
+    { name: 'Yandex DNS - 域名 - JSON', url: 'https://dns.yandex.com/resolve', note: '' },
+    { name: 'Yandex DNS - 域名 - Wire', url: 'https://dns.yandex.com/dns-query', note: '' },
+    { name: 'IIJ (日本) - 域名 - JSON', url: 'https://public.dns.iij.jp/resolve', note: '' },
+    { name: 'IIJ (日本) - 域名 - Wire', url: 'https://public.dns.iij.jp/dns-query', note: '' },
+    { name: 'JPNE (日本) - 域名 - JSON', url: 'https://doh.jpne.jp/resolve', note: '' },
+    { name: 'JPNE (日本) - 域名 - Wire', url: 'https://doh.jpne.jp/dns-query', note: '' },
+    { name: 'PowerDNS - 域名 - JSON', url: 'https://doh.powerdns.org/resolve', note: '' },
+    { name: 'PowerDNS - 域名 - Wire', url: 'https://doh.powerdns.org/dns-query', note: '' }
   ]
 };
 
@@ -116,7 +243,7 @@ function buildDNSQuery(domain, type) {
   return buffer.slice(0, offset);
 }
 
-let currentTab = 'domestic';
+let currentTab = 'all';
 let currentDomain = DOMESTIC_DEFAULT_DOMAIN;
 let isTesting = false;
 let results = {};
@@ -134,10 +261,7 @@ async function init() {
   initCountSlider();
   initTypeSlider();
 
-  document.getElementById('domestic-tab').addEventListener('click', () => switchTab('domestic'));
-  document.getElementById('international-tab').addEventListener('click', () => switchTab('international'));
-  document.getElementById('europe-tab').addEventListener('click', () => switchTab('europe'));
-  document.getElementById('asia-tab').addEventListener('click', () => switchTab('asia'));
+  document.getElementById('all-tab').addEventListener('click', () => switchTab('all'));
   document.getElementById('test-btn').addEventListener('click', startTest);
   document.getElementById('domain-input').addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
@@ -248,7 +372,7 @@ function switchTab(tab) {
     }
   }
   
-  document.getElementById('domain-input').value = tab === 'domestic' ? DOMESTIC_DEFAULT_DOMAIN : FOREIGN_DEFAULT_DOMAIN;
+  document.getElementById('domain-input').value = FOREIGN_DEFAULT_DOMAIN;
   currentDomain = document.getElementById('domain-input').value;
   results = {};
   hideProgress();
@@ -316,8 +440,8 @@ function sortResults() {
     if (!a.result || !a.result.success) return 1;
     if (!b.result || !b.result.success) return -1;
 
-    const aMin = getMinLatency(a.result.endpointResults);
-    const bMin = getMinLatency(b.result.endpointResults);
+    const aMin = getMinLatency(a.result);
+    const bMin = getMinLatency(b.result);
     return aMin - bMin;
   });
 
@@ -332,13 +456,13 @@ function sortResults() {
   results = newResults;
 }
 
-function getMinLatency(endpointResults) {
+function getMinLatency(result) {
   let min = Infinity;
-  for (const key in endpointResults) {
-    const result = endpointResults[key];
-    if (result.avgLatency && result.avgLatency < min) {
-      min = result.avgLatency;
-    }
+  if (result.jsonAvgLatency && result.jsonAvgLatency < min) {
+    min = result.jsonAvgLatency;
+  }
+  if (result.wireAvgLatency && result.wireAvgLatency < min) {
+    min = result.wireAvgLatency;
   }
   return min === Infinity ? 0 : min;
 }
@@ -374,88 +498,97 @@ async function testServersBatch(servers) {
 }
 
 async function testServer(server, index) {
-  // 全面探测所有可能的格式和路径组合
-  const endpoints = [
-    { name: 'JSON (/resolve)', path: '/resolve', format: 'json', method: 'get' },
-    { name: 'Wire (/dns-query)', path: '/dns-query', format: 'wire', method: 'post' },
-    { name: 'JSON (/dns-query)', path: '/dns-query', format: 'json', method: 'get' },
-    { name: 'Wire (/resolve)', path: '/resolve', format: 'wire', method: 'post' }
-  ];
-
-  // 探测所有组合
-  const probeResults = [];
-  for (const endpoint of endpoints) {
-    try {
-      const testResult = await testEndpoint(server, endpoint);
-      if (testResult && testResult.success) {
-        probeResults.push({ ...endpoint, supported: true });
-      }
-    } catch {
-      // 忽略探测失败
-    }
+  // 对这个URL，我们需要探测两种格式
+  // 1. JSON格式 - GET请求，无论URL是什么
+  // 2. Wire格式 - POST请求，无论URL是什么
+  let jsonSupported = false;
+  let wireSupported = false;
+  
+  // 探测JSON格式
+  try {
+    const testResult = await testUrlWithFormat(server.url, 'json');
+    jsonSupported = testResult && testResult.success;
+  } catch {
+    jsonSupported = false;
+  }
+  
+  // 探测Wire格式
+  try {
+    const testResult = await testUrlWithFormat(server.url, 'wire');
+    wireSupported = testResult && testResult.success;
+  } catch {
+    wireSupported = false;
   }
 
-  // 对所有探测到的可用组合进行多次测试
-  const endpointResults = {};
+  // 对支持的格式进行多次测试
+  const jsonLatencies = [];
+  const wireLatencies = [];
   let records = null;
 
   for (let run = 0; run < testCount; run++) {
-    for (const endpoint of probeResults) {
-      const key = `${endpoint.name}`;
-      if (!endpointResults[key]) {
-        endpointResults[key] = { endpoint, latencies: [] };
-      }
-
+    // 测试 JSON 格式
+    if (jsonSupported) {
       const startTime = performance.now();
-      const testResult = await testEndpoint(server, endpoint);
+      const testResult = await testUrlWithFormat(server.url, 'json');
       const endTime = performance.now();
       const latency = Math.round(endTime - startTime);
 
       if (testResult && testResult.success) {
-        endpointResults[key].latencies.push(latency);
+        jsonLatencies.push(latency);
+        if (!records) records = testResult.records;
+      }
+    }
+
+    // 测试 Wire 格式
+    if (wireSupported) {
+      const startTime = performance.now();
+      const testResult = await testUrlWithFormat(server.url, 'wire');
+      const endTime = performance.now();
+      const latency = Math.round(endTime - startTime);
+
+      if (testResult && testResult.success) {
+        wireLatencies.push(latency);
         if (!records) records = testResult.records;
       }
     }
 
     // 更新进度显示
     updateServerCardProgress(index, server, {
-      endpoints: probeResults,
-      endpointResults: { ...endpointResults },
+      jsonSupported,
+      wireSupported,
+      jsonLatencies: [...jsonLatencies],
+      wireLatencies: [...wireLatencies],
       records
     });
   }
 
-  // 计算每个端点的平均延迟
-  for (const key in endpointResults) {
-    const result = endpointResults[key];
-    if (result.latencies.length > 0) {
-      result.avgLatency = Math.round(
-        result.latencies.reduce((a, b) => a + b, 0) / result.latencies.length
-      );
-    }
-  }
+  const jsonAvgLatency = jsonLatencies.length > 0 ? Math.round(jsonLatencies.reduce((a, b) => a + b, 0) / jsonLatencies.length) : 0;
+  const wireAvgLatency = wireLatencies.length > 0 ? Math.round(wireLatencies.reduce((a, b) => a + b, 0) / wireLatencies.length) : 0;
 
   return {
-    success: probeResults.length > 0,
-    endpoints: probeResults,
-    endpointResults,
+    success: jsonSupported || wireSupported,
+    jsonSupported,
+    wireSupported,
+    jsonLatencies,
+    wireLatencies,
+    jsonAvgLatency,
+    wireAvgLatency,
     records,
     totalRuns: testCount
   };
 }
 
-async function testEndpoint(server, endpoint) {
+async function testUrlWithFormat(url, format) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), TIMEOUT);
 
   try {
     let fetchUrl, options;
-    const fullUrl = server.url + endpoint.path;
 
-    if (endpoint.format === 'wire') {
+    if (format === 'wire') {
       // Wire 格式始终使用 POST
       const dnsQuery = buildDNSQuery(currentDomain, TEST_TYPE);
-      fetchUrl = fullUrl;
+      fetchUrl = url;
       options = {
         method: 'POST',
         headers: {
@@ -468,7 +601,9 @@ async function testEndpoint(server, endpoint) {
     } else {
       // JSON 格式使用 GET
       const timestamp = Date.now();
-      fetchUrl = `${fullUrl}?name=${currentDomain}&type=${TEST_TYPE}&t=${timestamp}`;
+      // 检查URL是否已经包含查询参数
+      const separator = url.includes('?') ? '&' : '?';
+      fetchUrl = `${url}${separator}name=${currentDomain}&type=${TEST_TYPE}&t=${timestamp}`;
       options = {
         method: 'GET',
         headers: {
@@ -483,7 +618,7 @@ async function testEndpoint(server, endpoint) {
 
     if (response.ok) {
       let records = null;
-      if (endpoint.format === 'wire') {
+      if (format === 'wire') {
         const arrayBuffer = await response.arrayBuffer();
         records = parseWireResponse(new Uint8Array(arrayBuffer));
       } else {
@@ -494,7 +629,7 @@ async function testEndpoint(server, endpoint) {
           records = null;
         }
       }
-
+      
       return {
         success: records !== null,
         records: records
