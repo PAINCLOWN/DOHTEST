@@ -1,24 +1,29 @@
 :root {
-    --bg-dark: #1a1a1a;
-    --bg-card: rgba(30, 30, 30, 0.8);
-    --bg-card-hover: rgba(45, 45, 45, 0.9);
+    --bg-dark: #222222;
+    --bg-card: rgba(45, 45, 45, 0.9);
+    --bg-card-hover: rgba(60, 60, 60, 0.95);
+    --bg-input: rgba(15, 15, 15, 0.6);
     --text-primary: #ffffff;
     --text-secondary: #bfff00;
-    --text-muted: #888888;
-    --border-color: rgba(191, 255, 0, 0.15);
+    --text-muted: #999999;
+    --border-color: rgba(191, 255, 0, 0.2);
+    --border-focus: rgba(191, 255, 0, 0.5);
     --primary: #bfff00;
-    --primary-glow: rgba(191, 255, 0, 0.4);
+    --primary-glow: rgba(191, 255, 0, 0.5);
+    --primary-dark: #99cc00;
     --success: #bfff00;
-    --success-glow: rgba(191, 255, 0, 0.3);
+    --success-glow: rgba(191, 255, 0, 0.4);
     --warning: #ffcc00;
+    --warning-glow: rgba(255, 204, 0, 0.3);
     --error: #ff4444;
-    --error-glow: rgba(255, 68, 68, 0.3);
+    --error-glow: rgba(255, 68, 68, 0.4);
     --accent: #bfff00;
-    --accent-glow: rgba(191, 255, 0, 0.3);
+    --accent-glow: rgba(191, 255, 0, 0.4);
     --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
     --font-mono: 'SF Mono', 'Fira Code', ui-monospace, monospace;
     --radius: 16px;
     --radius-sm: 8px;
+    --radius-xs: 4px;
     --spacing-xs: 8px;
     --spacing-sm: 12px;
     --spacing-md: 16px;
@@ -134,12 +139,13 @@ body {
 
 .cors-notice {
     background: rgba(255, 204, 0, 0.1);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 204, 0, 0.3);
     border-radius: var(--radius);
     margin-bottom: 24px;
     overflow: hidden;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .cors-header {
@@ -286,6 +292,7 @@ body {
     border-radius: var(--radius);
     padding: 24px;
     margin-bottom: 24px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .tabs {
@@ -301,6 +308,7 @@ body {
     border-radius: var(--radius-sm);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 0;
+    box-shadow: 0 0 20px var(--primary-glow);
 }
 
 .tab {
@@ -343,16 +351,18 @@ body {
     align-items: center;
     flex: 1 1 auto;
     min-width: 0;
-    background: rgba(0, 0, 0, 0.3);
+    background: var(--bg-input);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
     transition: all 0.3s ease;
     overflow: hidden;
+    backdrop-filter: blur(10px);
 }
 
 .input-wrapper .btn-primary {
     position: relative;
     flex-shrink: 0;
+    border-left: 1px solid var(--border-color);
 }
 
 .test-count-selector {
@@ -385,6 +395,7 @@ body {
     border-radius: 6px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 0;
+    box-shadow: 0 0 15px var(--primary-glow);
 }
 
 .count-btn {
@@ -441,6 +452,7 @@ body {
     border-radius: 6px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 0;
+    box-shadow: 0 0 15px var(--accent-glow);
 }
 
 .type-btn {
@@ -469,8 +481,8 @@ body {
 }
 
 .input-wrapper:focus-within {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px var(--primary-glow);
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px var(--primary-glow), 0 0 20px var(--primary-glow);
 }
 
 .input-icon {
@@ -516,22 +528,26 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--primary), var(--accent));
+    background: var(--primary);
     color: var(--bg-dark);
+    font-weight: 700;
     box-shadow: 0 4px 20px var(--primary-glow);
+    transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 30px var(--primary-glow);
+    background: var(--primary-dark);
 }
 
 .btn-primary:active {
     transform: translateY(0);
+    box-shadow: 0 2px 10px var(--primary-glow);
 }
 
 .btn-primary.testing {
-    background: linear-gradient(135deg, var(--warning), #cc9900);
+    background: var(--warning);
     animation: pulse-btn 1.5s ease-in-out infinite;
 }
 
@@ -564,7 +580,7 @@ body {
 
 .progress-section {
     background: var(--bg-card);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(15px);
     border: 1px solid var(--border-color);
     border-radius: var(--radius);
     padding: 20px 24px;
@@ -572,6 +588,7 @@ body {
     opacity: 0;
     transform: translateY(-10px);
     transition: all 0.4s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .progress-section.visible {
@@ -613,11 +630,10 @@ body {
     top: 0;
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, var(--primary), var(--accent), var(--primary));
-    background-size: 200% 100%;
+    background: var(--primary);
     border-radius: 4px;
     transition: width 0.3s ease;
-    animation: shimmer 2s linear infinite;
+    box-shadow: 0 0 15px var(--primary-glow);
 }
 
 @keyframes shimmer {
@@ -661,11 +677,12 @@ body {
     align-items: center;
     gap: 16px;
     background: var(--bg-card);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(15px);
     border: 1px solid var(--border-color);
     border-radius: var(--radius);
     padding: 20px;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .stat-card:hover {
@@ -731,13 +748,14 @@ body {
 
 .server-card {
     background: var(--bg-card);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(15px);
     border: 1px solid var(--border-color);
     border-radius: var(--radius);
-    padding: 12px;
+    padding: 16px;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .server-card::before {
@@ -753,8 +771,9 @@ body {
 }
 
 .server-card:hover {
-    border-color: rgba(191, 255, 0, 0.3);
+    border-color: var(--border-focus);
     transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 .server-card:hover::before {
@@ -975,11 +994,12 @@ body {
 
 .history-section {
     background: var(--bg-card);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(15px);
     border: 1px solid var(--border-color);
     border-radius: var(--radius);
     padding: 24px;
     margin-bottom: 24px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .history-header {
@@ -1172,7 +1192,6 @@ body {
 
     .input-wrapper .btn-primary {
         border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-        border-left: 1px solid rgba(191, 255, 0, 0.2);
     }
 
     .btn-primary:not(.input-wrapper .btn-primary) {
