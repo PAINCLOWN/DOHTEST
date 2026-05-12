@@ -772,118 +772,115 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
+}
+
+.server-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
 }
 
 .server-name {
-    font-size: 0.88rem;
+    font-size: 0.85rem;
     font-weight: 600;
     color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.server-status {
-    display: flex;
-    align-items: center;
-    gap: 4px;
+.latency-badge {
+    font-family: var(--font-mono);
     font-size: 0.75rem;
-    padding: 3px 8px;
-    border-radius: 20px;
-    font-weight: 500;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
     flex-shrink: 0;
 }
 
+.latency-badge.fast { background: var(--success); color: var(--bg-dark); }
+.latency-badge.medium { background: var(--warning); color: var(--bg-dark); }
+.latency-badge.slow { background: var(--error); color: white; }
+
+.server-format-info {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+
+.server-format-info.success { background: rgba(191, 255, 0, 0.2); color: var(--primary); }
+.server-format-info.error { background: rgba(255, 68, 68, 0.2); color: var(--error); }
+.server-format-info.pending { background: rgba(136, 136, 136, 0.2); color: var(--text-muted); }
+
 .server-url {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   color: var(--text-muted);
   word-break: break-all;
-  margin-bottom: 8px;
-  padding: 6px 8px;
+  margin-bottom: 6px;
+  padding: 4px 6px;
   background: rgba(0, 0, 0, 0.3);
-  border-radius: var(--radius-sm);
-}
-
-.server-formats {
-  margin-bottom: 8px;
-  display: flex;
-  gap: 4px;
-}
-
-.format-badge {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 10px;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 600;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.format-section {
-  margin-bottom: 8px;
-}
-
-.format-title {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 4px;
-}
-
-/* Latency Display */
-.latency-display {
-  padding: 8px;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: var(--radius-sm);
-  margin-bottom: 4px;
-  display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
-}
-
-.latency-point {
-  min-width: 36px;
-  height: 24px;
-  padding: 0 6px;
   border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  transition: all 0.2s ease;
-  color: var(--bg-dark);
-  text-shadow: 0 0 1px rgba(255, 255, 255, 0.3);
 }
 
-.latency-point.fast {
-    background: var(--success);
-    color: var(--bg-dark);
-    box-shadow: 0 0 6px var(--success-glow);
+.latency-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
-.latency-point.medium {
-    background: var(--warning);
-    color: var(--bg-dark);
-    box-shadow: 0 0 6px rgba(255, 204, 0, 0.3);
+.lat-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.72rem;
 }
 
-.latency-point.slow {
-    background: var(--error);
-    color: white;
-    box-shadow: 0 0 6px var(--error-glow);
-}
-
-.latency-average {
-    padding: 8px;
-}
-
-.latency-avg-label {
-    font-size: 0.78rem;
+.lat-label {
+    font-weight: 600;
     color: var(--text-muted);
-    font-weight: 500;
+    width: 30px;
+    flex-shrink: 0;
 }
+
+.lat-values {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    flex-wrap: wrap;
+}
+
+.lat-point {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 1px 5px;
+    border-radius: 3px;
+}
+
+.lat-point.fast { background: var(--success); color: var(--bg-dark); }
+.lat-point.medium { background: var(--warning); color: var(--bg-dark); }
+.lat-point.slow { background: var(--error); color: white; }
+
+.lat-avg {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-left: 4px;
+}
+
+.lat-avg.fast { background: var(--success); color: var(--bg-dark); }
+.lat-avg.medium { background: var(--warning); color: var(--bg-dark); }
+.lat-avg.slow { background: var(--error); color: white; }
+
+.server-loader {
 
 .latency-avg-value {
     font-family: var(--font-mono);
