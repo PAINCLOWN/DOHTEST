@@ -139,20 +139,20 @@ body {
 
 .cors-notice {
     background: rgba(255, 204, 0, 0.1);
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 204, 0, 0.3);
-    border-radius: var(--radius);
-    margin-bottom: 24px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 12px;
     overflow: hidden;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .cors-header {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 16px 24px;
+    gap: 8px;
+    padding: 10px 16px;
     cursor: pointer;
     transition: background 0.2s ease;
 }
@@ -162,22 +162,22 @@ body {
 }
 
 .cors-icon {
-    width: 24px;
-    height: 24px;
+    width: 18px;
+    height: 18px;
     color: var(--warning);
     flex-shrink: 0;
 }
 
 .cors-header span {
     flex: 1;
-    font-size: 0.95rem;
-    font-weight: 600;
+    font-size: 0.85rem;
+    font-weight: 500;
     color: var(--warning);
 }
 
 .cors-toggle {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     color: var(--text-muted);
     transition: transform 0.3s ease;
 }
@@ -1438,12 +1438,22 @@ body {
     }
 
     .cors-notice {
-        margin-bottom: var(--spacing-md);
+        margin-bottom: var(--spacing-sm);
     }
 
     .cors-header {
-        padding: var(--spacing-sm) var(--spacing-md);
-        font-size: 0.85rem;
+        padding: 8px 12px;
+        font-size: 0.8rem;
+    }
+
+    .cors-icon {
+        width: 16px;
+        height: 16px;
+    }
+
+    .cors-toggle {
+        width: 14px;
+        height: 14px;
     }
 
     .cors-content {
