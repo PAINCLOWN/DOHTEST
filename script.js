@@ -534,11 +534,15 @@ async function testServer(server, index) {
   // 2. Wire格式 - POST请求，无论URL是什么
   let jsonSupported = false;
   let wireSupported = false;
+  let records = null; // 在探测阶段就保存 records
   
   // 探测JSON格式
   try {
     const testResult = await testUrlWithFormat(server.url, 'json');
     jsonSupported = testResult && testResult.success;
+    if (jsonSupported && testResult.records) {
+      records = testResult.records;
+    }
   } catch {
     jsonSupported = false;
   }
@@ -547,14 +551,18 @@ async function testServer(server, index) {
   try {
     const testResult = await testUrlWithFormat(server.url, 'wire');
     wireSupported = testResult && testResult.success;
+    if (wireSupported && testResult.records && !records) {
+      records = testResult.records;
+    }
   } catch {
     wireSupported = false;
   }
 
+  console.log('[testServer] After detection - jsonSupported:', jsonSupported, 'wireSupported:', wireSupported, 'records:', records);
+
   // 对支持的格式进行多次测试
   const jsonLatencies = [];
   const wireLatencies = [];
-  let records = null;
 
   for (let run = 0; run < testCount; run++) {
     // 测试 JSON 格式
@@ -566,7 +574,7 @@ async function testServer(server, index) {
 
       if (testResult && testResult.success) {
         jsonLatencies.push(latency);
-        if (!records) records = testResult.records;
+        // 不再更新 records，保持探测阶段获取的 records
       }
     }
 
@@ -579,7 +587,7 @@ async function testServer(server, index) {
 
       if (testResult && testResult.success) {
         wireLatencies.push(latency);
-        if (!records) records = testResult.records;
+        // 不再更新 records，保持探测阶段获取的 records
       }
     }
 
@@ -598,8 +606,8 @@ async function testServer(server, index) {
   const jsonAvgLatency = jsonLatencies.length > 0 ? Math.round(jsonLatencies.reduce((a, b) => a + b, 0) / jsonLatencies.length) : 0;
   const wireAvgLatency = wireLatencies.length > 0 ? Math.round(wireLatencies.reduce((a, b) => a + b, 0) / wireLatencies.length) : 0;
 
-  // 确保 success 标志正确
-  const success = (jsonLatencies.length > 0) || (wireLatencies.length > 0);
+  // success 标志：只要有成功的探测就视为成功，即使后面测试失败
+  const success = jsonSupported || wireSupported;
 
   console.log('[testServer] Final - success:', success, 'jsonLatencies:', jsonLatencies.length, 'wireLatencies:', wireLatencies.length, 'records:', records);
 
@@ -760,8 +768,6 @@ function updateServerCard(index, server, result) {
   const card = document.querySelector(`[data-index="${index}"]`);
   if (!card) return;
 
-  console.log('[updateServerCard] Entering function, result:', result);
-
   card.classList.remove('testing', 'success', 'error');
 
   if (!result) {
@@ -790,23 +796,10 @@ function updateServerCard(index, server, result) {
 
   const formatClass = result.success ? 'success' : 'error';
 
-  // 调试：检查records
-  console.log('[updateServerCard] result.records:', result.records);
-
   let recordsHTML = '';
   if (result.records && result.records.length > 0) {
     recordsHTML = renderRecordsDisplay(result.records);
-    console.log('[updateServerCard] recordsHTML generated:', recordsHTML);
   }
-
-  // 强制显示测试提示，即使 records 是空的
-  let debugHTML = '';
-  debugHTML = `<div style="background: rgba(0,100,255,0.1); padding: 8px; margin: 8px 0; border-radius: 4px; border: 1px solid rgba(0,100,255,0.3);">
-    <div style="color: #00aaff; font-size: 11px; margin-bottom: 4px;">
-      调试: success=${result.success}, recordsCount=${result.records ? result.records.length : 0}
-    </div>
-    ${recordsHTML || '<div style="color: #888; font-size: 11px;">没有记录数据</div>'}
-  </div>`;
 
   card.innerHTML = `
     <div class="server-header">
@@ -820,13 +813,13 @@ function updateServerCard(index, server, result) {
     </div>
     <div class="server-url">${server.url}</div>
     
-    ${result.success ? `
+    ${(result.jsonLatencies && result.jsonLatencies.length > 0) || (result.wireLatencies && result.wireLatencies.length > 0) ? `
       <div class="latency-details">
-        ${result.jsonSupported ? `<div class="lat-row"><span class="lat-left"><span class="lat-label">JSON</span><span class="lat-values">${result.jsonLatencies.map(lat => `<span class="lat-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}</span></span><span class="lat-avg ${getLatencyColor(result.jsonAvgLatency)}">${result.jsonAvgLatency}ms</span></div>` : ''}
-        ${result.wireSupported ? `<div class="lat-row"><span class="lat-left"><span class="lat-label">Wire</span><span class="lat-values">${result.wireLatencies.map(lat => `<span class="lat-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}</span></span><span class="lat-avg ${getLatencyColor(result.wireAvgLatency)}">${result.wireAvgLatency}ms</span></div>` : ''}
+        ${result.jsonSupported && result.jsonLatencies && result.jsonLatencies.length > 0 ? `<div class="lat-row"><span class="lat-left"><span class="lat-label">JSON</span><span class="lat-values">${result.jsonLatencies.map(lat => `<span class="lat-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}</span></span><span class="lat-avg ${getLatencyColor(result.jsonAvgLatency)}">${result.jsonAvgLatency}ms</span></div>` : ''}
+        ${result.wireSupported && result.wireLatencies && result.wireLatencies.length > 0 ? `<div class="lat-row"><span class="lat-left"><span class="lat-label">Wire</span><span class="lat-values">${result.wireLatencies.map(lat => `<span class="lat-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}</span></span><span class="lat-avg ${getLatencyColor(result.wireAvgLatency)}">${result.wireAvgLatency}ms</span></div>` : ''}
       </div>
     ` : ''}
-    ${debugHTML}
+    ${recordsHTML}
   `;
 }
 
