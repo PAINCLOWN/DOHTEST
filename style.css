@@ -417,6 +417,8 @@ body {
     background: rgba(0, 0, 0, 0.3);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
+    flex-wrap: wrap;
+    min-width: 0;
 }
 
 .record-type-selector label {
@@ -1301,6 +1303,47 @@ body {
         font-size: 0.8rem;
     }
 
+    .input-wrapper {
+        gap: 0;
+    }
+
+    .domain-input {
+        font-size: 0.9rem;
+        padding: 14px 14px 14px 44px;
+    }
+
+    .input-wrapper .btn-primary {
+        padding: 14px;
+        font-size: 0.95rem;
+    }
+
+    .test-count-selector,
+    .record-type-selector {
+        flex-direction: column;
+        gap: var(--spacing-xs);
+        padding: var(--spacing-sm);
+        align-items: stretch;
+    }
+
+    .test-count-selector label,
+    .record-type-selector label {
+        align-self: flex-start;
+        margin-bottom: var(--spacing-xs);
+    }
+
+    .count-buttons,
+    .type-buttons {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .count-btn,
+    .type-btn {
+        flex: 1;
+        text-align: center;
+        padding: 8px 4px;
+    }
+
     .stats-grid {
         grid-template-columns: 1fr 1fr;
         gap: var(--spacing-xs);
@@ -1426,6 +1469,8 @@ body {
     }
 }
 
+
+
 @media (max-width: 360px) {
     .logo h1 {
         font-size: 1.25rem;
@@ -1453,5 +1498,16 @@ body {
     .btn-primary {
         padding: 12px;
         font-size: 0.875rem;
+    }
+
+    .test-count-selector,
+    .record-type-selector {
+        padding: var(--spacing-xs);
+    }
+
+    .count-btn,
+    .type-btn {
+        padding: 6px 2px;
+        font-size: 0.75rem;
     }
 }
