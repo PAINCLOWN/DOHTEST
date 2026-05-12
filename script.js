@@ -1305,6 +1305,13 @@ function clearHistory() {
   renderHistory();
 }
 
+function toggleCorsNotice() {
+  const notice = document.getElementById('cors-notice');
+  if (notice) {
+    notice.classList.toggle('collapsed');
+  }
+}
+
 // Initialize the app when DOM is ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);
