@@ -768,6 +768,8 @@ function updateServerCard(index, server, result) {
   const card = document.querySelector(`[data-index="${index}"]`);
   if (!card) return;
 
+  console.log('[updateServerCard] called with result:', result);
+
   card.classList.remove('testing', 'success', 'error');
 
   if (!result) {
@@ -799,7 +801,20 @@ function updateServerCard(index, server, result) {
   let recordsHTML = '';
   if (result.records && result.records.length > 0) {
     recordsHTML = renderRecordsDisplay(result.records);
+    console.log('[updateServerCard] recordsHTML generated:', recordsHTML);
+  } else {
+    console.log('[updateServerCard] No records available');
   }
+
+  // 强制显示测试提示，确保能看到信息
+  let debugHTML = `<div style="background: rgba(0,100,255,0.1); padding: 8px; margin: 8px 0; border-radius: 4px; border: 1px solid rgba(0,100,255,0.3);">
+    <div style="color: #00aaff; font-size: 11px; margin-bottom: 4px;">
+      调试: success=${result.success}, recordsCount=${result.records ? result.records.length : 0}
+    </div>
+    ${recordsHTML || '<div style="color: #888; font-size: 11px;">没有记录数据</div>'}
+  </div>`;
+
+  console.log('[updateServerCard] About to set innerHTML');
 
   card.innerHTML = `
     <div class="server-header">
@@ -819,8 +834,10 @@ function updateServerCard(index, server, result) {
         ${result.wireSupported && result.wireLatencies && result.wireLatencies.length > 0 ? `<div class="lat-row"><span class="lat-left"><span class="lat-label">Wire</span><span class="lat-values">${result.wireLatencies.map(lat => `<span class="lat-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}</span></span><span class="lat-avg ${getLatencyColor(result.wireAvgLatency)}">${result.wireAvgLatency}ms</span></div>` : ''}
       </div>
     ` : ''}
-    ${recordsHTML}
+    ${debugHTML}
   `;
+  
+  console.log('[updateServerCard] innerHTML set');
 }
 
 function renderEndpointResults(jsonLatencies, wireLatencies, jsonAvgLatency = 0, wireAvgLatency = 0) {
