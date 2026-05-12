@@ -596,6 +596,8 @@ async function testServer(server, index) {
   const jsonAvgLatency = jsonLatencies.length > 0 ? Math.round(jsonLatencies.reduce((a, b) => a + b, 0) / jsonLatencies.length) : 0;
   const wireAvgLatency = wireLatencies.length > 0 ? Math.round(wireLatencies.reduce((a, b) => a + b, 0) / wireLatencies.length) : 0;
 
+  console.log('[testServer] Final records:', records);
+
   return {
     success: jsonSupported || wireSupported,
     jsonSupported,
@@ -781,9 +783,23 @@ function updateServerCard(index, server, result) {
 
   const formatClass = result.success ? 'success' : 'error';
 
+  // 调试：检查records
+  console.log('[updateServerCard] result:', result);
+  console.log('[updateServerCard] result.records:', result.records);
+
   let recordsHTML = '';
   if (result.records && result.records.length > 0) {
     recordsHTML = renderRecordsDisplay(result.records);
+    console.log('[updateServerCard] recordsHTML:', recordsHTML);
+  }
+
+  // 测试：如果有 records，先添加一个简单的提示
+  let testRecordsHTML = '';
+  if (result.records && result.records.length > 0) {
+    testRecordsHTML = `<div style="background: rgba(0,255,0,0.1); padding: 8px; margin: 8px 0; border-radius: 4px;">
+      <div style="color: #bfff00; font-size: 12px; margin-bottom: 4px;">测试 - 找到 ${result.records.length} 条记录</div>
+      ${recordsHTML}
+    </div>`;
   }
 
   card.innerHTML = `
@@ -804,7 +820,7 @@ function updateServerCard(index, server, result) {
         ${result.wireSupported ? `<div class="lat-row"><span class="lat-left"><span class="lat-label">Wire</span><span class="lat-values">${result.wireLatencies.map(lat => `<span class="lat-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}</span></span><span class="lat-avg ${getLatencyColor(result.wireAvgLatency)}">${result.wireAvgLatency}ms</span></div>` : ''}
       </div>
     ` : ''}
-    ${recordsHTML}
+    ${testRecordsHTML || recordsHTML}
   `;
 }
 
