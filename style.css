@@ -332,13 +332,15 @@ body {
 .input-group {
     display: flex;
     gap: 12px;
+    flex-wrap: wrap;
 }
 
 .input-wrapper {
     position: relative;
     display: flex;
     align-items: center;
-    flex: 1;
+    flex: 1 1 auto;
+    min-width: 0;
     background: rgba(0, 0, 0, 0.3);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
@@ -359,6 +361,8 @@ body {
     background: rgba(0, 0, 0, 0.3);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
+    flex-wrap: wrap;
+    min-width: 0;
 }
 
 .test-count-selector label {
@@ -483,6 +487,7 @@ body {
     font-size: 1rem;
     font-family: var(--font-mono);
     outline: none;
+    min-width: 0;
 }
 
 .domain-input::placeholder {
@@ -1155,6 +1160,15 @@ body {
 
     .input-wrapper {
         width: 100%;
+        flex-direction: column;
+    }
+
+    .input-wrapper .btn-primary {
+        width: 100%;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: var(--radius-sm);
+        border-bottom-right-radius: var(--radius-sm);
     }
 
     .btn-primary {
