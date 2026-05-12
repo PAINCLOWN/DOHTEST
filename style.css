@@ -343,6 +343,12 @@ body {
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
     transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.input-wrapper .btn-primary {
+    position: relative;
+    flex-shrink: 0;
 }
 
 .test-count-selector {
@@ -717,7 +723,7 @@ body {
     backdrop-filter: blur(20px);
     border: 1px solid var(--border-color);
     border-radius: var(--radius);
-    padding: 20px;
+    padding: 16px;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
@@ -766,11 +772,11 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 .server-name {
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
     color: var(--text-primary);
 }
@@ -802,19 +808,19 @@ body {
 
 .server-url {
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--text-muted);
   word-break: break-all;
-  margin-bottom: 12px;
-  padding: 10px 12px;
+  margin-bottom: 10px;
+  padding: 8px 10px;
   background: rgba(0, 0, 0, 0.3);
   border-radius: var(--radius-sm);
 }
 
 .server-formats {
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   display: flex;
-  gap: 8px;
+  gap: 6px;
 }
 
 .format-badge {
@@ -840,24 +846,24 @@ body {
 }
 
 .format-section {
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .format-title {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 /* Latency Display */
 .latency-display {
-  padding: 12px;
+  padding: 10px;
   background: rgba(0, 0, 0, 0.2);
   border-radius: var(--radius-sm);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   display: flex;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
 }
 
@@ -899,13 +905,13 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px;
+    padding: 10px;
     background: rgba(0, 0, 0, 0.2);
     border-radius: var(--radius-sm);
 }
 
 .latency-avg-label {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     color: var(--text-muted);
     font-weight: 500;
 }
@@ -913,8 +919,8 @@ body {
 .latency-avg-value {
     font-family: var(--font-mono);
     font-weight: 700;
-    font-size: 1.25rem;
-    padding: 6px 16px;
+    font-size: 1.15rem;
+    padding: 5px 14px;
     border-radius: 6px;
 }
 
@@ -935,8 +941,8 @@ body {
 }
 
 .dns-records-display {
-    margin: 12px 0;
-    padding: 12px;
+    margin: 10px 0;
+    padding: 10px;
     background: rgba(0, 0, 0, 0.2);
     border-radius: var(--radius-sm);
     border: 1px solid var(--border-color);
