@@ -1107,8 +1107,8 @@ function renderServerCards() {
       <div class="server-url">${server.url}</div>
       ${result && result.success ? `
         <div class="latency-details">
-          ${result.jsonSupported ? `<div class="lat-row"><span class="lat-label">JSON</span><span class="lat-values">${result.jsonLatencies.map(lat => `<span class="lat-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}<span class="lat-avg ${getLatencyColor(result.jsonAvgLatency)}">${result.jsonAvgLatency}ms</span></span></div>` : ''}
-          ${result.wireSupported ? `<div class="lat-row"><span class="lat-label">Wire</span><span class="lat-values">${result.wireLatencies.map(lat => `<span class="lat-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}<span class="lat-avg ${getLatencyColor(result.wireAvgLatency)}">${result.wireAvgLatency}ms</span></span></div>` : ''}
+          ${result.jsonSupported ? `<div class="lat-row"><span class="lat-label">JSON</span><span class="lat-values">${result.jsonLatencies.map(lat => `<span class="lat-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}</span><span class="lat-avg ${getLatencyColor(result.jsonAvgLatency)}">${result.jsonAvgLatency}ms</span></div>` : ''}
+          ${result.wireSupported ? `<div class="lat-row"><span class="lat-label">Wire</span><span class="lat-values">${result.wireLatencies.map(lat => `<span class="lat-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}</span><span class="lat-avg ${getLatencyColor(result.wireAvgLatency)}">${result.wireAvgLatency}ms</span></div>` : ''}
         </div>
       ` : ''}
     `;
