@@ -761,32 +761,43 @@ function updateServerCard(index, server, result) {
 
   card.classList.add(result.success ? 'success' : 'error');
 
-  const statusClass = result.success ? 'success' : 'error';
-  const statusText = result.success ? '成功' : '失败';
-
-  let recordsHTML = '';
-  if (result.records && result.records.length > 0) {
-    recordsHTML = renderRecordsDisplay(result.records);
+  let formatInfo = '';
+  if (result.success) {
+    const formats = [];
+    if (result.jsonSupported) formats.push('JSON');
+    if (result.wireSupported) formats.push('Wire');
+    formatInfo = formats.join('+');
+  } else {
+    formatInfo = '失败';
   }
+
+  let latencyInfo = '';
+  if (result.success) {
+    const minLat = Math.min(result.jsonAvgLatency || Infinity, result.wireAvgLatency || Infinity);
+    const latency = minLat === Infinity ? 0 : minLat;
+    const latencyClass = latency < 100 ? 'fast' : (latency < 200 ? 'medium' : 'slow');
+    latencyInfo = `<span class="latency-badge ${latencyClass}">${latency}ms</span>`;
+  }
+
+  const formatClass = result.success ? 'success' : 'error';
 
   card.innerHTML = `
     <div class="server-header">
-      <span class="server-name">${formatServerName(server)}</span>
-      <div class="server-status ${statusClass}">
-        <span class="server-loader"></span>
-        <span>${statusText}</span>
+      <div class="server-info">
+        <span class="server-name">${formatServerName(server)}</span>
+        ${latencyInfo}
+      </div>
+      <div class="server-format-info ${formatClass}">
+        ${formatInfo}
       </div>
     </div>
     <div class="server-url">${server.url}</div>
-    <div class="server-formats">
-      ${result.jsonSupported ? '<span class="format-badge supported">JSON</span>' : ''}
-      ${result.wireSupported ? '<span class="format-badge supported">Wire</span>' : ''}
-    </div>
     
     ${result.success ? `
-      ${renderEndpointResults(result.jsonLatencies, result.wireLatencies, result.jsonAvgLatency, result.wireAvgLatency)}
-      
-      ${recordsHTML}
+      <div class="latency-details">
+        ${result.jsonSupported ? `<div class="lat-row"><span class="lat-left"><span class="lat-label">JSON</span><span class="lat-values">${result.jsonLatencies.map(lat => `<span class="lat-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}</span></span><span class="lat-avg ${getLatencyColor(result.jsonAvgLatency)}">${result.jsonAvgLatency}ms</span></div>` : ''}
+        ${result.wireSupported ? `<div class="lat-row"><span class="lat-left"><span class="lat-label">Wire</span><span class="lat-values">${result.wireLatencies.map(lat => `<span class="lat-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}</span></span><span class="lat-avg ${getLatencyColor(result.wireAvgLatency)}">${result.wireAvgLatency}ms</span></div>` : ''}
+      </div>
     ` : ''}
   `;
 }
