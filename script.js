@@ -23,7 +23,10 @@ const VERSION = {
 
 // 格式化服务器名称显示
 function formatServerName(server) {
-  return `${server.name} - ${server.type} - ${server.addrType}`;
+  const name = server.name || '';
+  const type = server.type || '';
+  const addrType = server.addrType || '';
+  return `${name}${name && type ? ' - ' : ''}${type}${type && addrType ? ' - ' : ''}${addrType}`;
 }
 
 const DNS_SERVERS = {
@@ -417,7 +420,7 @@ function updateDomain() {
 }
 
 function getCurrentServers() {
-  return DNS_SERVERS[currentTab] || DNS_SERVERS['domestic'];
+  return DNS_SERVERS[currentTab] || DNS_SERVERS['all'];
 }
 
 async function startTest() {
