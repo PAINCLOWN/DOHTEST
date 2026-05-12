@@ -1102,8 +1102,8 @@ function renderServerCards() {
       </div>
       <div class="server-url">${server.url}</div>
       <div class="server-formats">
-        ${result ? (result.jsonSupported ? '<span class="format-badge supported">JSON</span>' : '')}
-        ${result ? (result.wireSupported ? '<span class="format-badge supported">Wire</span>' : '')}
+        ${result && result.jsonSupported ? '<span class="format-badge supported">JSON</span>' : ''}
+        ${result && result.wireSupported ? '<span class="format-badge supported">Wire</span>' : ''}
       </div>
       
       ${result && result.success ? `
