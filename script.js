@@ -781,6 +781,11 @@ function updateServerCard(index, server, result) {
 
   const formatClass = result.success ? 'success' : 'error';
 
+  let recordsHTML = '';
+  if (result.records && result.records.length > 0) {
+    recordsHTML = renderRecordsDisplay(result.records);
+  }
+
   card.innerHTML = `
     <div class="server-header">
       <div class="server-info">
@@ -798,8 +803,8 @@ function updateServerCard(index, server, result) {
         ${result.jsonSupported ? `<div class="lat-row"><span class="lat-left"><span class="lat-label">JSON</span><span class="lat-values">${result.jsonLatencies.map(lat => `<span class="lat-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}</span></span><span class="lat-avg ${getLatencyColor(result.jsonAvgLatency)}">${result.jsonAvgLatency}ms</span></div>` : ''}
         ${result.wireSupported ? `<div class="lat-row"><span class="lat-left"><span class="lat-label">Wire</span><span class="lat-values">${result.wireLatencies.map(lat => `<span class="lat-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}</span></span><span class="lat-avg ${getLatencyColor(result.wireAvgLatency)}">${result.wireAvgLatency}ms</span></div>` : ''}
       </div>
-      ${result.records && result.records.length > 0 ? renderRecordsDisplay(result.records) : ''}
     ` : ''}
+    ${recordsHTML}
   `;
 }
 
