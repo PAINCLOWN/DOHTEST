@@ -837,9 +837,15 @@ body {
 .lat-row {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
     font-size: 0.72rem;
     justify-content: space-between;
+}
+
+.lat-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .lat-label {
