@@ -889,34 +889,10 @@ body {
 .lat-avg.medium { background: var(--warning); color: var(--bg-dark); }
 .lat-avg.slow { background: var(--error); color: white; }
 
-.server-loader {
-
-.latency-avg-value {
-    font-family: var(--font-mono);
-    font-weight: 700;
-    font-size: 1rem;
-    padding: 4px 10px;
-    border-radius: 4px;
-}
-
-.latency-avg-value.fast { 
-    color: var(--bg-dark);
-    background: var(--success);
-    box-shadow: 0 0 8px var(--success-glow);
-}
-.latency-avg-value.medium { 
-    color: var(--bg-dark);
-    background: var(--warning);
-    box-shadow: 0 0 8px rgba(255, 204, 0, 0.3);
-}
-.latency-avg-value.slow { 
-    color: white;
-    background: var(--error);
-    box-shadow: 0 0 8px var(--error-glow);
 .dns-records-display {
     margin: 8px 0;
     padding: 8px;
-}   background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.2);
     border-radius: var(--radius-sm);
     border: 1px solid var(--border-color);
 }
@@ -924,8 +900,8 @@ body {
 .record-type-row {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
-    padding: 6px 0;
+    gap: 8px;
+    padding: 4px 0;
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -934,12 +910,12 @@ body {
 }
 
 .record-type-badge {
-    min-width: 50px;
-    padding: 2px 8px;
+    min-width: 35px;
+    padding: 2px 6px;
     background: rgba(191, 255, 0, 0.2);
     color: var(--accent);
-    border-radius: 4px;
-    font-size: 0.75rem;
+    border-radius: 3px;
+    font-size: 0.65rem;
     font-weight: 600;
     font-family: var(--font-mono);
     text-align: center;
@@ -948,32 +924,34 @@ body {
 .record-values {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 4px;
     flex: 1;
 }
 
 .record-value {
     font-family: var(--font-mono);
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     color: var(--text-primary);
-    padding: 2px 8px;
+    padding: 1px 6px;
     background: rgba(0, 0, 0, 0.3);
-    border-radius: 4px;
+    border-radius: 3px;
     word-break: break-all;
 }
 
 .server-loader {
-    display: none;
-    width: 20px;
-    height: 20px;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
     border: 2px solid var(--border-color);
     border-top-color: var(--primary);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
+    margin-right: 4px;
+    vertical-align: middle;
 }
 
 .server-card.testing .server-loader {
-    display: block;
+    display: inline-block;
 }
 
 .server-card.testing .server-status {
