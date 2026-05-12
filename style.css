@@ -816,6 +816,7 @@ body {
 .server-format-info.success { background: rgba(191, 255, 0, 0.2); color: var(--primary); }
 .server-format-info.error { background: rgba(255, 68, 68, 0.2); color: var(--error); }
 .server-format-info.pending { background: rgba(136, 136, 136, 0.2); color: var(--text-muted); }
+.server-format-info.testing { background: rgba(191, 255, 0, 0.1); color: var(--primary); border: 1px solid rgba(191, 255, 0, 0.3); }
 
 .server-url {
   font-family: var(--font-mono);
