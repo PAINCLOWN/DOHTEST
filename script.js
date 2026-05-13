@@ -98,41 +98,59 @@ let currentLang = 'zh';
 function setLanguage(lang) {
   currentLang = lang;
   
-  document.getElementById('lang-zh').classList.toggle('active', lang === 'zh');
-  document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+  const langZhBtn = document.getElementById('lang-zh');
+  const langEnBtn = document.getElementById('lang-en');
+  if (langZhBtn) langZhBtn.classList.toggle('active', lang === 'zh');
+  if (langEnBtn) langEnBtn.classList.toggle('active', lang === 'en');
   
   const texts = LANG[lang];
   
-  document.getElementById('title').textContent = texts.title;
-  document.getElementById('subtitle').textContent = texts.subtitle;
-  document.getElementById('domain-input').placeholder = texts.placeholder;
-  document.getElementById('btn-test').textContent = texts.btnTest;
-  document.getElementById('label-count').textContent = texts.labelCount;
-  document.getElementById('label-type').textContent = texts.labelType;
-  document.getElementById('tab-all').textContent = texts.tabAll;
-  document.getElementById('tab-china').textContent = texts.tabChina;
-  document.getElementById('tab-usa').textContent = texts.tabUsa;
-  document.getElementById('tab-europe').textContent = texts.tabEurope;
-  document.getElementById('tab-asia').textContent = texts.tabAsia;
-  document.getElementById('tab-other').textContent = texts.tabOther;
-  document.getElementById('cors-title').textContent = texts.corsTitle;
-  document.getElementById('cors-desc').innerHTML = texts.corsDesc;
-  document.getElementById('browsers-label').textContent = texts.browsersLabel;
-  document.getElementById('step-1').innerHTML = texts.step1;
-  document.getElementById('step-2').innerHTML = texts.step2;
-  document.getElementById('step-3').innerHTML = texts.step3;
-  document.getElementById('step-4').innerHTML = texts.step4;
-  document.getElementById('image-caption').textContent = texts.imageCaption;
-  document.getElementById('cors-note').textContent = texts.corsNote;
-  document.getElementById('progress-label').textContent = texts.progressLabel;
+  const setText = (id, text, isHTML = false) => {
+    const el = document.getElementById(id);
+    if (el) {
+      if (isHTML) {
+        el.innerHTML = text;
+      } else {
+        el.textContent = text;
+      }
+    }
+  };
   
-  document.getElementById('label-total').textContent = texts.statsTotal;
-  document.getElementById('label-success').textContent = texts.statsSuccess;
-  document.getElementById('label-error').textContent = texts.statsError;
-  document.getElementById('label-avg').textContent = texts.statsAvg;
+  const setPlaceholder = (id, text) => {
+    const el = document.getElementById(id);
+    if (el) el.placeholder = text;
+  };
   
-  document.getElementById('history-title').textContent = texts.history;
-  document.getElementById('btn-clear').textContent = texts.btnClear;
+  setText('title', texts.title);
+  setText('subtitle', texts.subtitle);
+  setPlaceholder('domain-input', texts.placeholder);
+  setText('btn-test', texts.btnTest);
+  setText('label-count', texts.labelCount);
+  setText('label-type', texts.labelType);
+  setText('tab-all', texts.tabAll);
+  setText('tab-china', texts.tabChina);
+  setText('tab-usa', texts.tabUsa);
+  setText('tab-europe', texts.tabEurope);
+  setText('tab-asia', texts.tabAsia);
+  setText('tab-other', texts.tabOther);
+  setText('cors-title', texts.corsTitle);
+  setText('cors-desc', texts.corsDesc, true);
+  setText('browsers-label', texts.browsersLabel);
+  setText('step-1', texts.step1, true);
+  setText('step-2', texts.step2, true);
+  setText('step-3', texts.step3, true);
+  setText('step-4', texts.step4, true);
+  setText('image-caption', texts.imageCaption);
+  setText('cors-note', texts.corsNote);
+  setText('progress-label', texts.progressLabel);
+  
+  setText('label-total', texts.statsTotal);
+  setText('label-success', texts.statsSuccess);
+  setText('label-error', texts.statsError);
+  setText('label-avg', texts.statsAvg);
+  
+  setText('history-title', texts.history);
+  setText('btn-clear', texts.btnClear);
   
   document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
   
