@@ -38,10 +38,10 @@ const DNS_SERVERS = {
     { name: 'Google', type: '默认', addrType: 'IP', format: 'Wire', url: 'https://8.8.8.8/dns-query', note: '', region: 'usa' },
     { name: 'Google', type: '默认', addrType: 'IP', format: 'JSON', url: 'https://8.8.4.4/resolve', note: '', region: 'usa' },
     { name: 'Google', type: '默认', addrType: 'IP', format: 'Wire', url: 'https://8.8.4.4/dns-query', note: '', region: 'usa' },
-    { name: 'Google', type: '默认', addrType: 'IPv6', format: 'JSON', url: 'https://2001:4860:4860::8888/resolve', note: 'IPv6', region: 'usa' },
-    { name: 'Google', type: '默认', addrType: 'IPv6', format: 'Wire', url: 'https://2001:4860:4860::8888/dns-query', note: 'IPv6', region: 'usa' },
-    { name: 'Google', type: '默认', addrType: 'IPv6', format: 'JSON', url: 'https://2001:4860:4860::8844/resolve', note: 'IPv6', region: 'usa' },
-    { name: 'Google', type: '默认', addrType: 'IPv6', format: 'Wire', url: 'https://2001:4860:4860::8844/dns-query', note: 'IPv6', region: 'usa' },
+    { name: 'Google', type: '默认', addrType: 'IPv6', format: 'JSON', url: 'https://[2001:4860:4860::8888]/resolve', note: 'IPv6', region: 'usa' },
+    { name: 'Google', type: '默认', addrType: 'IPv6', format: 'Wire', url: 'https://[2001:4860:4860::8888]/dns-query', note: 'IPv6', region: 'usa' },
+    { name: 'Google', type: '默认', addrType: 'IPv6', format: 'JSON', url: 'https://[2001:4860:4860::8844]/resolve', note: 'IPv6', region: 'usa' },
+    { name: 'Google', type: '默认', addrType: 'IPv6', format: 'Wire', url: 'https://[2001:4860:4860::8844]/dns-query', note: 'IPv6', region: 'usa' },
     
     // Cloudflare (26条) - 美国
     { name: 'Cloudflare', type: '默认', addrType: '域名', format: 'JSON', url: 'https://cloudflare-dns.com/resolve', note: '兼容 Google JSON', region: 'usa' },
@@ -50,10 +50,10 @@ const DNS_SERVERS = {
     { name: 'Cloudflare', type: '默认', addrType: 'IP', format: 'Wire', url: 'https://1.1.1.1/dns-query', note: '', region: 'usa' },
     { name: 'Cloudflare', type: '默认', addrType: 'IP', format: 'JSON', url: 'https://1.0.0.1/resolve', note: '', region: 'usa' },
     { name: 'Cloudflare', type: '默认', addrType: 'IP', format: 'Wire', url: 'https://1.0.0.1/dns-query', note: '', region: 'usa' },
-    { name: 'Cloudflare', type: '默认', addrType: 'IPv6', format: 'JSON', url: 'https://2606:4700:4700::1111/resolve', note: 'IPv6', region: 'usa' },
-    { name: 'Cloudflare', type: '默认', addrType: 'IPv6', format: 'Wire', url: 'https://2606:4700:4700::1111/dns-query', note: 'IPv6', region: 'usa' },
-    { name: 'Cloudflare', type: '默认', addrType: 'IPv6', format: 'JSON', url: 'https://2606:4700:4700::1001/resolve', note: 'IPv6', region: 'usa' },
-    { name: 'Cloudflare', type: '默认', addrType: 'IPv6', format: 'Wire', url: 'https://2606:4700:4700::1001/dns-query', note: 'IPv6', region: 'usa' },
+    { name: 'Cloudflare', type: '默认', addrType: 'IPv6', format: 'JSON', url: 'https://[2606:4700:4700::1111]/resolve', note: 'IPv6', region: 'usa' },
+    { name: 'Cloudflare', type: '默认', addrType: 'IPv6', format: 'Wire', url: 'https://[2606:4700:4700::1111]/dns-query', note: 'IPv6', region: 'usa' },
+    { name: 'Cloudflare', type: '默认', addrType: 'IPv6', format: 'JSON', url: 'https://[2606:4700:4700::1001]/resolve', note: 'IPv6', region: 'usa' },
+    { name: 'Cloudflare', type: '默认', addrType: 'IPv6', format: 'Wire', url: 'https://[2606:4700:4700::1001]/dns-query', note: 'IPv6', region: 'usa' },
     { name: 'Cloudflare', type: '恶意软件', addrType: '域名', format: 'JSON', url: 'https://security.cloudflare-dns.com/resolve', note: '', region: 'usa' },
     { name: 'Cloudflare', type: '恶意软件', addrType: '域名', format: 'Wire', url: 'https://security.cloudflare-dns.com/dns-query', note: '', region: 'usa' },
     { name: 'Cloudflare', type: '恶意软件', addrType: 'IP', format: 'JSON', url: 'https://1.1.1.2/resolve', note: '', region: 'usa' },
@@ -80,8 +80,8 @@ const DNS_SERVERS = {
     { name: 'Quad9', type: '安全', addrType: 'IP', format: 'Wire', url: 'https://9.9.9.9/dns-query', note: '', region: 'usa' },
     { name: 'Quad9', type: '安全', addrType: 'IP', format: 'JSON', url: 'https://149.112.112.112/resolve', note: '', region: 'usa' },
     { name: 'Quad9', type: '安全', addrType: 'IP', format: 'Wire', url: 'https://149.112.112.112/dns-query', note: '', region: 'usa' },
-    { name: 'Quad9', type: '安全', addrType: 'IPv6', format: 'JSON', url: 'https://2620:fe::fe/resolve', note: 'IPv6', region: 'usa' },
-    { name: 'Quad9', type: '安全', addrType: 'IPv6', format: 'Wire', url: 'https://2620:fe::fe/dns-query', note: 'IPv6', region: 'usa' },
+    { name: 'Quad9', type: '安全', addrType: 'IPv6', format: 'JSON', url: 'https://[2620:fe::fe]/resolve', note: 'IPv6', region: 'usa' },
+    { name: 'Quad9', type: '安全', addrType: 'IPv6', format: 'Wire', url: 'https://[2620:fe::fe]/dns-query', note: 'IPv6', region: 'usa' },
     { name: 'Quad9', type: '无阻断', addrType: '域名', format: 'JSON', url: 'https://dns10.quad9.net/resolve', note: '', region: 'usa' },
     { name: 'Quad9', type: '无阻断', addrType: '域名', format: 'Wire', url: 'https://dns10.quad9.net/dns-query', note: '', region: 'usa' },
     { name: 'Quad9', type: '无阻断', addrType: 'IP', format: 'JSON', url: 'https://9.9.9.10/resolve', note: '', region: 'usa' },
@@ -155,10 +155,10 @@ const DNS_SERVERS = {
     { name: 'AliDNS', type: '默认', addrType: 'IP', format: 'Wire', url: 'https://223.5.5.5/dns-query', note: '', region: 'china' },
     { name: 'AliDNS', type: '默认', addrType: 'IP', format: 'JSON', url: 'https://223.6.6.6/resolve', note: '', region: 'china' },
     { name: 'AliDNS', type: '默认', addrType: 'IP', format: 'Wire', url: 'https://223.6.6.6/dns-query', note: '', region: 'china' },
-    { name: 'AliDNS', type: '默认', addrType: 'IPv6', format: 'JSON', url: 'https://2400:3200::1/resolve', note: 'IPv6', region: 'china' },
-    { name: 'AliDNS', type: '默认', addrType: 'IPv6', format: 'Wire', url: 'https://2400:3200::1/dns-query', note: 'IPv6', region: 'china' },
-    { name: 'AliDNS', type: '默认', addrType: 'IPv6', format: 'JSON', url: 'https://2400:3200:baba::1/resolve', note: 'IPv6', region: 'china' },
-    { name: 'AliDNS', type: '默认', addrType: 'IPv6', format: 'Wire', url: 'https://2400:3200:baba::1/dns-query', note: 'IPv6', region: 'china' },
+    { name: 'AliDNS', type: '默认', addrType: 'IPv6', format: 'JSON', url: 'https://[2400:3200::1]/resolve', note: 'IPv6', region: 'china' },
+    { name: 'AliDNS', type: '默认', addrType: 'IPv6', format: 'Wire', url: 'https://[2400:3200::1]/dns-query', note: 'IPv6', region: 'china' },
+    { name: 'AliDNS', type: '默认', addrType: 'IPv6', format: 'JSON', url: 'https://[2400:3200:baba::1]/resolve', note: 'IPv6', region: 'china' },
+    { name: 'AliDNS', type: '默认', addrType: 'IPv6', format: 'Wire', url: 'https://[2400:3200:baba::1]/dns-query', note: 'IPv6', region: 'china' },
     
     // DNSPod (8条) - 中国
     { name: 'DNSPod', type: '默认', addrType: '域名', format: 'JSON', url: 'https://doh.pub/resolve', note: '中国优化', region: 'china' },
@@ -560,6 +560,22 @@ async function testServer(server, index) {
 
   console.log('[testServer] After detection - jsonSupported:', jsonSupported, 'wireSupported:', wireSupported, 'records:', records);
 
+  // 如果两种格式都不支持，直接返回失败结果
+  if (!jsonSupported && !wireSupported) {
+    console.log('[testServer] No format supported, returning failure');
+    return {
+      success: false,
+      jsonSupported: false,
+      wireSupported: false,
+      jsonLatencies: [],
+      wireLatencies: [],
+      jsonAvgLatency: 0,
+      wireAvgLatency: 0,
+      records: null,
+      totalRuns: testCount
+    };
+  }
+
   // 对支持的格式进行多次测试
   const jsonLatencies = [];
   const wireLatencies = [];
@@ -688,6 +704,7 @@ async function testUrlWithFormat(url, format) {
     }
   } catch (error) {
     clearTimeout(timeoutId);
+    console.error('Request error:', error);
     return {
       success: false,
       error: error.message
@@ -1273,12 +1290,12 @@ function renderHistory() {
   }
 
   const tabNames = {
-    'all': '全部',
-    'china': '中国',
-    'usa': '美国',
-    'europe': '欧洲',
-    'asia': '亚洲',
-    'other': '其他'
+    'all': '全部DNS',
+    'china': '中国DNS',
+    'usa': '美国DNS',
+    'europe': '欧洲DNS',
+    'asia': '亚洲DNS',
+    'other': '其他DNS'
   };
 
   history.forEach((record) => {
