@@ -21,31 +21,35 @@
                     <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                <h1>DoH Speed Test</h1>
+                <h1 id="title">DoH Speed Test</h1>
             </div>
-            <p class="subtitle">DNS-over-HTTPS Latency Tester</p>
+            <p class="subtitle" id="subtitle">DNS-over-HTTPS Latency Tester</p>
+            <div class="lang-switch">
+                <button id="lang-zh" class="lang-btn active" onclick="setLanguage('zh')">中文</button>
+                <button id="lang-en" class="lang-btn" onclick="setLanguage('en')">English</button>
+            </div>
         </header>
 
         <div class="control-panel">
       <div class="tabs">
         <div class="tab-slider"></div>
         <button class="tab active" id="all-tab" data-tab="all">
-          <span class="tab-label">全部DNS</span>
+          <span class="tab-label" id="tab-all">全部DNS</span>
         </button>
         <button class="tab" id="china-tab" data-tab="china">
-          <span class="tab-label">中国DNS</span>
+          <span class="tab-label" id="tab-china">中国DNS</span>
         </button>
         <button class="tab" id="usa-tab" data-tab="usa">
-          <span class="tab-label">美国DNS</span>
+          <span class="tab-label" id="tab-usa">美国DNS</span>
         </button>
         <button class="tab" id="europe-tab" data-tab="europe">
-          <span class="tab-label">欧洲DNS</span>
+          <span class="tab-label" id="tab-europe">欧洲DNS</span>
         </button>
         <button class="tab" id="asia-tab" data-tab="asia">
-          <span class="tab-label">亚洲DNS</span>
+          <span class="tab-label" id="tab-asia">亚洲DNS</span>
         </button>
         <button class="tab" id="other-tab" data-tab="other">
-          <span class="tab-label">其他DNS</span>
+          <span class="tab-label" id="tab-other">其他DNS</span>
         </button>
       </div>
 
@@ -60,11 +64,11 @@
                         <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
                             <polygon points="5,3 19,12 5,21" fill="currentColor"/>
                         </svg>
-                        <span>开始测试</span>
+                        <span id="btn-test">开始测试</span>
                     </button>
                 </div>
                 <div class="test-count-selector">
-                    <label>测试次数</label>
+                    <label id="label-count">测试次数</label>
                     <div class="count-buttons">
                         <div class="count-slider"></div>
                         <button class="count-btn active" data-count="1">1</button>
@@ -73,7 +77,7 @@
                     </div>
                 </div>
                 <div class="record-type-selector">
-                    <label>记录类型</label>
+                    <label id="label-type">记录类型</label>
                     <div class="type-buttons">
                         <div class="type-slider"></div>
                         <button class="type-btn active" data-type="A">A</button>
@@ -92,41 +96,63 @@
                     <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
                     <path d="M12 8v4m0 4h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                 </svg>
-                <span>⚠️ 重要提示：安装 CORS Unblock 插件</span>
+                <span id="cors-title">⚠️ 重要提示：安装 Allow CORS 插件</span>
                 <svg class="cors-toggle" viewBox="0 0 24 24" fill="none">
                     <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </div>
             <div class="cors-content" id="cors-content">
-                <p>由于浏览器的同源策略限制，直接访问外部 DNS 服务器会被阻止。请安装 CORS Unblock 插件以正常使用测速功能。</p>
+                <p id="cors-desc">由于浏览器的同源策略限制，直接访问外部 DNS 服务器会被阻止。请安装 Allow CORS 插件以正常使用测速功能。</p>
+                
+                <div class="cors-browsers">
+                    <span class="browsers-label" id="browsers-label">点击图标安装：</span>
+                    <div class="browser-icons">
+                        <a href="https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf" target="_blank" class="browser-icon chrome" title="Google Chrome">
+                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9.82726 21.7633C5.34912 20.7712 2 16.7767 2 12C2 10.1779 2.48734 8.46958 3.33878 6.99834L7.62189 14.4169C8.47396 15.9571 10.1152 17 12 17C12.2023 17 12.4018 16.988 12.5978 16.9646L9.82726 21.7633ZM12 22L16.2868 14.5751C16.7396 13.8229 17 12.9419 17 12C17 10.8744 16.6281 9.83566 16.0004 9H21.5422C21.8396 9.94704 22 10.9548 22 12C22 17.5228 17.5228 22 12 22ZM14.5721 13.545C14.0473 14.4168 13.0917 15 12 15C10.8897 15 9.92024 14.3968 9.40149 13.5002L9.37313 13.4501C9.13535 13.0203 9 12.526 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12C15 12.5465 14.8539 13.0589 14.5985 13.5002L14.5721 13.545ZM4.6322 5.23859C6.46008 3.24783 9.08432 2 12 2C15.7014 2 18.9331 4.01099 20.6622 7H12C9.93635 7 8.1647 8.25019 7.40112 10.0345L4.6322 5.23859Z"></path></svg>
+                            <span class="browser-name">Chrome</span>
+                        </a>
+                        <a href="https://addons.mozilla.org/en-US/firefox/addon/access-control-allow-origin/" target="_blank" class="browser-icon firefox" title="Mozilla Firefox">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21.2827 8.26012C20.8473 7.213 19.9656 6.08244 19.2733 5.72516C19.7521 6.6637 20.1656 7.72752 20.2895 8.78174C19.1569 5.95869 17.2363 4.82021 15.6678 2.34173C15.4719 2.03155 15.2431 1.61425 15.1225 1.32928C12.8952 2.63386 11.972 4.91762 11.7347 6.37128C11.0465 6.41037 10.3724 6.58239 9.7497 6.87781C9.63641 6.93386 9.57928 7.07722 9.62296 7.19583C9.67063 7.33373 9.83148 7.40294 9.9644 7.34275C10.599 7.0433 11.2978 6.8858 11.9991 6.87856C13.8038 6.86599 15.517 7.86963 16.4149 9.43745C15.88 9.06171 14.9224 8.69063 13.9997 8.8511C17.6025 10.6522 16.6353 16.8547 11.6429 16.6205C9.62869 16.5384 7.69791 14.9706 7.51696 12.8904C7.51696 12.8904 7.97932 11.1676 10.8277 11.1676C11.1356 11.1676 12.0159 10.3084 12.0323 10.0592C12.0285 9.97778 10.2852 9.28436 9.60553 8.61473C9.30353 8.3172 9.01156 7.99714 8.65778 7.75909C8.42944 6.96033 8.41973 6.11491 8.62964 5.31111C7.6007 5.77968 6.7957 6.52028 6.21389 7.1742C5.81676 6.67125 5.84482 5.01215 5.86745 4.66575C4.9941 5.13081 4.22465 5.9396 3.6187 6.80337C2.59006 8.26122 1.99707 10.1738 1.99707 11.9845C1.99707 17.5158 6.46835 21.9997 12.0002 21.9997C16.9545 21.9997 21.0815 18.4032 21.8869 13.6792C22.128 11.8573 21.9935 9.97004 21.2827 8.26012Z"></path></svg>
+                            <span class="browser-name">Firefox</span>
+                        </a>
+                        <a href="https://microsoftedge.microsoft.com/addons/detail/bhjepjpgngghppolkjdhckmnfphffdag" target="_blank" class="browser-icon edge" title="Microsoft Edge">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M13.817 21.8353C13.7106 21.8384 13.6049 21.84 13.5 21.84 12.4265 21.84 11.1264 21.2191 10.0806 20.0816 9.04473 18.9549 8.30005 17.363 8.30005 15.5 8.30005 14.0815 8.81836 12.9347 9.50108 12.0942 9.55796 14.5796 11.8588 17.7 16.5 17.7 18.1779 17.7 19.2172 17.2476 19.7794 17.0029 19.9878 16.9122 20.1306 16.85 20.2161 16.85 20.4 16.85 20.5 16.95 20.5 17.15 20.5 17.3366 20.3987 17.4712 20.0742 17.9023L20.0007 18C18.5223 19.9682 16.3345 21.3732 13.817 21.8353ZM10.7016 21.9165C5.79216 21.2799 2 17.0828 2 12 2 10.7202 2.74053 9.67125 3.89749 8.91922 5.05841 8.16463 6.58675 7.75 8 7.75 10.2764 7.75 11.6347 8.51511 12.4284 9.39698 12.4785 9.45269 12.5265 9.50903 12.5725 9.56586 12.3887 9.52278 12.197 9.5 12 9.5L11.996 9.5C11.5608 9.50069 11.1518 9.61255 10.7956 9.80869 10.7171 9.84506 10.6385 9.88421 10.5603 9.92588 10.0565 10.1942 9.52919 10.587 9.04942 11.0938 8.08779 12.1096 7.30005 13.6034 7.30005 15.5 7.30005 17.637 8.15534 19.4651 9.34445 20.7584 9.75828 21.2085 10.2178 21.5991 10.7016 21.9165ZM13.8515 13.5956C14.1178 13.3151 14.5 12.9123 14.5 12 14.5 11.1394 14.1625 9.82898 13.1716 8.72802 12.1653 7.60989 10.5236 6.75 8 6.75 6.41325 6.75 4.69159 7.21037 3.35251 8.08078 3.07269 8.26266 2.80734 8.46421 2.5626 8.68489 3.93023 4.7914 7.63913 2 12 2 17.5228 2 22 6 22 10.5 22 13.3 19.8 15.35 17 15.35 15 15.35 13.6 14.7 13.6 14 13.6 13.8607 13.7092 13.7456 13.8515 13.5956Z"></path></svg>
+                            <span class="browser-name">Edge</span>
+                        </a>
+                    </div>
+                </div>
+                
                 <div class="cors-steps">
                     <div class="step">
                         <span class="step-number">1</span>
-                        <span>在 Chrome/Edge 浏览器中安装 <a href="https://chrome.google.com/webstore/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino" target="_blank">CORS Unblock</a> 插件</span>
+                        <span id="step-1">点击上方图标安装对应浏览器的插件</span>
                     </div>
                     <div class="step">
                         <span class="step-number">2</span>
-                        <span>点击浏览器右上角的插件图标，打开配置面板</span>
+                        <span id="step-2">安装后插件图标显示为<strong style="color:#888">灰色 C</strong>，表示关闭状态</span>
                     </div>
                     <div class="step">
                         <span class="step-number">3</span>
-                        <span>勾选以下选项：<strong>Access-Control-Allow-Headers</strong>、<strong>Access-Control-Request-Headers</strong>、<strong>Overwrite 4xx status codes with 200</strong></span>
+                        <span id="step-3">点击插件图标，图标变为<strong style="color:#ff9900">橙色 C</strong>，即开启 CORS</span>
                     </div>
                     <div class="step">
                         <span class="step-number">4</span>
-                        <span>点击 <strong>Start</strong> 按钮启动插件</span>
+                        <span id="step-4">测试完成后建议再次点击图标关闭插件</span>
                     </div>
                 </div>
+                
                 <div class="cors-image">
-                    <img src="cors.png" alt="CORS Unblock 配置示例">
-                    <p class="image-caption">CORS Unblock 插件配置界面</p>
+                    <img src="cors.png" alt="Allow CORS 插件使用示例">
+                    <p class="image-caption" id="image-caption">Allow CORS 插件状态指示</p>
                 </div>
+                
+                <p class="cors-note" id="cors-note">📌 该插件无设置选项，仅有一个开关按钮。图标灰色=关闭，橙色=开启。</p>
             </div>
         </div>
 
         <div class="progress-section" id="progress-section">
             <div class="progress-header">
-                <span class="progress-label">测试进度</span>
+                <span class="progress-label" id="progress-label">测试进度</span>
                 <span class="progress-count" id="progress-count">0 / 0</span>
             </div>
             <div class="progress-bar">
@@ -146,7 +172,7 @@
                 </div>
                 <div class="stat-content">
                     <span class="stat-value" id="total-count">0</span>
-                    <span class="stat-label">服务器</span>
+                    <span class="stat-label" id="label-total">服务器</span>
                 </div>
             </div>
             <div class="stat-card success">
@@ -158,7 +184,7 @@
                 </div>
                 <div class="stat-content">
                     <span class="stat-value" id="success-count">0</span>
-                    <span class="stat-label">成功</span>
+                    <span class="stat-label" id="label-success">成功</span>
                 </div>
             </div>
             <div class="stat-card error">
@@ -171,7 +197,7 @@
                 </div>
                 <div class="stat-content">
                     <span class="stat-value" id="error-count">0</span>
-                    <span class="stat-label">失败</span>
+                    <span class="stat-label" id="label-error">失败</span>
                 </div>
             </div>
             <div class="stat-card avg">
@@ -183,7 +209,7 @@
                 </div>
                 <div class="stat-content">
                     <span class="stat-value" id="avg-latency">0</span>
-                    <span class="stat-label">平均延迟(ms)</span>
+                    <span class="stat-label" id="label-avg">平均延迟(ms)</span>
                 </div>
             </div>
         </div>
@@ -198,14 +224,14 @@
                         <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
                         <polyline points="12,6 12,12 16,14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                     </svg>
-                    测试历史
+                    <span id="history-title"></span>测试历史</span>
                 </h3>
                 <button id="clear-history" class="btn btn-ghost">
                     <svg viewBox="0 0 24 24" fill="none">
                         <polyline points="3,6 5,6 21,6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                         <path d="M19 6V20a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                     </svg>
-                    清除
+                    <span id="btn-clear">清除</span>
                 </button>
             </div>
             <div class="history-list" id="history-list">

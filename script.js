@@ -1,3 +1,149 @@
+const LANG = {
+  zh: {
+    title: 'DoH Speed Test',
+    subtitle: 'DNS-over-HTTPS 延迟测试',
+    placeholder: '输入测试域名...',
+    btnTest: '开始测试',
+    labelCount: '测试次数',
+    labelType: '记录类型',
+    tabAll: '全部DNS',
+    tabChina: '中国DNS',
+    tabUsa: '美国DNS',
+    tabEurope: '欧洲DNS',
+    tabAsia: '亚洲DNS',
+    tabOther: '其他DNS',
+    corsTitle: '⚠️ 重要提示：安装 Allow CORS 插件',
+    corsDesc: '由于浏览器的同源策略限制，直接访问外部 DNS 服务器会被阻止。请安装 Allow CORS 插件以正常使用测速功能。',
+    browsersLabel: '点击图标安装：',
+    step1: '点击上方图标安装对应浏览器的插件',
+    step2: '安装后插件图标显示为<strong style="color:#888">灰色 C</strong>，表示关闭状态',
+    step3: '点击插件图标，图标变为<strong style="color:#ff9900">橙色 C</strong>，即开启 CORS',
+    step4: '测试完成后建议再次点击图标关闭插件',
+    imageCaption: 'Allow CORS 插件状态指示',
+    corsNote: '📌 该插件无设置选项，仅有一个开关按钮。图标灰色=关闭，橙色=开启。',
+    progressLabel: '测试进度',
+    testing: '测试中...',
+    pending: '等待测试',
+    success: '成功',
+    failed: '失败',
+    avgLatency: '平均延迟',
+    formatJSON: 'JSON',
+    formatWire: 'Wire',
+    history: '测试历史',
+    noHistory: '暂无测试记录',
+    historyDomain: '域名',
+    historyTab: '分组',
+    historyTime: '时间',
+    historySuccess: '成功',
+    historyAvg: '平均',
+    ms: 'ms',
+    copy: '复制',
+    copied: '已复制',
+    statsTotal: '服务器',
+    statsSuccess: '成功',
+    statsError: '失败',
+    statsAvg: '平均延迟(ms)',
+    btnClear: '清除'
+  },
+  en: {
+    title: 'DoH Speed Test',
+    subtitle: 'DNS-over-HTTPS Latency Tester',
+    placeholder: 'Enter test domain...',
+    btnTest: 'Start Test',
+    labelCount: 'Test Count',
+    labelType: 'Record Type',
+    tabAll: 'All DNS',
+    tabChina: 'China DNS',
+    tabUsa: 'USA DNS',
+    tabEurope: 'Europe DNS',
+    tabAsia: 'Asia DNS',
+    tabOther: 'Other DNS',
+    corsTitle: '⚠️ Important: Install Allow CORS Extension',
+    corsDesc: 'Due to browser cross-origin policy restrictions, direct access to external DNS servers is blocked. Please install the Allow CORS extension to use the speed test feature.',
+    browsersLabel: 'Click to install:',
+    step1: 'Click the icon above to install the extension for your browser',
+    step2: 'After installation, the extension icon shows <strong style="color:#888">gray C</strong>, indicating it is off',
+    step3: 'Click the extension icon, it turns <strong style="color:#ff9900">orange C</strong>, meaning CORS is enabled',
+    step4: 'After testing, it is recommended to click the icon again to disable the extension',
+    imageCaption: 'Allow CORS Extension Status',
+    corsNote: '📌 This extension has no settings, only an on/off button. Gray icon = off, Orange icon = on.',
+    progressLabel: 'Test Progress',
+    testing: 'Testing...',
+    pending: 'Waiting',
+    success: 'Success',
+    failed: 'Failed',
+    avgLatency: 'Avg Latency',
+    formatJSON: 'JSON',
+    formatWire: 'Wire',
+    history: 'History',
+    noHistory: 'No test records',
+    historyDomain: 'Domain',
+    historyTab: 'Group',
+    historyTime: 'Time',
+    historySuccess: 'Success',
+    historyAvg: 'Avg',
+    ms: 'ms',
+    copy: 'Copy',
+    copied: 'Copied',
+    statsTotal: 'Servers',
+    statsSuccess: 'Success',
+    statsError: 'Error',
+    statsAvg: 'Avg Latency(ms)',
+    btnClear: 'Clear'
+  }
+};
+
+let currentLang = 'zh';
+
+function setLanguage(lang) {
+  currentLang = lang;
+  
+  document.getElementById('lang-zh').classList.toggle('active', lang === 'zh');
+  document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+  
+  const texts = LANG[lang];
+  
+  document.getElementById('title').textContent = texts.title;
+  document.getElementById('subtitle').textContent = texts.subtitle;
+  document.getElementById('domain-input').placeholder = texts.placeholder;
+  document.getElementById('btn-test').textContent = texts.btnTest;
+  document.getElementById('label-count').textContent = texts.labelCount;
+  document.getElementById('label-type').textContent = texts.labelType;
+  document.getElementById('tab-all').textContent = texts.tabAll;
+  document.getElementById('tab-china').textContent = texts.tabChina;
+  document.getElementById('tab-usa').textContent = texts.tabUsa;
+  document.getElementById('tab-europe').textContent = texts.tabEurope;
+  document.getElementById('tab-asia').textContent = texts.tabAsia;
+  document.getElementById('tab-other').textContent = texts.tabOther;
+  document.getElementById('cors-title').textContent = texts.corsTitle;
+  document.getElementById('cors-desc').innerHTML = texts.corsDesc;
+  document.getElementById('browsers-label').textContent = texts.browsersLabel;
+  document.getElementById('step-1').innerHTML = texts.step1;
+  document.getElementById('step-2').innerHTML = texts.step2;
+  document.getElementById('step-3').innerHTML = texts.step3;
+  document.getElementById('step-4').innerHTML = texts.step4;
+  document.getElementById('image-caption').textContent = texts.imageCaption;
+  document.getElementById('cors-note').textContent = texts.corsNote;
+  document.getElementById('progress-label').textContent = texts.progressLabel;
+  
+  document.getElementById('label-total').textContent = texts.statsTotal;
+  document.getElementById('label-success').textContent = texts.statsSuccess;
+  document.getElementById('label-error').textContent = texts.statsError;
+  document.getElementById('label-avg').textContent = texts.statsAvg;
+  
+  document.getElementById('history-title').textContent = texts.history;
+  document.getElementById('btn-clear').textContent = texts.btnClear;
+  
+  document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+  
+  updateStats();
+  renderHistory();
+}
+
+function t(key) {
+  return LANG[currentLang][key] || key;
+}
+
 const VERSION = {
   current: '2.0.0',
   lastUpdated: '2026-05-11',
@@ -27,6 +173,21 @@ function formatServerName(server) {
   const type = server.type || '';
   const addrType = server.addrType || '';
   return `${name}${name && type ? ' - ' : ''}${type}${type && addrType ? ' - ' : ''}${addrType}`;
+}
+
+// 复制URL到剪贴板
+function copyUrlToClipboard(url, button) {
+  navigator.clipboard.writeText(url).then(() => {
+    const originalHTML = button.innerHTML;
+    button.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    button.classList.add('copied');
+    setTimeout(() => {
+      button.innerHTML = originalHTML;
+      button.classList.remove('copied');
+    }, 1500);
+  }).catch(err => {
+    console.error('Failed to copy:', err);
+  });
 }
 
 const DNS_SERVERS = {
@@ -471,9 +632,9 @@ function sortResults() {
     if (!a.result || !a.result.success) return 1;
     if (!b.result || !b.result.success) return -1;
 
-    const aMin = getMinLatency(a.result);
-    const bMin = getMinLatency(b.result);
-    return aMin - bMin;
+    const aAvg = getAvgLatency(a.result);
+    const bAvg = getAvgLatency(b.result);
+    return aAvg - bAvg;
   });
 
   const newResults = {};
@@ -487,15 +648,18 @@ function sortResults() {
   results = newResults;
 }
 
-function getMinLatency(result) {
-  let min = Infinity;
-  if (result.jsonAvgLatency && result.jsonAvgLatency < min) {
-    min = result.jsonAvgLatency;
+function getAvgLatency(result) {
+  const latencies = [];
+  if (result.jsonAvgLatency) {
+    latencies.push(result.jsonAvgLatency);
   }
-  if (result.wireAvgLatency && result.wireAvgLatency < min) {
-    min = result.wireAvgLatency;
+  if (result.wireAvgLatency) {
+    latencies.push(result.wireAvgLatency);
   }
-  return min === Infinity ? 0 : min;
+  if (latencies.length === 0) {
+    return 0;
+  }
+  return Math.round(latencies.reduce((a, b) => a + b, 0) / latencies.length);
 }
 
 async function testServersBatch(servers) {
@@ -739,7 +903,7 @@ if (format === 'wire') {
     }
   } catch (error) {
     clearTimeout(timeoutId);
-    console.error('Request error:', error);
+    console.info('Request error:', error);
     return {
       success: false,
       error: error.message
@@ -776,10 +940,14 @@ function updateServerCardProgress(index, server, data) {
 
   let latencyInfo = '';
   if (anySuccess) {
-    const jsonAvg = jsonLatencies ? Math.round(jsonLatencies.reduce((a, b) => a + b, 0) / jsonLatencies.length) : null;
-    const wireAvg = wireLatencies ? Math.round(wireLatencies.reduce((a, b) => a + b, 0) / wireLatencies.length) : null;
-    const minLat = Math.min(jsonAvg || Infinity, wireAvg || Infinity);
-    const latency = minLat === Infinity ? 0 : minLat;
+    const latencies = [];
+    if (jsonLatencies && jsonLatencies.length > 0) {
+      latencies.push(Math.round(jsonLatencies.reduce((a, b) => a + b, 0) / jsonLatencies.length));
+    }
+    if (wireLatencies && wireLatencies.length > 0) {
+      latencies.push(Math.round(wireLatencies.reduce((a, b) => a + b, 0) / wireLatencies.length));
+    }
+    const latency = latencies.length > 0 ? Math.round(latencies.reduce((a, b) => a + b, 0) / latencies.length) : 0;
     const latencyClass = latency < 100 ? 'fast' : (latency < 200 ? 'medium' : 'slow');
     latencyInfo = `<span class="latency-badge ${latencyClass}">${latency}ms</span>`;
   }
@@ -803,7 +971,12 @@ function updateServerCardProgress(index, server, data) {
         ${formatInfo || '测试中...'}
       </div>
     </div>
-    <div class="server-url">${server.url}</div>
+    <div class="server-url">
+      <span class="url-text">${server.url}</span>
+      <button class="copy-btn" onclick="copyUrlToClipboard('${server.url}', this)" title="复制URL">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="2"/></svg>
+      </button>
+    </div>
     
     ${(jsonLatencies && jsonLatencies.length > 0) || (wireLatencies && wireLatencies.length > 0) ? `
       <div class="latency-details">
@@ -820,7 +993,7 @@ function updateServerCard(index, server, result) {
   const card = document.querySelector(`[data-index="${index}"]`);
   if (!card) return;
 
-  card.classList.remove('testing', 'success', 'error');
+  card.classList.remove('testing', 'success', 'error', 'fast', 'medium', 'slow');
 
   if (!result) {
     return;
@@ -829,24 +1002,25 @@ function updateServerCard(index, server, result) {
   card.classList.add(result.success ? 'success' : 'error');
 
   let formatInfo = '';
+  let formatClass = 'error';
   if (result.success) {
     const formats = [];
     if (result.jsonSupported) formats.push('JSON');
     if (result.wireSupported) formats.push('Wire');
     formatInfo = formats.join('+');
+    formatClass = formats.length === 2 ? 'gold' : 'gray';
   } else {
     formatInfo = '失败';
   }
 
   let latencyInfo = '';
+  let cardLatencyClass = '';
   if (result.success) {
-    const minLat = Math.min(result.jsonAvgLatency || Infinity, result.wireAvgLatency || Infinity);
-    const latency = minLat === Infinity ? 0 : minLat;
-    const latencyClass = latency < 100 ? 'fast' : (latency < 200 ? 'medium' : 'slow');
-    latencyInfo = `<span class="latency-badge ${latencyClass}">${latency}ms</span>`;
+    const latency = getAvgLatency(result);
+    cardLatencyClass = latency < 100 ? 'fast' : (latency < 200 ? 'medium' : 'slow');
+    card.classList.add(cardLatencyClass);
+    latencyInfo = `<span class="latency-badge ${cardLatencyClass}">${latency}ms</span>`;
   }
-
-  const formatClass = result.success ? 'success' : 'error';
 
   let recordsHTML = '';
   if (result.records && result.records.length > 0) {
@@ -863,7 +1037,12 @@ function updateServerCard(index, server, result) {
         ${formatInfo}
       </div>
     </div>
-    <div class="server-url">${server.url}</div>
+    <div class="server-url">
+      <span class="url-text">${server.url}</span>
+      <button class="copy-btn" onclick="copyUrlToClipboard('${server.url}', this)" title="复制URL">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="2"/></svg>
+      </button>
+    </div>
     
     ${(result.jsonLatencies && result.jsonLatencies.length > 0) || (result.wireLatencies && result.wireLatencies.length > 0) ? `
       <div class="latency-details">
@@ -1155,7 +1334,7 @@ function checkAllComplete() {
       <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
         <polygon points="5,3 19,12 5,21" fill="currentColor"/>
       </svg>
-      <span>开始测试</span>
+      <span>${t('btnTest')}</span>
     `;
 
     setTimeout(() => {
@@ -1191,25 +1370,36 @@ function renderServerCards() {
 
   serverList.forEach(({ index, server, result }) => {
     const card = document.createElement('div');
-    card.className = `server-card ${result ? (result.success ? 'success' : 'error') : ''}`;
+    let cardClass = 'server-card';
+    if (result) {
+      cardClass += result.success ? ' success' : ' error';
+      if (result.success) {
+        const latency = getAvgLatency(result);
+        const latencyClass = latency < 100 ? 'fast' : (latency < 200 ? 'medium' : 'slow');
+        cardClass += ' ' + latencyClass;
+      }
+    }
+    card.className = cardClass;
     card.setAttribute('data-index', index);
 
     let formatInfo = '';
+    let formatClass = 'pending';
     if (result) {
       if (result.success) {
         const formats = [];
-        if (result.jsonSupported) formats.push('JSON');
-        if (result.wireSupported) formats.push('Wire');
+        if (result.jsonSupported) formats.push(t('formatJSON'));
+        if (result.wireSupported) formats.push(t('formatWire'));
         formatInfo = formats.join('+');
+        formatClass = formats.length === 2 ? 'gold' : 'gray';
       } else {
-        formatInfo = '失败';
+        formatInfo = t('failed');
+        formatClass = 'error';
       }
     }
 
     let latencyInfo = '';
     if (result && result.success) {
-      const minLat = Math.min(result.jsonAvgLatency || Infinity, result.wireAvgLatency || Infinity);
-      const latency = minLat === Infinity ? 0 : minLat;
+      const latency = getAvgLatency(result);
       const latencyClass = latency < 100 ? 'fast' : (latency < 200 ? 'medium' : 'slow');
       latencyInfo = `<span class="latency-badge ${latencyClass}">${latency}ms</span>`;
     }
@@ -1225,11 +1415,16 @@ function renderServerCards() {
           <span class="server-name">${formatServerName(server)}</span>
           ${latencyInfo}
         </div>
-        <div class="server-format-info ${result && result.success ? 'success' : (result ? 'error' : 'pending')}">
-          ${formatInfo || '等待测试'}
+        <div class="server-format-info ${formatClass}">
+          ${formatInfo || t('pending')}
         </div>
       </div>
-      <div class="server-url">${server.url}</div>
+      <div class="server-url">
+        <span class="url-text">${server.url}</span>
+        <button class="copy-btn" onclick="copyUrlToClipboard('${server.url}', this)" title="${t('copy')}">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="2"/></svg>
+        </button>
+      </div>
       ${(result && result.success && (result.jsonLatencies && result.jsonLatencies.length > 0 || result.wireLatencies && result.wireLatencies.length > 0)) ? `
         <div class="latency-details">
           ${result.jsonSupported && result.jsonLatencies && result.jsonLatencies.length > 0 ? `<div class="lat-row"><span class="lat-left"><span class="lat-label">JSON</span><span class="lat-values">${result.jsonLatencies.map(lat => `<span class="lat-point ${getLatencyColor(lat)}">${lat}</span>`).join('')}</span></span><span class="lat-avg ${getLatencyColor(result.jsonAvgLatency)}">${result.jsonAvgLatency}ms</span></div>` : ''}
@@ -1255,9 +1450,9 @@ function updateStats() {
 
   Object.values(results).forEach(result => {
     if (result && result.success) {
-      const minLatency = getMinLatency(result);
-      if (minLatency && minLatency !== Infinity) {
-        totalLatencies += minLatency;
+      const avgLatency = getAvgLatency(result);
+      if (avgLatency) {
+        totalLatencies += avgLatency;
         successCount++;
       }
     }
@@ -1283,9 +1478,9 @@ function saveToHistory() {
   let validCount = 0;
   Object.values(results).forEach(result => {
     if (result && result.success) {
-      const minLatency = getMinLatency(result);
-      if (minLatency) {
-        totalLatency += minLatency;
+      const avgLatency = getAvgLatency(result);
+      if (avgLatency) {
+        totalLatency += avgLatency;
         validCount++;
       }
     }
@@ -1297,7 +1492,7 @@ function saveToHistory() {
     id: Date.now(),
     domain: currentDomain,
     tab: currentTab,
-    timestamp: new Date().toLocaleString('zh-CN'),
+    timestamp: new Date().toLocaleString(currentLang === 'zh' ? 'zh-CN' : 'en-US'),
     successCount,
     totalCount: servers.length,
     avgLatency
@@ -1332,19 +1527,19 @@ function renderHistory() {
           <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
           <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/>
         </svg>
-        <span>暂无测试记录</span>
+        <span>${t('noHistory')}</span>
       </div>
     `;
     return;
   }
 
   const tabNames = {
-    'all': '全部DNS',
-    'china': '中国DNS',
-    'usa': '美国DNS',
-    'europe': '欧洲DNS',
-    'asia': '亚洲DNS',
-    'other': '其他DNS'
+    'all': t('tabAll'),
+    'china': t('tabChina'),
+    'usa': t('tabUsa'),
+    'europe': t('tabEurope'),
+    'asia': t('tabAsia'),
+    'other': t('tabOther')
   };
 
   history.forEach((record) => {
@@ -1356,8 +1551,8 @@ function renderHistory() {
         <span class="history-tab">${tabNames[record.tab] || record.tab}</span>
         <span class="history-time">${record.timestamp}</span>
         <div class="history-stats">
-          <span class="history-success">${record.successCount}/${record.totalCount}成功</span>
-          ${record.avgLatency > 0 ? `<span>平均${record.avgLatency}ms</span>` : ''}
+          <span class="history-success">${record.successCount}/${record.totalCount}${t('historySuccess')}</span>
+          ${record.avgLatency > 0 ? `<span>${t('historyAvg')}${record.avgLatency}${t('ms')}</span>` : ''}
         </div>
       </div>
     `;
