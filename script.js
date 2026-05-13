@@ -647,23 +647,58 @@ async function testUrlWithFormat(url, format) {
   try {
     let fetchUrl, options;
 
-    if (format === 'wire') {
-      // Wire 格式始终使用 POST
-      const dnsQuery = buildDNSQuery(currentDomain, TEST_TYPE);
-      fetchUrl = url;
+    function encodeDnsWireToBase64url(domain, type = 1) {
+  const typeCode = TYPE_MAP[type] || type;
+  
+  const header = new Uint8Array(12);
+  const headerView = new DataView(header.buffer);
+  headerView.setUint16(0, Math.random() * 0xFFFF, false);
+  headerView.setUint16(2, 0x0100, false);
+  headerView.setUint16(4, 1, false);
+  headerView.setUint16(6, 0, false);
+  headerView.setUint16(8, 0, false);
+  headerView.setUint16(10, 0, false);
+
+  const domainParts = domain.split('.');
+  const domainBuffer = [];
+  for (const part of domainParts) {
+    domainBuffer.push(part.length);
+    for (const char of part) {
+      domainBuffer.push(char.charCodeAt(0));
+    }
+  }
+  domainBuffer.push(0);
+
+  const queryTail = new Uint8Array(4);
+  const tailView = new DataView(queryTail.buffer);
+  tailView.setUint16(0, typeCode, false);
+  tailView.setUint16(2, 1, false);
+
+  const totalLength = header.length + domainBuffer.length + queryTail.length;
+  const dnsMessage = new Uint8Array(totalLength);
+  dnsMessage.set(header, 0);
+  dnsMessage.set(domainBuffer, header.length);
+  dnsMessage.set(queryTail, header.length + domainBuffer.length);
+
+  const base64 = btoa(String.fromCharCode(...dnsMessage));
+  return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+}
+
+if (format === 'wire') {
+      // Wire 格式使用 GET（RFC 8484 标准，Base64url 编码）
+      const dnsBase64url = encodeDnsWireToBase64url(currentDomain, TEST_TYPE);
+      const separator = url.includes('?') ? '&' : '?';
+      fetchUrl = `${url}${separator}dns=${dnsBase64url}`;
       options = {
-        method: 'POST',
+        method: 'GET',
         headers: {
-          'Content-Type': 'application/dns-message',
           'Accept': 'application/dns-message'
         },
-        body: dnsQuery,
         signal: controller.signal
       };
     } else {
       // JSON 格式使用 GET
       const timestamp = Date.now();
-      // 检查URL是否已经包含查询参数
       const separator = url.includes('?') ? '&' : '?';
       fetchUrl = `${url}${separator}name=${currentDomain}&type=${TEST_TYPE}&t=${timestamp}`;
       options = {
@@ -946,7 +981,7 @@ function parseWireResponse(buffer) {
   const records = [];
   
   for (let i = 0; i < Math.min(answers, 10); i++) {
-    offset += 2;
+    offset = skipName(buffer, offset);
     
     const type = (buffer[offset] << 8) | buffer[offset + 1];
     offset += 2;
@@ -1000,6 +1035,20 @@ function parseWireResponse(buffer) {
   }
   
   return records;
+}
+
+function skipName(buffer, offset) {
+  while (offset < buffer.length) {
+    const len = buffer[offset];
+    if (len === 0) {
+      return offset + 1;
+    }
+    if ((len & 0xC0) === 0xC0) {
+      return offset + 2;
+    }
+    offset += len + 1;
+  }
+  return offset;
 }
 
 function parseDomainName(buffer, offset, maxLength) {
