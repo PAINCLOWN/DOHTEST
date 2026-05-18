@@ -6,12 +6,19 @@ const LANG = {
     btnTest: '开始测试',
     labelCount: '测试次数',
     labelType: '记录类型',
-    tabAll: '全部DNS',
-    tabChina: '中国DNS',
-    tabUsa: '美国DNS',
-    tabEurope: '欧洲DNS',
-    tabAsia: '亚洲DNS',
-    tabOther: '其他DNS',
+    tabAll: '全选',
+    tabChina: '中国',
+    tabUsa: '美国',
+    tabEurope: '欧洲',
+    tabAsia: '亚洲',
+    tabOther: '其他',
+    selectAll: '已选择全部',
+    selectedCount: '已选',
+    selectItems: '个',
+    clearSelection: '清除选择',
+    regionLabel: '选择地区',
+    selectAllBtn: '全选',
+    clearBtn: '清除',
     corsTitle: '⚠️ 重要提示：安装 Allow CORS 插件',
     corsDesc: '由于浏览器的同源策略限制，直接访问外部 DNS 服务器会被阻止。请安装 Allow CORS 插件以正常使用测速功能。',
     browsersLabel: '点击图标安装：',
@@ -52,12 +59,19 @@ const LANG = {
     btnTest: 'Start Test',
     labelCount: 'Test Count',
     labelType: 'Record Type',
-    tabAll: 'All DNS',
-    tabChina: 'China DNS',
-    tabUsa: 'USA DNS',
-    tabEurope: 'Europe DNS',
-    tabAsia: 'Asia DNS',
-    tabOther: 'Other DNS',
+    tabAll: 'Select All',
+    tabChina: 'China',
+    tabUsa: 'USA',
+    tabEurope: 'Europe',
+    tabAsia: 'Asia',
+    tabOther: 'Other',
+    selectAll: 'All Selected',
+    selectedCount: 'Selected',
+    selectItems: 'items',
+    clearSelection: 'Clear Selection',
+    regionLabel: 'Select Region',
+    selectAllBtn: 'Select All',
+    clearBtn: 'Clear',
     corsTitle: '⚠️ Important: Install Allow CORS Extension',
     corsDesc: 'Due to browser cross-origin policy restrictions, direct access to external DNS servers is blocked. Please install the Allow CORS extension to use the speed test feature.',
     browsersLabel: 'Click to install:',
@@ -127,12 +141,14 @@ function setLanguage(lang) {
   setText('btn-test', texts.btnTest);
   setText('label-count', texts.labelCount);
   setText('label-type', texts.labelType);
-  setText('tab-all', texts.tabAll);
   setText('tab-china', texts.tabChina);
   setText('tab-usa', texts.tabUsa);
   setText('tab-europe', texts.tabEurope);
   setText('tab-asia', texts.tabAsia);
   setText('tab-other', texts.tabOther);
+  setText('region-label', texts.regionLabel);
+  setText('select-all-text', texts.selectAllBtn);
+  setText('clear-text', texts.clearBtn);
   setText('cors-title', texts.corsTitle);
   setText('cors-desc', texts.corsDesc, true);
   setText('browsers-label', texts.browsersLabel);
@@ -692,7 +708,8 @@ function buildDNSQuery(domain, type) {
   return buffer.slice(0, offset);
 }
 
-let currentTab = 'all';
+let currentTab = 'china';
+let selectedRegions = new Set(['china']);
 let currentDomain = DOMESTIC_DEFAULT_DOMAIN;
 let isTesting = false;
 let results = {};
@@ -706,19 +723,21 @@ async function init() {
   renderHistory();
 
   // Initialize all sliders
-  initTabSlider();
+  initRegionSlider();
   initCountSlider();
   initTypeSlider();
 
   // 添加所有选项卡的点击事件
-  ['all', 'china', 'usa', 'europe', 'asia', 'other'].forEach(tab => {
+  ['china', 'usa', 'europe', 'asia', 'other'].forEach(tab => {
     const tabBtn = document.getElementById(`${tab}-tab`);
     if (tabBtn) {
       tabBtn.addEventListener('click', () => switchTab(tab));
     }
   });
 
+  document.getElementById('select-all-btn').addEventListener('click', selectAllRegions);
   document.getElementById('test-btn').addEventListener('click', startTest);
+  document.getElementById('clear-selection').addEventListener('click', clearSelection);
   document.getElementById('domain-input').addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
       updateDomain();
@@ -784,22 +803,22 @@ function updateTypeSlider(activeBtn) {
   slider.style.height = rect.height + 'px';
 }
 
-function initTabSlider() {
-  const tabs = document.querySelectorAll('.tab');
-  const slider = document.querySelector('.tab-slider');
-  if (!slider || tabs.length === 0) return;
+function initRegionSlider() {
+  const regionBtns = document.querySelectorAll('.region-btn');
+  const slider = document.querySelector('.region-slider');
+  if (!slider || regionBtns.length === 0) return;
 
   // Set initial position
-  const activeTab = document.querySelector('.tab.active');
-  if (activeTab) {
-    updateSliderPosition(slider, activeTab);
+  const activeRegion = document.querySelector('.region-btn.active');
+  if (activeRegion) {
+    updateSliderPosition(slider, activeRegion);
   }
 
   // Handle resize
   window.addEventListener('resize', () => {
-    const activeTab = document.querySelector('.tab.active');
-    if (activeTab) {
-      updateSliderPosition(slider, activeTab);
+    const activeRegion = document.querySelector('.region-btn.active');
+    if (activeRegion) {
+      updateSliderPosition(slider, activeRegion);
     }
   });
 }
@@ -813,20 +832,71 @@ function updateSliderPosition(slider, activeTab) {
 }
 
 function switchTab(tab) {
-  currentTab = tab;
-  
-  // Update active class
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  const activeTab = document.getElementById(`${tab}-tab`);
-  if (activeTab) {
-    activeTab.classList.add('active');
-    
-    // Update slider position
-    const slider = document.querySelector('.tab-slider');
-    if (slider) {
-      updateSliderPosition(slider, activeTab);
+  if (selectedRegions.has(tab)) {
+    selectedRegions.delete(tab);
+    if (selectedRegions.size === 0) {
+      selectedRegions.add('china');
+      currentTab = 'china';
+    } else {
+      currentTab = Array.from(selectedRegions).join(',');
     }
+  } else {
+    selectedRegions.add(tab);
+    currentTab = Array.from(selectedRegions).join(',');
   }
+  
+  updateRegionButtonsUI();
+  
+  document.getElementById('domain-input').value = FOREIGN_DEFAULT_DOMAIN;
+  currentDomain = document.getElementById('domain-input').value;
+  results = {};
+  hideProgress();
+  renderServerCards();
+  updateStats();
+}
+
+function selectAllRegions() {
+  selectedRegions.clear();
+  selectedRegions.add('china');
+  selectedRegions.add('usa');
+  selectedRegions.add('europe');
+  selectedRegions.add('asia');
+  selectedRegions.add('other');
+  currentTab = 'china,usa,europe,asia,other';
+  
+  updateRegionButtonsUI();
+  
+  document.getElementById('domain-input').value = FOREIGN_DEFAULT_DOMAIN;
+  currentDomain = document.getElementById('domain-input').value;
+  results = {};
+  hideProgress();
+  renderServerCards();
+  updateStats();
+}
+
+function updateRegionButtonsUI() {
+  document.querySelectorAll('.region-btn').forEach(btn => {
+    const region = btn.dataset.region;
+    const isSelected = selectedRegions.has(region);
+    btn.classList.toggle('active', isSelected);
+  });
+  
+  const totalCount = selectedRegions.size;
+  const allCount = 5;
+  const countText = totalCount === allCount ? t('selectAll') : `${t('selectedCount')} ${totalCount} ${t('selectItems')}`;
+  document.getElementById('selected-count').textContent = countText;
+  
+  const clearBtn = document.getElementById('clear-selection');
+  if (clearBtn) {
+    clearBtn.style.display = totalCount === 0 ? 'none' : 'inline-flex';
+  }
+}
+
+function clearSelection() {
+  selectedRegions.clear();
+  selectedRegions.add('china');
+  currentTab = 'china';
+  updateRegionButtonsUI();
   
   document.getElementById('domain-input').value = FOREIGN_DEFAULT_DOMAIN;
   currentDomain = document.getElementById('domain-input').value;
@@ -845,7 +915,18 @@ function updateDomain() {
 }
 
 function getCurrentServers() {
-  return DNS_SERVERS[currentTab] || DNS_SERVERS['all'];
+  if (selectedRegions.size === 0) {
+    return DNS_SERVERS['china'] || [];
+  }
+  
+  let servers = [];
+  selectedRegions.forEach(region => {
+    if (DNS_SERVERS[region]) {
+      servers = servers.concat(DNS_SERVERS[region]);
+    }
+  });
+  
+  return servers;
 }
 
 async function startTest() {
@@ -1798,7 +1879,6 @@ function renderHistory() {
   }
 
   const tabNames = {
-    'all': t('tabAll'),
     'china': t('tabChina'),
     'usa': t('tabUsa'),
     'europe': t('tabEurope'),

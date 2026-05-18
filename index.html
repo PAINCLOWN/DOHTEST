@@ -31,26 +31,67 @@
         </header>
 
         <div class="control-panel">
-      <div class="tabs">
-        <div class="tab-slider"></div>
-        <button class="tab active" id="all-tab" data-tab="all">
-          <span class="tab-label" id="tab-all">全部DNS</span>
-        </button>
-        <button class="tab" id="china-tab" data-tab="china">
-          <span class="tab-label" id="tab-china">中国DNS</span>
-        </button>
-        <button class="tab" id="usa-tab" data-tab="usa">
-          <span class="tab-label" id="tab-usa">美国DNS</span>
-        </button>
-        <button class="tab" id="europe-tab" data-tab="europe">
-          <span class="tab-label" id="tab-europe">欧洲DNS</span>
-        </button>
-        <button class="tab" id="asia-tab" data-tab="asia">
-          <span class="tab-label" id="tab-asia">亚洲DNS</span>
-        </button>
-        <button class="tab" id="other-tab" data-tab="other">
-          <span class="tab-label" id="tab-other">其他DNS</span>
-        </button>
+      <div class="region-selector-container">
+        <div class="region-selector-header">
+          <div class="region-selector-left">
+            <span class="region-selector-label" id="region-label">选择地区</span>
+            <button class="select-all-btn" id="select-all-btn">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" stroke-linejoin="round"/>
+                <path d="M9 12l2 2 4-4"/>
+              </svg>
+              <span id="select-all-text">全选</span>
+            </button>
+          </div>
+          <div class="region-selector-right">
+            <span class="selected-count" id="selected-count">已选 1 个</span>
+            <button class="clear-btn" id="clear-selection">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+              <span id="clear-text">清除</span>
+            </button>
+          </div>
+        </div>
+        <div class="region-selector">
+          <button class="region-btn active" id="china-tab" data-region="china">
+            <svg class="region-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9.5L13.5 2z"/>
+              <path d="M13 16H7M13 12H7M16.5 5.5l-1.5 1.5"/>
+            </svg>
+            <span class="region-label" id="tab-china">中国</span>
+          </button>
+          <button class="region-btn" id="usa-tab" data-region="usa">
+            <svg class="region-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9.5L13.5 2z"/>
+              <path d="M13 16H7M13 12H7M16.5 5.5l-1.5 1.5"/>
+            </svg>
+            <span class="region-label" id="tab-usa">美国</span>
+          </button>
+          <button class="region-btn" id="europe-tab" data-region="europe">
+            <svg class="region-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9.5L13.5 2z"/>
+              <path d="M13 16H7M13 12H7M16.5 5.5l-1.5 1.5"/>
+            </svg>
+            <span class="region-label" id="tab-europe">欧洲</span>
+          </button>
+          <button class="region-btn" id="asia-tab" data-region="asia">
+            <svg class="region-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9.5L13.5 2z"/>
+              <path d="M13 16H7M13 12H7M16.5 5.5l-1.5 1.5"/>
+            </svg>
+            <span class="region-label" id="tab-asia">亚洲</span>
+          </button>
+          <button class="region-btn" id="other-tab" data-region="other">
+            <svg class="region-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <circle cx="12" cy="12" r="6"/>
+              <circle cx="12" cy="12" r="2"/>
+            </svg>
+            <span class="region-label" id="tab-other">其他</span>
+          </button>
+        </div>
       </div>
 
             <div class="input-group">
